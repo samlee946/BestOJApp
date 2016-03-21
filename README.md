@@ -12,4 +12,5 @@
 
 # 目录结构
 ---
-doc	存放分类文档
+doc	存放分类文档  
+project 存放android studio项目
