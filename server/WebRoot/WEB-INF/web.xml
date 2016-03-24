@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app>
+	<servlet>
+		<servlet-name>
+		Welcome
+		</servlet-name>
+		<servlet-class>
+		com.BestOJAppServer.Welcome
+		</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>
+		Welcome
+		</servlet-name>
+		<url-pattern>
+		/Welcome
+		</url-pattern>
+	</servlet-mapping>
+	
+	
+	<servlet>
+		<servlet-name>
+		RegisterServlet
+		</servlet-name>
+		<servlet-class>
+		com.BestOJAppServer.RegisterServlet
+		</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>
+		RegisterServlet
+		</servlet-name>
+		<url-pattern>
+		/RegisterServlet
+		</url-pattern>
+	</servlet-mapping>
+</web-app>
