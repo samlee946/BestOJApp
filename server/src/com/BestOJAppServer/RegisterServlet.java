@@ -1,6 +1,7 @@
 package com.BestOJAppServer;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -22,7 +23,7 @@ public class RegisterServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	public void init() throws ServletException {
-		System.out.println("Init()");
+		System.out.println("RegisterServlet Init()");
 	}
 	
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -36,9 +37,11 @@ public class RegisterServlet extends HttpServlet {
 		List<String> errors = new ArrayList<String>(); 					//装载错误信息
 		if(!isValidUserName(userNameString)) {
 			errors.add("用户名无效或已存在!");
+			System.out.println("用户名无效或已存在!");
 		}
 		if(!isValidPasswd(passwdString)) {
 			errors.add("密码无效!");
+			System.out.println("密码无效!");
 		}
 		if(!errors.isEmpty()) {
 			request.setAttribute("errors", errors);
@@ -54,10 +57,9 @@ public class RegisterServlet extends HttpServlet {
 				connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/bestojappserver", "root", "123456mysql");
 				statement = connection.createStatement();
 				
-				String sqlStrig = "insert into `User`(`userName`, `password`) values('" + userNameString + "', '" + passwdString + "')";
+				String sqlStrig = "insert into `User`(`userName`, `password`) values('" + userNameString + "', '" + passwdString + "');";
 				
 				result = statement.executeUpdate(sqlStrig);
-				
 				if(result == 1) {
 					request.setAttribute("success", "yes");
 				}
@@ -89,11 +91,12 @@ public class RegisterServlet extends HttpServlet {
 				
 				connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/bestojappserver", "root", "123456mysql");
 				statement = connection.createStatement();
-				
-				String sqlStrig = "select from `User` where `userName` = " + userNameString;
+
+				String sqlStrig = "select * from `User` where `userName` = '" + userNameString + "';";
+				System.out.println(sqlStrig);
 				resultSet = statement.executeQuery(sqlStrig);
 				
-				if(!resultSet.wasNull()) {
+				if(resultSet.getRow() != 0) {
 					flag = false;
 				}
 			} catch (SQLException e) {
