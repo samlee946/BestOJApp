@@ -35,6 +35,9 @@ public class RegisterServlet extends HttpServlet {
 		String passwdString = request.getParameter("passwd");			//获取密码
 		
 		List<String> errors = new ArrayList<String>(); 					//装载错误信息
+		
+		PrintWriter printWriter = null;
+		
 		if(!isValidUserName(userNameString)) {
 			errors.add("用户名无效或已存在!");
 			System.out.println("用户名无效或已存在!");
@@ -44,8 +47,7 @@ public class RegisterServlet extends HttpServlet {
 			System.out.println("密码无效!");
 		}
 		if(!errors.isEmpty()) {
-			request.setAttribute("errors", errors);
-			request.setAttribute("success", "no");
+			//response.setHeader("success", "no");
 			//request.getRequestDispatcher("/error.htm").forward(request, response);
 		} else {
 			Connection connection = null;
@@ -61,8 +63,16 @@ public class RegisterServlet extends HttpServlet {
 				
 				result = statement.executeUpdate(sqlStrig);
 				if(result == 1) {
-					request.setAttribute("success", "yes");
+					try {
+						printWriter = response.getWriter();
+						printWriter.println("success!");
+					} catch (IOException e) {
+						e.printStackTrace();
+					} finally {
+						printWriter.close();
+					}
 				}
+				response.setContentType("application/json;charset=urf-8");
 			} catch (SQLException e) {
 				e.printStackTrace();
 			} catch (ClassNotFoundException e) {
@@ -80,7 +90,7 @@ public class RegisterServlet extends HttpServlet {
 	
 	public boolean isValidUserName(String userNameString) {
 		boolean flag = true;
-		if(userNameString == null || "".equals(userNameString)) {
+		if(userNameString == null || "".equals(userNameString) || userNameString.length() > 16) {
 			flag = false;
 		} else {
 			Connection connection = null;
@@ -118,7 +128,7 @@ public class RegisterServlet extends HttpServlet {
 	
 	public boolean isValidPasswd(String passwdString) {
 		boolean flag = true;
-		if(passwdString == null || "".equals(passwdString) || passwdString.length() < 6) {
+		if(passwdString == null || "".equals(passwdString) || passwdString.length() < 6 || passwdString.length() > 16) {
 			flag = false;
 		}
 		return flag;
