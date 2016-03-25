@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
-
+apply plugin: 'android-apt'
+def AAVersion='3.0.1'
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
@@ -17,10 +18,28 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    packagingOptions {
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/NOTICE' // will not include NOTICE file
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/LICENSE' // will not include LICENSE file
+        exclude 'META-INF/maven/com.google.code.gson/gson/pom.properties'
+        exclude 'META-INF/maven/com.google.code.gson/gson/pom.xml'
+    }
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.2.0'
+    apt "org.androidannotations:androidannotations:$AAVersion"
+    compile "org.androidannotations:androidannotations-api:$AAVersion"
+    compile 'com.google.code.gson:gson:2.6.2'
+    compile 'org.springframework.android:spring-android-rest-template:2.0.0.M3'
+}
+apt {
+    arguments {
+        resourcePackageName android.defaultConfig.applicationId
+        androidManifestFile variant.outputs[0]?.processResources?.manifestFile
+    }
 }

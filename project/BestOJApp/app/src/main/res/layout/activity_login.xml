@@ -11,7 +11,7 @@
         android:hint="@string/hint_username" />
 
     <EditText
-        android:id="@+id/editText_password"
+        android:id="@+id/editText_passwd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/hint_password"
@@ -23,4 +23,14 @@
         android:layout_height="wrap_content"
         android:text="@string/login"/>
 
+    <Button
+        android:id="@+id/button_register"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/register"/>
+
+    <TextView
+        android:id="@+id/textViewDebug"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 </LinearLayout>

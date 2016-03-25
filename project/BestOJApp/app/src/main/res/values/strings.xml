@@ -3,4 +3,5 @@
     <string name="hint_username">用户名</string>
     <string name="hint_password">密码</string>
     <string name="login">登陆</string>
+    <string name="register">注册用户</string>
 </resources>
