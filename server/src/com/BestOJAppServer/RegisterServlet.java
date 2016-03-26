@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.omg.CORBA.PRIVATE_MEMBER;
+
 @WebServlet(name = "registerServlet", urlPatterns = {"/register.htm"})
 public class RegisterServlet extends HttpServlet {
 
@@ -90,6 +92,7 @@ public class RegisterServlet extends HttpServlet {
 	
 	public boolean isValidUserName(String userNameString) {
 		boolean flag = true;
+		int cnt = 0;
 		if(userNameString == null || "".equals(userNameString) || userNameString.length() > 16) {
 			flag = false;
 		} else {
@@ -105,8 +108,10 @@ public class RegisterServlet extends HttpServlet {
 				String sqlStrig = "select * from `User` where `userName` = '" + userNameString + "';";
 				System.out.println(sqlStrig);
 				resultSet = statement.executeQuery(sqlStrig);
-				
-				if(resultSet.getRow() != 0) {
+				resultSet.last();
+				cnt = resultSet.getRow();
+				resultSet.beforeFirst();
+				if(cnt != 0) {
 					flag = false;
 				}
 			} catch (SQLException e) {
