@@ -33,6 +33,9 @@ public class RegisterServlet extends HttpServlet {
 	}
 	
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		response.setContentType("application/json;charset=utf-8");
+		
 		String userNameString = request.getParameter("username");		//获取用户名
 		String passwdString = request.getParameter("passwd");			//获取密码
 		
@@ -67,14 +70,13 @@ public class RegisterServlet extends HttpServlet {
 				if(result == 1) {
 					try {
 						printWriter = response.getWriter();
-						printWriter.println("success!");
+						printWriter.println("注册成功!");
 					} catch (IOException e) {
 						e.printStackTrace();
 					} finally {
 						printWriter.close();
 					}
 				}
-				response.setContentType("application/json;charset=urf-8");
 			} catch (SQLException e) {
 				e.printStackTrace();
 			} catch (ClassNotFoundException e) {
