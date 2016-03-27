@@ -1,4 +1,4 @@
-package com.BestOJAppServer;
+package com.BestOJAppServer.Servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;

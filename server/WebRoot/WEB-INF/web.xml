@@ -5,7 +5,7 @@
 		Welcome
 		</servlet-name>
 		<servlet-class>
-		com.BestOJAppServer.Welcome
+		com.BestOJAppServer.Servlet.Welcome
 		</servlet-class>
 	</servlet>
 	
@@ -24,7 +24,7 @@
 		RegisterServlet
 		</servlet-name>
 		<servlet-class>
-		com.BestOJAppServer.RegisterServlet
+		com.BestOJAppServer.Servlet.RegisterServlet
 		</servlet-class>
 	</servlet>
 	
@@ -42,7 +42,7 @@
 		CheckNetwork
 		</servlet-name>
 		<servlet-class>
-		com.BestOJAppServer.CheckNetwork
+		com.BestOJAppServer.Servlet.CheckNetwork
 		</servlet-class>
 	</servlet>
 	
@@ -60,7 +60,7 @@
 		LoginServlet
 		</servlet-name>
 		<servlet-class>
-		com.BestOJAppServer.LoginServlet
+		com.BestOJAppServer.Servlet.LoginServlet
 		</servlet-class>
 	</servlet>
 	
