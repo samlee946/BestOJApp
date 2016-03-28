@@ -36,6 +36,9 @@ public class LoginActivity extends AppCompatActivity {
     @ViewById(R.id.button_register)
     Button buttonRegister;
 
+    @ViewById(R.id.button_testLogin)
+    Button buttonTestLogin;
+
     @ViewById(R.id.editText_username)
     EditText editTextUsername;
 
@@ -48,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
     @RestService
     WebService webService;
 
-    @Click({R.id.button_login, R.id.button_register})
+    @Click({R.id.button_login, R.id.button_register, R.id.button_testLogin})
     public void buttonOnClicked(View view) {
         switch (view.getId()) {
             case R.id.button_login: {
@@ -59,14 +62,22 @@ public class LoginActivity extends AppCompatActivity {
                 register();
                 break;
             }
+            case R.id.button_testLogin: {
+                testLogin();
+            }
         }
+    }
+
+    @Background
+    void testLogin() {
+        webService.testLogin();
     }
 
     @Background
     void login() {
         usernameString  = editTextUsername.getText().toString();
         passwdString    = editTextPasswd.getText().toString();
-        responseString  = webService.register(usernameString, passwdString);
+        responseString  = webService.login(usernameString, passwdString);
         setTextViewText(responseString);
     }
 
