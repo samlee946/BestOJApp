@@ -2,14 +2,6 @@ package com.BestOJAppServer.Servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -37,23 +29,23 @@ public class RegisterServlet extends HttpServlet {
 		response.setContentType("application/json;charset=utf-8");
 		
 		String userNameString = request.getParameter("username");		//获取用户名
-		String passwdString = request.getParameter("passwd");			//获取密码
+		String passwordString = request.getParameter("password");			//获取密码
 		
-		PrintWriter printWriter = null;
+		PrintWriter printWriter = response.getWriter();
 		
 		UserManager userManager = new UserManager();
 		
 		if(!userManager.isUserNameValid(userNameString)) {
 			System.out.println("用户名无效或已存在!");
-		} else if(!userManager.isPasswdValid(passwdString)) {
+			printWriter.print("用户名无效或已存在!");
+		} else if(!userManager.ispasswordValid(passwordString)) {
 			System.out.println("密码无效!");
+			printWriter.print("密码无效!");
 		} else {
-			if(userManager.createUser(userNameString, passwdString)) {
-				printWriter = response.getWriter();
-				printWriter.println("注册成功!");
+			if(userManager.createUser(userNameString, passwordString)) {
+				printWriter.print("注册成功!");
 			} else {
-				printWriter = response.getWriter();
-				printWriter.println("注册失败!");
+				printWriter.print("注册失败!");
 			}
 		}
 	}

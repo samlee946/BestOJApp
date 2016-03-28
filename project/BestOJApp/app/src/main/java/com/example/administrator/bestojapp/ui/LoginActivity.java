@@ -17,17 +17,14 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
-import org.androidannotations.annotations.rest.Post;
-import org.androidannotations.annotations.rest.Rest;
 import org.androidannotations.annotations.rest.RestService;
-import org.springframework.http.converter.json.GsonHttpMessageConverter;
 import org.springframework.web.client.HttpClientErrorException;
 
 @EActivity(R.layout.activity_login)
 public class LoginActivity extends AppCompatActivity {
 
     private String usernameString;
-    private String passwdString;
+    private String passwordString;
     private String responseString;
 
     @ViewById(R.id.button_login)
@@ -42,8 +39,8 @@ public class LoginActivity extends AppCompatActivity {
     @ViewById(R.id.editText_username)
     EditText editTextUsername;
 
-    @ViewById(R.id.editText_passwd)
-    EditText editTextPasswd;
+    @ViewById(R.id.editText_password)
+    EditText editTextPassword;
 
     @ViewById
     TextView textViewDebug;
@@ -75,8 +72,8 @@ public class LoginActivity extends AppCompatActivity {
 
     @Background
     void logout() {
-        webService.logout();
-        toastShort("退出登陆");
+        responseString = webService.logout();
+        toastShort(responseString);
     }
 
     @Background
@@ -87,22 +84,27 @@ public class LoginActivity extends AppCompatActivity {
     @Background
     void login() {
         usernameString  = editTextUsername.getText().toString();
-        passwdString    = editTextPasswd.getText().toString();
-        responseString  = webService.login(usernameString, passwdString);
-        setTextViewText(responseString);
+        passwordString = editTextPassword.getText().toString();
+        responseString  = webService.login(usernameString, passwordString);
+        toastShort(responseString);
     }
 
     @Background
     void register() {
         usernameString  = editTextUsername.getText().toString();
-        passwdString    = editTextPasswd.getText().toString();
-        responseString  = webService.register(usernameString, passwdString);
-        setTextViewText(responseString);
+        passwordString = editTextPassword.getText().toString();
+        responseString  = webService.register(usernameString, passwordString);
+        toastShort(responseString);
     }
 
     @UiThread
     void toastShort(String textString) {
-        Toast.makeText(this, textString, Toast.LENGTH_SHORT);
+        Toast.makeText(this, textString, Toast.LENGTH_SHORT).show();
+    }
+
+    @UiThread
+    void toastLong(String textString) {
+        Toast.makeText(this, textString, Toast.LENGTH_LONG).show();
     }
 
     @UiThread
@@ -113,15 +115,15 @@ public class LoginActivity extends AppCompatActivity {
     @Background
     void checkNetwork() {
         try {
-            //setTextViewText(webService.checkNetwork());
+            toastShort(webService.checkNetwork());
         } catch (HttpClientErrorException e) {
-            setTextViewText("网络连接错误!原因可能是:" + e.getMessage());
+            toastShort("网络连接错误!原因可能是:" + e.getMessage());
         }
     }
 
     @AfterViews
     void init() {
-        Toast.makeText(LoginActivity.this, "正在检查网络", Toast.LENGTH_SHORT).show();
+        toastLong("正在检查网络");
         checkNetwork();
     }
 

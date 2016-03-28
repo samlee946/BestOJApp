@@ -18,12 +18,12 @@ public interface WebService {
     @Get("/CheckNetwork")
     public String checkNetwork();
 
-    @Post("/RegisterServlet?username={username}&passwd={passwd}")
-    public String register(String username, String passwd);
+    @Post("/RegisterServlet?username={username}&password={password}")
+    public String register(String username, String password);
 
-    @Post("/LoginServlet?username={username}&passwd={passwd}")
+    @Post("/LoginServlet?username={username}&password={password}")
     @SetsCookie("JSESSIONID")
-    public String login(String username, String passwd);
+    public String login(String username, String password);
 
     @Get("/TestLoginServlet")
     @RequiresCookie("JSESSIONID")

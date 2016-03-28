@@ -21,7 +21,7 @@ public class CheckNetwork extends HttpServlet {
 		PrintWriter printWriter = null;
 		try {
 			printWriter = response.getWriter();
-			printWriter.println("网络已连接");
+			printWriter.print("网络已连接");
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {

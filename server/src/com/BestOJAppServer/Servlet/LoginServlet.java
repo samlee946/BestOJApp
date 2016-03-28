@@ -1,20 +1,12 @@
 package com.BestOJAppServer.Servlet;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import org.omg.CORBA.PRIVATE_MEMBER;
 
 import com.BestOJAppServer.JavaBean.UserManager;
 
@@ -33,16 +25,19 @@ public class LoginServlet extends HttpServlet {
 	
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		response.setContentType("application/json;charset=utf-8");
+		
 		UserManager userManager = new UserManager();
 		
 		HttpSession session = request.getSession();
 		
 		String userNameString = request.getParameter("username");		//获取用户名
-		String passwdString = request.getParameter("passwd");
+		String passwordString = request.getParameter("password");
 		String JSESSIONID = session.getId();
-		if(userManager.isUserExist(userNameString, passwdString)) {
+		if(userManager.isUserExist(userNameString, passwordString)) {
 			Cookie cookie = new Cookie("JSESSIONID", JSESSIONID);
 			response.addCookie(cookie);
+			response.getWriter().print("登陆成功!");
 			System.out.println(userNameString + "已登陆");
 		}
 	}

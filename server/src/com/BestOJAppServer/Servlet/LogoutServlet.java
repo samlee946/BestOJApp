@@ -1,8 +1,6 @@
 package com.BestOJAppServer.Servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
@@ -60,15 +58,28 @@ public class LogoutServlet extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
+		response.setContentType("application/json;charset=utf-8");
+		
 		Cookie[] cookies = request.getCookies();
+		
+		boolean flag = true;
 		if(cookies != null) {
 			for(Cookie cookie : cookies) {
+				if(cookie.getName().equals("JSESSIONID") && cookie.getValue().equals("null")) {
+					flag = false;
+				}
 				cookie.setMaxAge(0);
 				cookie.setPath("/");
 				cookie.setValue("null");
 				response.addCookie(cookie);
 			}
 			System.out.println("LogoutServlet:退出登陆");
+		}
+		if(flag) {
+			response.getWriter().print("你已成功退出系统!");
+		}
+		else {
+			response.getWriter().print("好像你还没有登陆吧?");
 		}
 	}
 
