@@ -1,11 +1,8 @@
 package com.BestOJAppServer.Servlet;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.io.PrintWriter;
+import java.net.CookieStore;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -14,17 +11,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.omg.CORBA.PRIVATE_MEMBER;
-
 import com.BestOJAppServer.JavaBean.UserManager;
 
-public class LoginServlet extends HttpServlet {
+public class TestLoginServlet extends HttpServlet {
 
 	//ÐòÁÐ»¯
 	private static final long serialVersionUID = 1L;
 
 	public void init() throws ServletException {
-		System.out.println("Init()");
+
 	}
 	
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -32,18 +27,25 @@ public class LoginServlet extends HttpServlet {
 	}
 	
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+		response.setContentType("application/json;charset=utf-8");
 		
-		UserManager userManager = new UserManager();
-		
-		HttpSession session = request.getSession();
-		
-		String userNameString = request.getParameter("username");		//»ñÈ¡ÓÃ»§Ãû
-		String passwdString = request.getParameter("passwd");
-		String JSESSIONID = session.getId();
-		if(userManager.isUserExist(userNameString, passwdString)) {
-			Cookie cookie = new Cookie("JSESSIONID", JSESSIONID);
-			response.addCookie(cookie);
-			System.out.println(userNameString + "ÒÑµÇÂ½");
+		Cookie[] cookies = request.getCookies();
+		boolean flag = false;
+		System.out.println("²âÊÔµÇÂ½: requset:" + request.getSession().getId());
+		if(cookies != null) {
+			for(Cookie cookie : cookies) {
+				System.out.println("cookie:" + cookie.getName() + " " + cookie.getValue());
+				if(cookie.getName().equals("JSESSIONID") && !cookie.getValue().equals("null")) {
+					flag = true;
+					System.out.println("µÇÂ½³É¹¦À±!");
+					break;
+				}
+			}
 		}
+		if(flag == false) {
+			System.out.println("µÇÂ½Ê§°Ü!");
+		}
+		System.out.println("²âÊÔµÇÂ½Íê±Ï!");
 	}
 }
