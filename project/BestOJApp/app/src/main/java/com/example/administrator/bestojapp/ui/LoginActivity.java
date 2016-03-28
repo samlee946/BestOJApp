@@ -51,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
     @RestService
     WebService webService;
 
-    @Click({R.id.button_login, R.id.button_register, R.id.button_testLogin})
+    @Click({R.id.button_login, R.id.button_register, R.id.button_testLogin, R.id.button_logout})
     public void buttonOnClicked(View view) {
         switch (view.getId()) {
             case R.id.button_login: {
@@ -64,8 +64,19 @@ public class LoginActivity extends AppCompatActivity {
             }
             case R.id.button_testLogin: {
                 testLogin();
+                break;
+            }
+            case R.id.button_logout: {
+                logout();
+                break;
             }
         }
+    }
+
+    @Background
+    void logout() {
+        webService.logout();
+        toastShort("退出登陆");
     }
 
     @Background
@@ -87,6 +98,11 @@ public class LoginActivity extends AppCompatActivity {
         passwdString    = editTextPasswd.getText().toString();
         responseString  = webService.register(usernameString, passwdString);
         setTextViewText(responseString);
+    }
+
+    @UiThread
+    void toastShort(String textString) {
+        Toast.makeText(this, textString, Toast.LENGTH_SHORT);
     }
 
     @UiThread

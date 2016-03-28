@@ -28,4 +28,9 @@ public interface WebService {
     @Get("/TestLoginServlet")
     @RequiresCookie("JSESSIONID")
     public String testLogin();
+
+    @Get("/LogoutServlet")
+    @RequiresCookie("JSESSIONID")
+    @SetsCookie("JSESSIONID")
+    public String logout();
 }

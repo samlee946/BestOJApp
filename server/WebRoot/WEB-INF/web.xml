@@ -76,10 +76,19 @@
     	<servlet-name>TestLoginServlet</servlet-name>
     	<servlet-class>com.BestOJAppServer.Servlet.TestLoginServlet</servlet-class>
     </servlet>
+  <servlet>
+    <servlet-name>LogoutServlet</servlet-name>
+    <servlet-class>com.BestOJAppServer.Servlet.LogoutServlet</servlet-class>
+  </servlet>
+
   	<servlet-mapping>
     	<servlet-name>TestLoginServlet</servlet-name>
     	<url-pattern>/TestLoginServlet</url-pattern>
   	</servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>LogoutServlet</servlet-name>
+    <url-pattern>/LogoutServlet</url-pattern>
+  </servlet-mapping>
 
 	
 
