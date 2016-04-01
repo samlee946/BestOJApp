@@ -5,11 +5,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.administrator.bestojapp.R;
 import com.example.administrator.bestojapp.api.WebService;
+import com.github.ybq.android.spinkit.style.FadingCircle;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
@@ -19,6 +21,7 @@ import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.rest.RestService;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.ResourceAccessException;
 
 @EActivity(R.layout.activity_login)
 public class LoginActivity extends AppCompatActivity {
@@ -86,7 +89,7 @@ public class LoginActivity extends AppCompatActivity {
         usernameString  = editTextUsername.getText().toString();
         passwordString = editTextPassword.getText().toString();
         responseString  = webService.login(usernameString, passwordString);
-        toastShort(responseString);
+        if(responseString.length() > 2) toastShort(responseString);
     }
 
     @Background
@@ -94,16 +97,21 @@ public class LoginActivity extends AppCompatActivity {
         usernameString  = editTextUsername.getText().toString();
         passwordString = editTextPassword.getText().toString();
         responseString  = webService.register(usernameString, passwordString);
-        toastShort(responseString);
+        if(responseString.length() > 2) toastShort(responseString);
     }
 
     @UiThread
-    void toastShort(String textString) {
+    void setAnimation(Button button) {
+        FadingCircle fadingCircle = new FadingCircle();
+    }
+
+    @UiThread
+    public void toastShort(String textString) {
         Toast.makeText(this, textString, Toast.LENGTH_SHORT).show();
     }
 
     @UiThread
-    void toastLong(String textString) {
+    public void toastLong(String textString) {
         Toast.makeText(this, textString, Toast.LENGTH_LONG).show();
     }
 
@@ -117,6 +125,8 @@ public class LoginActivity extends AppCompatActivity {
         try {
             toastShort(webService.checkNetwork());
         } catch (HttpClientErrorException e) {
+            toastShort("网络连接错误!原因可能是:" + e.getMessage());
+        } catch (ResourceAccessException e) {
             toastShort("网络连接错误!原因可能是:" + e.getMessage());
         }
     }

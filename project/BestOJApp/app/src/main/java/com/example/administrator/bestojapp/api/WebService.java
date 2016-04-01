@@ -16,21 +16,24 @@ import org.springframework.http.converter.json.GsonHttpMessageConverter;
 public interface WebService {
 
     @Get("/CheckNetwork")
-    public String checkNetwork();
+    String checkNetwork();
 
     @Post("/RegisterServlet?username={username}&password={password}")
-    public String register(String username, String password);
+    String register(String username, String password);
 
     @Post("/LoginServlet?username={username}&password={password}")
     @SetsCookie("JSESSIONID")
-    public String login(String username, String password);
+    String login(String username, String password);
 
     @Get("/TestLoginServlet")
     @RequiresCookie("JSESSIONID")
-    public String testLogin();
+    String testLogin();
 
     @Get("/LogoutServlet")
     @RequiresCookie("JSESSIONID")
     @SetsCookie("JSESSIONID")
-    public String logout();
+    String logout();
+
+    @Get("/GetOffspringByParentId?token={token}&parentId={parentId}")
+    String getOffspringByParentId(String token, Long parentId);
 }

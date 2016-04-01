@@ -17,8 +17,10 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
+        mavenCentral()
         maven {
             url 'https://repo.spring.io/libs-milestone'
+            url 'https://jitpack.io'
         }
     }
 }

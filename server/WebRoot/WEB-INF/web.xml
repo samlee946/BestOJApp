@@ -8,7 +8,6 @@
 		com.BestOJAppServer.Servlet.Welcome
 		</servlet-class>
 	</servlet>
-	
 	<servlet-mapping>
 		<servlet-name>
 		Welcome
@@ -27,7 +26,6 @@
 		com.BestOJAppServer.Servlet.RegisterServlet
 		</servlet-class>
 	</servlet>
-	
 	<servlet-mapping>
 		<servlet-name>
 		RegisterServlet
@@ -45,7 +43,6 @@
 		com.BestOJAppServer.Servlet.CheckNetwork
 		</servlet-class>
 	</servlet>
-	
 	<servlet-mapping>
 		<servlet-name>
 		CheckNetwork
@@ -76,19 +73,28 @@
     	<servlet-name>TestLoginServlet</servlet-name>
     	<servlet-class>com.BestOJAppServer.Servlet.TestLoginServlet</servlet-class>
     </servlet>
-  <servlet>
-    <servlet-name>LogoutServlet</servlet-name>
-    <servlet-class>com.BestOJAppServer.Servlet.LogoutServlet</servlet-class>
-  </servlet>
-
   	<servlet-mapping>
     	<servlet-name>TestLoginServlet</servlet-name>
     	<url-pattern>/TestLoginServlet</url-pattern>
   	</servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>LogoutServlet</servlet-name>
-    <url-pattern>/LogoutServlet</url-pattern>
-  </servlet-mapping>
+  	
+  	<servlet>
+    	<servlet-name>LogoutServlet</servlet-name>
+    	<servlet-class>com.BestOJAppServer.Servlet.LogoutServlet</servlet-class>
+  	</servlet>
+  	<servlet-mapping>
+    	<servlet-name>LogoutServlet</servlet-name>
+    	<url-pattern>/LogoutServlet</url-pattern>
+  	</servlet-mapping>
+    
+	<servlet>
+		<servlet-name>GetOffspringByParentId</servlet-name>
+		<servlet-class>com.BestOJAppServer.Servlet.GetOffspringByParentId</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>GetOffspringByParentId</servlet-name>
+   		<url-pattern>/GetOffspringByParentId</url-pattern>
+  	</servlet-mapping>
 
 	
 
