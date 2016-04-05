@@ -20,8 +20,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.TreeNodeActivity_" />
-        <activity android:name=".ui.MainActivity_"/>
-        <activity android:name=".ui.LoginActivity_"/>
+        <activity android:name=".ui.MainActivity_" />
+        <activity android:name=".ui.LoginActivity_" />
+        <activity android:name=".ui.ProblemActivity_"></activity>
     </application>
 
 </manifest>

@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.example.DaoMaster;
 import com.example.DaoSession;
+import com.example.TreeNode;
 import com.example.TreeNode2;
 import com.example.TreeNode2Dao;
 import com.example.TreeNodeDao;
@@ -25,42 +26,50 @@ public class DatabaseService extends MainActivity{
     private SQLiteDatabase db;
     private DaoMaster daoMaster;
     private DaoSession daoSession;
+    private Context context;
 
-    public DatabaseService() {
+    public DatabaseService(Context context) {
+        this.context = context;
         setupDatabase();
-        getTreeNodeDao();
+        getTreeNode2Dao();
     }
-
-    private static DatabaseService instance = null;
-
-    public static DatabaseService getInstance() {
-        if(instance == null) instance = new DatabaseService();
-        return instance;
-    }
-
+    /*
     public void addTreeNode(Long id, Long parentId, Integer order, Integer problemIdLinked, String name, Integer type) {
         TreeNode2 treeNode = new TreeNode2(id, parentId, order, problemIdLinked, name, type);
-        getTreeNodeDao().insert(treeNode);
+        getTreeNode2Dao().insert(treeNode);
     }
+    */
 
     public void addTreeNode(TreeNode2 treeNode) {
-        getTreeNodeDao().insert(treeNode);
+        getTreeNode2Dao().insert(treeNode);
     }
 
-    public List searchByParentId(Long parentId) {
-        QueryBuilder queryBuilder = getTreeNodeDao().queryBuilder()
-                .where(TreeNodeDao.Properties.ParentId.eq(parentId))
-                .orderAsc(TreeNodeDao.Properties.Weight);
-        List nodes = queryBuilder.list();
-        return nodes;
+    public List<TreeNode2> searchByParentId(Long parentId) {
+        QueryBuilder queryBuilder = getTreeNode2Dao().queryBuilder()
+                .where(TreeNode2Dao.Properties.ParentId.eq(parentId))
+                .orderAsc(TreeNode2Dao.Properties.Weight);
+        return (List<TreeNode2>) queryBuilder.list();
     }
 
-    private TreeNode2Dao getTreeNodeDao() {
+    public boolean isTreeNodeDownloaded(Long parentID) {
+        if(searchByParentId(parentID).isEmpty()) return false;
+        else return true;
+    }
+
+    public void dropTable() {
+        getTreeNode2Dao().dropTable(db, true);
+    }
+
+    public void createTable() {
+        getTreeNode2Dao().createTable(db, true);
+    }
+
+    private TreeNode2Dao getTreeNode2Dao() {
         return daoSession.getTreeNode2Dao();
     }
 
     private void setupDatabase() {
-        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "treeNode-db", null);
+        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(context, "treeNode2-db", null);
         db = helper.getWritableDatabase();
         daoMaster = new DaoMaster(db);
         daoSession = daoMaster.newSession();

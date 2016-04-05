@@ -73,4 +73,9 @@ public class TreeNode2 {
         this.type = type;
     }
 
+    @Override
+    public String toString() {
+        if(type == 1) return name;
+        else return problemIdLinked + " " + name;
+    }
 }

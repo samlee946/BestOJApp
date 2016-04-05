@@ -73,4 +73,15 @@ public class TreeNode {
         this.type = type;
     }
 
+    @Override
+    public String toString() {
+        return "TreeNode{" +
+                "id=" + id +
+                ", parentId=" + parentId +
+                ", weight=" + weight +
+                ", problemIdLinked=" + problemIdLinked +
+                ", name='" + name + '\'' +
+                ", type=" + type +
+                '}';
+    }
 }

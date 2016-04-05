@@ -12,4 +12,22 @@
     <string name="experiment">高级语言程序设计</string>
     <string name="data_structure">数据结构</string>
     <string name="download_data">下载数据</string>
+    <string name="advanced_program">编程进阶</string>
+    <string name="delete_treenode">删除已下载的结点信息</string>
+    <string name="time_limit">时间限制:</string>
+    <string name="memory_limit">内存限制:</string>
+    <string name="submit_times">提交次数:</string>
+    <string name="ac_times">通过次数:</string>
+    <string name="problem_id">1000</string>
+    <string name="problem_title">A+B</string>
+    <string name="problem_description">题目描述</string>
+    <string name="problem_input">输入格式</string>
+    <string name="problem_output">输出格式</string>
+    <string name="problem_sample_input">输入样例</string>
+    <string name="problem_sample_output">输出样例</string>
+    <string name="problem_source">来源</string>
+    <string name="problem_tip">提示</string>
+    <string name="problem_discuss">讨论</string>
+    <string name="problem_solution">提交记录</string>
+    <string name="space">" "</string>
 </resources>

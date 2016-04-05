@@ -27,6 +27,19 @@
         android:id="@+id/button_homepage_download_data"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/download_data"/>
+        android:text="@string/download_data"
+        android:visibility="gone"/>
+
+    <Button
+        android:id="@+id/button_homepage_advanced_program"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/advanced_program"/>
+
+    <Button
+        android:id="@+id/button_homepage_delete_treenode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/delete_treenode"/>
 
 </LinearLayout>

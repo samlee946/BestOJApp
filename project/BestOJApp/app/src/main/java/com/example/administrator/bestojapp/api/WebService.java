@@ -36,4 +36,7 @@ public interface WebService {
 
     @Get("/GetOffspringByParentId?token={token}&parentId={parentId}")
     String getOffspringByParentId(String token, Long parentId);
+
+    @Get("/GetProblemByProblemId?token={token}&problemId={problemId}")
+    String getProblemByProblemId(String token, Long problemId);
 }
