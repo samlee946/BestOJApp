@@ -12,9 +12,10 @@
 
 # 目录结构
 ---
-doc	存放分类文档  
+doc		存放分类文档  
+pic		存放部分软件截图  
 project 存放android studio项目  
-server 存放刷题宝服务器的项目
+server 	存放刷题宝服务器的项目
 
 #开发进度
 ---
