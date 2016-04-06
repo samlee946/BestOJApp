@@ -2,6 +2,7 @@ package com.example.administrator.bestojapp.ui;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.widget.TextView;
 
 import com.example.administrator.bestojapp.R;
@@ -9,6 +10,7 @@ import com.example.administrator.bestojapp.api.OJService;
 import com.example.administrator.bestojapp.api.WebService;
 import com.example.administrator.bestojapp.database.DatabaseServiceProblem;
 import com.problem.Problem;
+import com.special.ResideMenu.ResideMenu;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
@@ -28,6 +30,8 @@ public class ProblemActivity extends AppCompatActivity {
     private List<Problem> problems;
 
     private OJService ojService;
+
+    private ResideMenu resideMenu;
 
     @RestService
     WebService webService;
@@ -94,6 +98,11 @@ public class ProblemActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        return resideMenu.dispatchTouchEvent(ev);
+    }
+
     @Background
     void downloadProblem(Long problemId) {
         ojService.getProblemByProblemId(problemId);
@@ -102,10 +111,12 @@ public class ProblemActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        problemId = getIntent().getLongExtra("problemId", 1001);
+        problemId = getIntent().getLongExtra("problemId", 1001L);
 
         databaseServiceProblem = new DatabaseServiceProblem(ProblemActivity.this);
 
         ojService = new OJService(ProblemActivity.this, webService);
+
+        resideMenu = new ResideMenuGeneral(ProblemActivity.this, ProblemActivity.this).getResideMenu();
     }
 }

@@ -3,6 +3,7 @@ package com.example.administrator.bestojapp.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -11,6 +12,7 @@ import android.widget.ListView;
 import com.example.TreeNode2;
 import com.example.administrator.bestojapp.R;
 import com.example.administrator.bestojapp.database.DatabaseService;
+import com.special.ResideMenu.ResideMenu;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -25,9 +27,11 @@ public class TreeNodeActivity extends AppCompatActivity {
 
     private Intent intent;
 
-    List<TreeNode2> nodes;
+    private ResideMenu resideMenu;
 
-    DatabaseService databaseService;
+    private List<TreeNode2> nodes;
+
+    private DatabaseService databaseService;
 
     @ViewById(R.id.listView_treeNode)
     ListView listView;
@@ -56,6 +60,11 @@ public class TreeNodeActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        return resideMenu.dispatchTouchEvent(ev);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         parentId = getIntent().getLongExtra("parentId", 1099385798655L);
@@ -63,5 +72,7 @@ public class TreeNodeActivity extends AppCompatActivity {
         databaseService = new DatabaseService(TreeNodeActivity.this);
 
         nodes = databaseService.searchByParentId(parentId);
+
+        resideMenu = new ResideMenuGeneral(TreeNodeActivity.this, TreeNodeActivity.this).getResideMenu();
     }
 }

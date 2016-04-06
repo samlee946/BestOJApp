@@ -8,11 +8,11 @@ public class TreeNodeBean {
     private Long id;
     private Long parentId;
     private Integer order;
-    private Integer problemIdLinked;
+    private Long problemIdLinked;
     private String name;
     private Integer type;
 
-    public TreeNodeBean(Long id, Long parentId, Integer order, Integer problemIdLinked, String name, Integer type) {
+    public TreeNodeBean(Long id, Long parentId, Integer order, Long problemIdLinked, String name, Integer type) {
         this.id = id;
         this.parentId = parentId;
         this.order = order;
@@ -45,11 +45,11 @@ public class TreeNodeBean {
         this.order = order;
     }
 
-    public Integer getProblemIdLinked() {
+    public Long getProblemIdLinked() {
         return problemIdLinked;
     }
 
-    public void setProblemIdLinked(Integer problemIdLinked) {
+    public void setProblemIdLinked(Long problemIdLinked) {
         this.problemIdLinked = problemIdLinked;
     }
 

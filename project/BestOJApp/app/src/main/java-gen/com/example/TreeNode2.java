@@ -9,14 +9,14 @@ public class TreeNode2 {
     private Long id;
     private Long parentId;
     private Integer weight;
-    private Integer problemIdLinked;
+    private Long problemIdLinked;
     private String name;
     private Integer type;
 
     public TreeNode2() {
     }
 
-    public TreeNode2(Long id, Long parentId, Integer weight, Integer problemIdLinked, String name, Integer type) {
+    public TreeNode2(Long id, Long parentId, Integer weight, Long problemIdLinked, String name, Integer type) {
         this.id = id;
         this.parentId = parentId;
         this.weight = weight;
@@ -49,11 +49,11 @@ public class TreeNode2 {
         this.weight = weight;
     }
 
-    public Integer getProblemIdLinked() {
+    public Long getProblemIdLinked() {
         return problemIdLinked;
     }
 
-    public void setProblemIdLinked(Integer problemIdLinked) {
+    public void setProblemIdLinked(Long problemIdLinked) {
         this.problemIdLinked = problemIdLinked;
     }
 
@@ -76,6 +76,6 @@ public class TreeNode2 {
     @Override
     public String toString() {
         if(type == 1) return name;
-        else return problemIdLinked + " " + name;
+        return problemIdLinked + " " + name;
     }
 }

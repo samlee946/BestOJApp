@@ -19,7 +19,7 @@ public class TreeNodeDAOGenerator {
         treeNode.addLongProperty("id");
         treeNode.addLongProperty("parentId");
         treeNode.addIntProperty("weight");
-        treeNode.addIntProperty("problemIdLinked");
+        treeNode.addLongProperty("problemIdLinked");
         treeNode.addStringProperty("name");
         treeNode.addIntProperty("type");
     }

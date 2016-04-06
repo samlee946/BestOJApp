@@ -22,7 +22,8 @@
         <activity android:name=".ui.TreeNodeActivity_" />
         <activity android:name=".ui.MainActivity_" />
         <activity android:name=".ui.LoginActivity_" />
-        <activity android:name=".ui.ProblemActivity_"></activity>
+        <activity android:name=".ui.ProblemActivity_" />
+        <activity android:name=".ui.RootActivity_"></activity>
     </application>
 
 </manifest>

@@ -26,7 +26,7 @@ public class TreeNode2Dao extends AbstractDao<TreeNode2, Void> {
         public final static Property Id = new Property(0, Long.class, "id", false, "ID");
         public final static Property ParentId = new Property(1, Long.class, "parentId", false, "PARENT_ID");
         public final static Property Weight = new Property(2, Integer.class, "weight", false, "WEIGHT");
-        public final static Property ProblemIdLinked = new Property(3, Integer.class, "problemIdLinked", false, "PROBLEM_ID_LINKED");
+        public final static Property ProblemIdLinked = new Property(3, Long.class, "problemIdLinked", false, "PROBLEM_ID_LINKED");
         public final static Property Name = new Property(4, String.class, "name", false, "NAME");
         public final static Property Type = new Property(5, Integer.class, "type", false, "TYPE");
     };
@@ -78,7 +78,7 @@ public class TreeNode2Dao extends AbstractDao<TreeNode2, Void> {
             stmt.bindLong(3, weight);
         }
  
-        Integer problemIdLinked = entity.getProblemIdLinked();
+        Long problemIdLinked = entity.getProblemIdLinked();
         if (problemIdLinked != null) {
             stmt.bindLong(4, problemIdLinked);
         }
@@ -107,7 +107,7 @@ public class TreeNode2Dao extends AbstractDao<TreeNode2, Void> {
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
             cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1), // parentId
             cursor.isNull(offset + 2) ? null : cursor.getInt(offset + 2), // weight
-            cursor.isNull(offset + 3) ? null : cursor.getInt(offset + 3), // problemIdLinked
+            cursor.isNull(offset + 3) ? null : cursor.getLong(offset + 3), // problemIdLinked
             cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // name
             cursor.isNull(offset + 5) ? null : cursor.getInt(offset + 5) // type
         );
@@ -120,7 +120,7 @@ public class TreeNode2Dao extends AbstractDao<TreeNode2, Void> {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setParentId(cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1));
         entity.setWeight(cursor.isNull(offset + 2) ? null : cursor.getInt(offset + 2));
-        entity.setProblemIdLinked(cursor.isNull(offset + 3) ? null : cursor.getInt(offset + 3));
+        entity.setProblemIdLinked(cursor.isNull(offset + 3) ? null : cursor.getLong(offset + 3));
         entity.setName(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
         entity.setType(cursor.isNull(offset + 5) ? null : cursor.getInt(offset + 5));
      }

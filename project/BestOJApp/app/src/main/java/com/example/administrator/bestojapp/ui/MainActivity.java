@@ -1,8 +1,10 @@
 package com.example.administrator.bestojapp.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -10,6 +12,8 @@ import android.widget.Toast;
 import com.example.administrator.bestojapp.R;
 import com.example.administrator.bestojapp.api.OJService;
 import com.example.administrator.bestojapp.api.WebService;
+import com.special.ResideMenu.ResideMenu;
+import com.special.ResideMenu.ResideMenuItem;
 
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Click;
@@ -22,7 +26,7 @@ import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.ResourceAccessException;
 
 @EActivity(R.layout.activity_main)
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
 
     private Integer echo;
 
@@ -34,9 +38,11 @@ public class MainActivity extends AppCompatActivity {
     private String token = "6fa590b6ccad27feee1eaf4206ed0beb497936af";
     private String jsonString = null;
 
-    OJService ojService;
+    private OJService ojService;
 
-    Intent intent = null;
+    private Intent intent = null;
+
+    private ResideMenu resideMenu;
 
     @ViewById(R.id.button_homepage_login)
     Button button_login;
@@ -52,7 +58,8 @@ public class MainActivity extends AppCompatActivity {
             R.id.button_homepage_data_structure,
             R.id.button_homepage_download_data,
             R.id.button_homepage_advanced_program,
-            R.id.button_homepage_delete_treenode})
+            R.id.button_homepage_delete_treenode,
+            })
     void buttonOnClicked(View view) {
         switch (view.getId()) {
             case R.id.button_homepage_login: {
@@ -135,9 +142,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        return resideMenu.dispatchTouchEvent(ev);
+    }
+
+    public static void actionStart(Context context) {
+        Intent intent = new Intent(context, MainActivity_.class);
+        context.startActivity(intent);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         ojService = new OJService(MainActivity.this, webService);
+
+        resideMenu = new ResideMenuGeneral(MainActivity.this, MainActivity.this).getResideMenu();
     }
 }
