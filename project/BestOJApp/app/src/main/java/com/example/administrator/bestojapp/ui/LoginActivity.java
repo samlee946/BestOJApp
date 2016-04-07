@@ -1,7 +1,10 @@
 package com.example.administrator.bestojapp.ui;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,6 +15,7 @@ import android.widget.Toast;
 import com.example.administrator.bestojapp.R;
 import com.example.administrator.bestojapp.api.WebService;
 import com.github.ybq.android.spinkit.style.FadingCircle;
+import com.special.ResideMenu.ResideMenu;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
@@ -29,6 +33,8 @@ public class LoginActivity extends AppCompatActivity {
     private String usernameString;
     private String passwordString;
     private String responseString;
+
+    private ResideMenu resideMenu;
 
     @ViewById(R.id.button_login)
     Button buttonLogin;
@@ -133,12 +139,26 @@ public class LoginActivity extends AppCompatActivity {
 
     @AfterViews
     void init() {
+        /*
         toastLong("正在检查网络");
         checkNetwork();
+        */
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        return resideMenu.dispatchTouchEvent(ev);
+    }
+
+    public static void actionStart(Context context) {
+        Intent intent = new Intent(context, LoginActivity_.class);
+        context.startActivity(intent);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        resideMenu = new ResideMenuGeneral(LoginActivity.this, LoginActivity.this).getResideMenu();
     }
 }

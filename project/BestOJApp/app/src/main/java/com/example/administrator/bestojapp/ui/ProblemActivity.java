@@ -3,8 +3,11 @@ package com.example.administrator.bestojapp.ui;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MotionEvent;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.administrator.bestojapp.Bean.SolutionList;
 import com.example.administrator.bestojapp.R;
 import com.example.administrator.bestojapp.api.OJService;
 import com.example.administrator.bestojapp.api.WebService;
@@ -14,6 +17,7 @@ import com.special.ResideMenu.ResideMenu;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.rest.RestService;
@@ -35,6 +39,9 @@ public class ProblemActivity extends AppCompatActivity {
 
     @RestService
     WebService webService;
+
+    @ViewById
+    Button buttonSolutionList;
 
     @ViewById(R.id.textViewProblemID)
     TextView textViewProblemID;
@@ -75,6 +82,15 @@ public class ProblemActivity extends AppCompatActivity {
     @ViewById(R.id.textViewProblemTip)
     TextView textViewProblemTip;
 
+    @Click({R.id.button_solution_list})
+    void buttonClick(View view) {
+        switch (view.getId()) {
+            case R.id.button_solution_list: {
+                SolutionListActivity.actionStart(ProblemActivity.this, 1, problemId);
+                break;
+            }
+        }
+    }
 
     @AfterViews
     void init() {

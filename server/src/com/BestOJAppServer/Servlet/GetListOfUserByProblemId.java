@@ -7,18 +7,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class GetOffspringByParentId extends HttpServlet {
+public class GetListOfUserByProblemId extends HttpServlet {
 	
-	String url = "http://acm.scau.edu.cn:8000/uoj/app_common_ojTreeNode_getOffspringByParentId.html";
-	//String url = "http://acm.scau.edu.cn:8000/uoj/app_common_ojTreeNode_getOffspringByParentId.html";
+	String url = "http://acm.scau.edu.cn:8000/uoj/app_common_solution_getListOfUserByProblemId.html";
 	String token = null;
-	String parentId;
+	String problemId;
 	
 	//–Ú¡–ªØ
 	private static final long serialVersionUID = 1L;
 
 	public void init() throws ServletException {
-		System.out.println("GetOffspringByParentId Init()");
+		System.out.println("GetListOfUserByProblemId Init()");
 	}
 	
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -26,9 +25,9 @@ public class GetOffspringByParentId extends HttpServlet {
 		response.setContentType("application/json;charset=utf-8");
 
 		token = request.getParameter("token");
-		parentId = request.getParameter("parentId");
-		String newurl = url + "?token=" + token + "&parentId=" + parentId;
-		System.out.println(token + "_" + parentId + "_" + url);
+		problemId = request.getParameter("problemId");
+		String newurl = url + "?token=" + token + "&problemId=" + problemId;
+		System.out.println(token + "_" + problemId + "_" + url);
 		response.sendRedirect(newurl);
 	}
 	

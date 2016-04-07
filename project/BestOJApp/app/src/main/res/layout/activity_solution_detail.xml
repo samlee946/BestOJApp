@@ -16,7 +16,7 @@
             android:orientation="horizontal"
             android:layout_gravity="center">
             <TextView
-                android:id="@+id/textViewProblemID"
+                android:id="@+id/textView_detail_problemId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/problem_id"
@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/space"/>
             <TextView
-                android:id="@+id/textViewProblemTitle"
+                android:id="@+id/textView_detail_problem_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/problem_title"
@@ -44,11 +44,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/time_limit"
+                android:text="@string/running_time"
                 android:gravity="center"
                 android:textStyle="bold"/>
             <TextView
-                android:id="@+id/textViewTimeLimit"
+                android:id="@+id/textView_running_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <TextView
@@ -58,10 +58,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/memory_limit"
+                android:text="@string/running_memory"
                 android:textStyle="bold"/>
             <TextView
-                android:id="@+id/textViewMemoryLimit"
+                android:id="@+id/textView_running_memory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </LinearLayout>
@@ -74,24 +74,26 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/submit_times"
+                android:text="@string/judgement_result"
                 android:gravity="center"
                 android:textStyle="bold"/>
             <TextView
-                android:id="@+id/textViewSubmitTimes"
+                android:id="@+id/textView_judgement_result"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/space"/>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/ac_times"
+                android:text="@string/submit_time"
+                android:gravity="center"
                 android:textStyle="bold"/>
             <TextView
-                android:id="@+id/textViewACTimes"
+                android:id="@+id/textView_submit_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </LinearLayout>
@@ -106,102 +108,26 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/problem_description"
+            android:text="@string/detail"
             android:textSize="22sp"
             android:textStyle="bold"/>
 
         <TextView
-            android:id="@+id/textViewProblemDescription"
+            android:id="@+id/textView_detail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/problem_input"
+            android:text="@string/code"
             android:textSize="22sp"
             android:textStyle="bold"/>
 
         <TextView
-            android:id="@+id/textViewProblemInput"
+            android:id="@+id/textView_detail_code"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/problem_output"
-            android:textSize="22sp"
-            android:textStyle="bold"/>
-
-        <TextView
-            android:id="@+id/textViewProblemOutput"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/problem_sample_input"
-            android:textSize="22sp"
-            android:textStyle="bold"/>
-
-        <TextView
-            android:id="@+id/textViewProblemSampleInput"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/problem_sample_output"
-            android:textSize="22sp"
-            android:textStyle="bold"/>
-
-        <TextView
-            android:id="@+id/textViewProblemSampleOutput"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/problem_tip"
-            android:textSize="22sp"
-            android:textStyle="bold"/>
-
-        <TextView
-            android:id="@+id/textViewProblemTip"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/problem_source"
-            android:textSize="22sp"
-            android:textStyle="bold"/>
-
-        <TextView
-            android:id="@+id/textViewProblemSource"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center">
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/problem_discuss"/>
-            <Button
-                android:id="@+id/button_solution_list"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/problem_solution"/>
-        </LinearLayout>
     </LinearLayout>
 
 </ScrollView>

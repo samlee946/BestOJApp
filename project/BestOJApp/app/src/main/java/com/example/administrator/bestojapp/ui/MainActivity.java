@@ -58,7 +58,6 @@ public class MainActivity extends AppCompatActivity{
             R.id.button_homepage_data_structure,
             R.id.button_homepage_download_data,
             R.id.button_homepage_advanced_program,
-            R.id.button_homepage_delete_treenode,
             })
     void buttonOnClicked(View view) {
         switch (view.getId()) {
@@ -93,10 +92,6 @@ public class MainActivity extends AppCompatActivity{
                 intent.setClass(MainActivity.this, TreeNodeActivity_.class);
                 intent.putExtra("parentId", parentIdAdvancedProgram);
                 startActivity(intent);
-                break;
-            }
-            case R.id.button_homepage_delete_treenode: {
-                ojService.deleteTreeNode();
                 break;
             }
             case R.id.button_homepage_download_data: {

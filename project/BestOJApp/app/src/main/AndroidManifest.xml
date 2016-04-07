@@ -23,7 +23,11 @@
         <activity android:name=".ui.MainActivity_" />
         <activity android:name=".ui.LoginActivity_" />
         <activity android:name=".ui.ProblemActivity_" />
-        <activity android:name=".ui.RootActivity_"></activity>
+        <activity android:name=".ui.RootActivity_" />
+        <activity android:name=".ui.SolutionListActivity_" />
+        <activity android:name=".ui.SolutionDetailActivity_" />
+        <activity android:name=".ui.SettingsActivity_" />
+        <activity android:name=".ui.UserActivity_"></activity>
     </application>
 
 </manifest>

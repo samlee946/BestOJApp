@@ -91,20 +91,35 @@
 		<servlet-name>GetOffspringByParentId</servlet-name>
 		<servlet-class>com.BestOJAppServer.Servlet.GetOffspringByParentId</servlet-class>
 	</servlet>
-  <servlet>
-    <servlet-name>GetProblemByProblemId</servlet-name>
-    <servlet-class>com.BestOJAppServer.Servlet.GetProblemByProblemId</servlet-class>
-  </servlet>
-
 	<servlet-mapping>
 		<servlet-name>GetOffspringByParentId</servlet-name>
    		<url-pattern>/GetOffspringByParentId</url-pattern>
   	</servlet-mapping>
+  	
+  <servlet>
+    <servlet-name>GetProblemByProblemId</servlet-name>
+    <servlet-class>com.BestOJAppServer.Servlet.GetProblemByProblemId</servlet-class>
+  </servlet>
   <servlet-mapping>
     <servlet-name>GetProblemByProblemId</servlet-name>
     <url-pattern>/GetProblemByProblemId</url-pattern>
   </servlet-mapping>
-
-	
-
+  
+  <servlet>
+    <servlet-name>GetBySolutionId</servlet-name>
+    <servlet-class>com.BestOJAppServer.Servlet.GetBySolutionId</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GetBySolutionId</servlet-name>
+    <url-pattern>/GetBySolutionId</url-pattern>
+  </servlet-mapping>
+  	
+  <servlet>
+    <servlet-name>GetListOfUserByProblemId</servlet-name>
+    <servlet-class>com.BestOJAppServer.Servlet.GetListOfUserByProblemId</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GetListOfUserByProblemId</servlet-name>
+    <url-pattern>/GetListOfUserByProblemId</url-pattern>
+  	</servlet-mapping>
 </web-app>

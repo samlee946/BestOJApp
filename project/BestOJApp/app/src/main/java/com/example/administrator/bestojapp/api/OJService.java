@@ -1,10 +1,12 @@
 package com.example.administrator.bestojapp.api;
 
 import android.content.Context;
-import android.widget.Toast;
 
 import com.example.TreeNode2;
 import com.example.administrator.bestojapp.Bean.OJTreeNodeJavaBean;
+import com.example.administrator.bestojapp.Bean.SolutionDetailJavaBean;
+import com.example.administrator.bestojapp.Bean.SolutionList;
+import com.example.administrator.bestojapp.Bean.SolutionListJavaBean;
 import com.example.administrator.bestojapp.Bean.TreeNodeBean;
 import com.example.administrator.bestojapp.database.DatabaseService;
 import com.example.administrator.bestojapp.database.DatabaseServiceProblem;
@@ -14,8 +16,6 @@ import com.problem.Problem;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.ResourceAccessException;
-
-import java.util.List;
 
 /**
  * Created by Administrator on 2016/4/5 0005.
@@ -31,6 +31,10 @@ public class OJService {
     private String token = "6fa590b6ccad27feee1eaf4206ed0beb497936af";
 
     private Context context;
+
+    private SolutionList[] solutionLists;
+
+    private SolutionDetailJavaBean solutionDetailJavaBean;
 
     WebService webService;
 
@@ -79,6 +83,23 @@ public class OJService {
         }
     }
 
+    public void getListOfUserByProblemId(Long problemId) {
+        response = webService.getListOfUserByProblemId(token, problemId);
+        Gson gson = new Gson();
+        SolutionListJavaBean solutionListJavaBean = gson.fromJson(response, SolutionListJavaBean.class);
+        echo = solutionListJavaBean.getEcho();
+        if(echo == 0) {
+            solutionLists = solutionListJavaBean.getNotes();
+        }
+    }
+
+    public void getBySolutionId(Long solutionId) {
+        response = webService.getBySolutionId(token, solutionId);
+        Gson gson = new Gson();
+        solutionDetailJavaBean = gson.fromJson(response, SolutionDetailJavaBean.class);
+        echo = solutionDetailJavaBean.getEcho();
+    }
+
     public boolean isTreeNodeDownloaded(Long parentID) {
         return databaseService.isTreeNodeDownloaded(parentID);
     }
@@ -91,5 +112,25 @@ public class OJService {
         echo = -1;
         databaseService.dropTable();
         databaseService.createTable();
+    }
+
+    public SolutionList[] getSolutionLists() {
+        return solutionLists;
+    }
+
+    public Integer getEcho() {
+        return echo;
+    }
+
+    public void setEcho(Integer echo) {
+        this.echo = echo;
+    }
+
+    public String getResponse() {
+        return response;
+    }
+
+    public SolutionDetailJavaBean getSolutionDetailJavaBean() {
+        return solutionDetailJavaBean;
     }
 }

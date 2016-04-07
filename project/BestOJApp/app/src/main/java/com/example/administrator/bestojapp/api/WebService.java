@@ -39,4 +39,10 @@ public interface WebService {
 
     @Get("/GetProblemByProblemId?token={token}&problemId={problemId}")
     String getProblemByProblemId(String token, Long problemId);
+
+    @Get("/GetListOfUserByProblemId?token={token}&problemId={problemId}")
+    String getListOfUserByProblemId(String token, Long problemId);
+
+    @Get("/GetBySolutionId?token={token}&solutionId={solutionId}")
+    String getBySolutionId(String token, Long solutionId);
 }

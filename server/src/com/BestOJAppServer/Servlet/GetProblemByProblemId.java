@@ -1,7 +1,6 @@
 package com.BestOJAppServer.Servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -10,6 +9,10 @@ import javax.servlet.http.HttpServletResponse;
 
 public class GetProblemByProblemId extends HttpServlet {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	String url = "http://acm.scau.edu.cn:8000/uoj/app_common_problem_getProblemByProblemId.html";
 	String token = null;
 	String problemId = null;

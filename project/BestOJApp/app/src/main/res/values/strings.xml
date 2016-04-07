@@ -3,6 +3,7 @@
     <string name="hint_username">用户名</string>
     <string name="hint_password">密码</string>
     <string name="login">登陆</string>
+    <string name="login_register">登陆/注册</string>
     <string name="register">注册用户</string>
     <string name="testlogin">测试是否登陆成功</string>
     <string name="logout">退出登陆</string>
@@ -29,5 +30,11 @@
     <string name="problem_tip">提示</string>
     <string name="problem_discuss">讨论</string>
     <string name="problem_solution">提交记录</string>
+    <string name="running_time">运行时间:</string>
+    <string name="running_memory">运行内存:</string>
+    <string name="judgement_result">评判结果:</string>
+    <string name="submit_time">提交时间:</string>
+    <string name="detail">详细信息</string>
+    <string name="code">代码</string>
     <string name="space">" "</string>
 </resources>

@@ -37,9 +37,9 @@ public class ResideMenuGeneral implements View.OnClickListener{
         if(view == itemProblem) {
             MainActivity.actionStart(context);
         } else if(view == itemUser) {
-
+            UserActivity.actionStart(context);
         } else if(view == itemSetting) {
-
+            SettingsActivity.actionStart(context);
         }
         resideMenu.closeMenu();
     }

@@ -41,7 +41,7 @@ public class UserManager {
 		boolean flag = false;
 		int result = 0;
 		if(isUserNameValid(userNameString) && ispasswordValid(passwordString)) {
-			String sqlString = "insert into `User`(`userName`, `password`) values('" + userNameString + "', '" + passwordString + "');";
+			String sqlString = "insert into `User`(`userName`, `password`, `credit`) values('" + userNameString + "', '" + passwordString + "', 0);";
 			result = databaseController.update(sqlString);
 			if(result == 1) {
 				flag = true;
