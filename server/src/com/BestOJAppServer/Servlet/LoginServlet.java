@@ -35,7 +35,8 @@ public class LoginServlet extends HttpServlet {
 		String passwordString = request.getParameter("password");
 		String JSESSIONID = session.getId();
 		if(userManager.isUserExist(userNameString, passwordString)) {
-			Cookie cookie = new Cookie("JSESSIONID", JSESSIONID);
+			int userId = userManager.getUserIdByUsername(userNameString);
+			Cookie cookie = new Cookie("USERID", "" + userId);
 			response.addCookie(cookie);
 			response.getWriter().print("µÇÂ½³É¹¦!");
 			System.out.println(userNameString + "ÒÑµÇÂ½");

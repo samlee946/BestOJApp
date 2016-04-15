@@ -2,6 +2,7 @@ package com.example.administrator.bestojapp.ui;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -82,11 +83,16 @@ public class ProblemActivity extends AppCompatActivity {
     @ViewById(R.id.textViewProblemTip)
     TextView textViewProblemTip;
 
-    @Click({R.id.button_solution_list})
+    @Click({R.id.button_solution_list,
+            R.id.button_discuss})
     void buttonClick(View view) {
         switch (view.getId()) {
             case R.id.button_solution_list: {
                 SolutionListActivity.actionStart(ProblemActivity.this, 1, problemId);
+                break;
+            }
+            case R.id.button_discuss: {
+                DiscussActivity.actionStart(ProblemActivity.this, problemId);
                 break;
             }
         }
@@ -104,13 +110,13 @@ public class ProblemActivity extends AppCompatActivity {
             textViewProblemTitle.setText(problem.getTitle());
             textViewTimeLimit.setText("" + problem.getTimeLimit());
             textViewMemoryLimit.setText("" + problem.getMemoryLimit());
-            textViewProblemDescription.setText(problem.getDescription());
-            textViewProblemInput.setText(problem.getInput());
-            textViewProblemOutput.setText(problem.getOutput());
-            textViewProblemSampleInput.setText(problem.getSampleInput());
-            textViewProblemSampleOutput.setText(problem.getSampleOutput());
-            textViewProblemSource.setText(problem.getSource());
-            textViewProblemTip.setText(problem.getTip());
+            textViewProblemDescription.setText(Html.fromHtml(problem.getDescription()));
+            textViewProblemInput.setText(Html.fromHtml(problem.getInput()));
+            textViewProblemOutput.setText(Html.fromHtml(problem.getOutput()));
+            textViewProblemSampleInput.setText(Html.fromHtml(problem.getSampleInput()));
+            textViewProblemSampleOutput.setText(Html.fromHtml(problem.getSampleOutput()));
+            textViewProblemSource.setText(Html.fromHtml(problem.getSource()));
+            textViewProblemTip.setText(Html.fromHtml(problem.getTip()));
         }
     }
 

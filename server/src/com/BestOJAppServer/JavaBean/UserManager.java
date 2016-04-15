@@ -37,6 +37,17 @@ public class UserManager {
 		return flag;
 	}
 	
+	public boolean isUserExist(String userId) {
+		boolean flag = false;
+		int cnt = 0;
+		String sqlString = "select * from `User` where `id` = '" + userId + "';";
+		cnt = databaseController.queryCount(sqlString);
+		if(cnt == 1) {
+			flag = true;
+		}
+		return flag;
+	}
+	
 	public boolean createUser(String userNameString, String passwordString) {
 		boolean flag = false;
 		int result = 0;
@@ -48,5 +59,13 @@ public class UserManager {
 			}
 		}
 		return flag;
+	}
+	
+	public int getUserIdByUsername(String username) {
+		int ret = 1;
+		String sqlString = "select `id` from `User` where `userName` = " + username + ";";
+		databaseController.query(sqlString, 2);
+		ret = databaseController.getUserId();
+		return ret;
 	}
 }

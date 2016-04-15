@@ -8,6 +8,10 @@ import java.sql.SQLException;
 
 public class DatabaseController {
 	
+	private String responseString;
+	
+	private Integer userId;
+	
 	public Connection getConnection() {
 		Connection connection = null;
 		try {
@@ -23,13 +27,63 @@ public class DatabaseController {
 		return connection;
 	}
 	
-	public ResultSet query(String sqlString) {
+	public ResultSet query(String sqlString, int type) {
 		Connection connection = getConnection();
 		ResultSet resultSet = null;
 		Statement statement = null;
 		try {
 			statement = connection.createStatement();
 			resultSet = statement.executeQuery(sqlString);
+			if(type == 1) {
+				responseString = "{\"discussJavaBeans\":";
+				
+				boolean flag = false;
+
+				try {
+					while(resultSet.next()) {
+						if(!flag) {
+							responseString += "[";
+							flag = true;
+						}
+						else responseString += ",";
+						responseString += "{\"id\":";
+						responseString += resultSet.getInt(1);
+						responseString += ",\"title\":";
+						responseString += "\"";
+						responseString += resultSet.getString(2);
+						responseString += "\"";
+						responseString += ",\"content\":";
+						responseString += "\"";
+						responseString += resultSet.getString(3);
+						responseString += "\"";
+						responseString += ",\"postTime\":";
+						responseString += "\"";
+						responseString += resultSet.getString(4);
+						responseString += "\"";
+						responseString += ",\"problemId\":";
+						responseString += resultSet.getLong(5);
+						responseString += ",\"userID\":";
+						responseString += resultSet.getInt(6);
+						responseString += "}";
+					}
+					resultSet.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				if(flag) {
+					responseString += "]";
+					responseString += ",\"echo\":0}";
+				}
+				else {
+					responseString += ",\"echo\":2}";
+				}
+			}
+			else if(type == 2) {
+				while(resultSet.next()) {
+					userId = resultSet.getInt(1);
+				}
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -97,4 +151,22 @@ public class DatabaseController {
 		}
 		return result;
 	}
+
+	public String getResponseString() {
+		return responseString;
+	}
+
+	public void setResponseString(String responseString) {
+		this.responseString = responseString;
+	}
+
+	public Integer getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
+	
+	
 }

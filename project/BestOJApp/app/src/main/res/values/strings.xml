@@ -29,6 +29,9 @@
     <string name="problem_source">来源</string>
     <string name="problem_tip">提示</string>
     <string name="problem_discuss">讨论</string>
+    <string name="post_discuss">发表讨论</string>
+    <string name="post">发表</string>
+    <string name="cancel">取消</string>
     <string name="problem_solution">提交记录</string>
     <string name="running_time">运行时间:</string>
     <string name="running_memory">运行内存:</string>
@@ -36,5 +39,10 @@
     <string name="submit_time">提交时间:</string>
     <string name="detail">详细信息</string>
     <string name="code">代码</string>
+    <string name="post_times">发帖数量</string>
+    <string name="good_post_times">精华帖数量</string>
+    <string name="last_time_signin">上次签到时间</string>
+    <string name="discuss_title">标题:</string>
+    <string name="discuss_content">正文:</string>
     <string name="space">" "</string>
 </resources>

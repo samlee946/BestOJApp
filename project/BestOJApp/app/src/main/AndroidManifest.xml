@@ -27,7 +27,9 @@
         <activity android:name=".ui.SolutionListActivity_" />
         <activity android:name=".ui.SolutionDetailActivity_" />
         <activity android:name=".ui.SettingsActivity_" />
-        <activity android:name=".ui.UserActivity_"></activity>
+        <activity android:name=".ui.UserActivity_" />
+        <activity android:name=".ui.PostActivity_" />
+        <activity android:name=".ui.DiscussActivity_"></activity>
     </application>
 
 </manifest>

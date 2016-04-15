@@ -3,6 +3,8 @@ package com.example.administrator.bestojapp.api;
 import android.content.Context;
 
 import com.example.TreeNode2;
+import com.example.administrator.bestojapp.Bean.DiscussJavaBean;
+import com.example.administrator.bestojapp.Bean.Discusses;
 import com.example.administrator.bestojapp.Bean.OJTreeNodeJavaBean;
 import com.example.administrator.bestojapp.Bean.SolutionDetailJavaBean;
 import com.example.administrator.bestojapp.Bean.SolutionList;
@@ -35,6 +37,8 @@ public class OJService {
     private SolutionList[] solutionLists;
 
     private SolutionDetailJavaBean solutionDetailJavaBean;
+
+    private Discusses discusses;
 
     WebService webService;
 
@@ -75,6 +79,7 @@ public class OJService {
     public Integer getProblemByProblemId(Long problemId)
             throws HttpClientErrorException, ResourceAccessException, HttpServerErrorException {
         synchronized (this) {
+            this.echo = -1;
             response = webService.getProblemByProblemId(token, problemId);
             Gson gson = new Gson();
             Problem problem = gson.fromJson(response, Problem.class);
@@ -84,6 +89,7 @@ public class OJService {
     }
 
     public void getListOfUserByProblemId(Long problemId) {
+        this.echo = -1;
         response = webService.getListOfUserByProblemId(token, problemId);
         Gson gson = new Gson();
         SolutionListJavaBean solutionListJavaBean = gson.fromJson(response, SolutionListJavaBean.class);
@@ -94,10 +100,23 @@ public class OJService {
     }
 
     public void getBySolutionId(Long solutionId) {
+        this.echo = -1;
         response = webService.getBySolutionId(token, solutionId);
         Gson gson = new Gson();
         solutionDetailJavaBean = gson.fromJson(response, SolutionDetailJavaBean.class);
         echo = solutionDetailJavaBean.getEcho();
+    }
+
+    public void getDiscussByProblemId(Long problemID) {
+        this.echo = -1;
+        response = webService.getDiscussByProblemId(problemID);
+        Gson gson = new Gson();
+        discusses = gson.fromJson(response, Discusses.class);
+        echo = discusses.getEcho();
+    }
+
+    public boolean isDiscussDownloaded() {
+        return echo == 0;
     }
 
     public boolean isTreeNodeDownloaded(Long parentID) {
@@ -132,5 +151,9 @@ public class OJService {
 
     public SolutionDetailJavaBean getSolutionDetailJavaBean() {
         return solutionDetailJavaBean;
+    }
+
+    public Discusses getDiscusses() {
+        return discusses;
     }
 }

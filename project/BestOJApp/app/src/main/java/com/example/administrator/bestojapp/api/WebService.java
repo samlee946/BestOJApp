@@ -22,16 +22,16 @@ public interface WebService {
     String register(String username, String password);
 
     @Post("/LoginServlet?username={username}&password={password}")
-    @SetsCookie("JSESSIONID")
+    @SetsCookie("USERID")
     String login(String username, String password);
 
     @Get("/TestLoginServlet")
-    @RequiresCookie("JSESSIONID")
+    @RequiresCookie("USERID")
     String testLogin();
 
     @Get("/LogoutServlet")
-    @RequiresCookie("JSESSIONID")
-    @SetsCookie("JSESSIONID")
+    @RequiresCookie("USERID")
+    @SetsCookie("USERID")
     String logout();
 
     @Get("/GetOffspringByParentId?token={token}&parentId={parentId}")
@@ -45,4 +45,11 @@ public interface WebService {
 
     @Get("/GetBySolutionId?token={token}&solutionId={solutionId}")
     String getBySolutionId(String token, Long solutionId);
+
+    @Get("/GetDiscussByProblemId?problemId={problemId}")
+    String getDiscussByProblemId(Long problemId);
+
+    @Get("/PostDiscuss?title={title}&content={content}&problemId={problemId}")
+    @RequiresCookie("USERID")
+    String postDiscuss(String title, String content, Long problemId);
 }

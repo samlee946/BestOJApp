@@ -65,7 +65,7 @@ public class LogoutServlet extends HttpServlet {
 		boolean flag = true;
 		if(cookies != null) {
 			for(Cookie cookie : cookies) {
-				if(cookie.getName().equals("JSESSIONID") && cookie.getValue().equals("null")) {
+				if(cookie.getName().equals("USERID") && cookie.getValue().equals("null")) {
 					flag = false;
 				}
 				cookie.setMaxAge(0);

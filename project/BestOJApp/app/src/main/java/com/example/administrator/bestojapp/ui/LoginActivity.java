@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.example.administrator.bestojapp.R;
 import com.example.administrator.bestojapp.api.WebService;
+import com.example.administrator.bestojapp.impl.UserManager;
 import com.github.ybq.android.spinkit.style.FadingCircle;
 import com.special.ResideMenu.ResideMenu;
 
@@ -95,6 +96,8 @@ public class LoginActivity extends AppCompatActivity {
         usernameString  = editTextUsername.getText().toString();
         passwordString = editTextPassword.getText().toString();
         responseString  = webService.login(usernameString, passwordString);
+        UserManager.getInstance().setUserName(usernameString);
+        UserManager.getInstance().setPasswd(passwordString);
         if(responseString.length() > 2) toastShort(responseString);
     }
 

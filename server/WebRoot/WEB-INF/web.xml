@@ -118,8 +118,26 @@
     <servlet-name>GetListOfUserByProblemId</servlet-name>
     <servlet-class>com.BestOJAppServer.Servlet.GetListOfUserByProblemId</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>GetDiscussByProblemId</servlet-name>
+    <servlet-class>com.BestOJAppServer.Servlet.GetDiscussByProblemId</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>PostDiscuss</servlet-name>
+    <servlet-class>com.BestOJAppServer.Servlet.PostDiscuss</servlet-class>
+  </servlet>
+
+
   <servlet-mapping>
     <servlet-name>GetListOfUserByProblemId</servlet-name>
     <url-pattern>/GetListOfUserByProblemId</url-pattern>
   	</servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>GetDiscussByProblemId</servlet-name>
+    <url-pattern>/GetDiscussByProblemId</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>PostDiscuss</servlet-name>
+    <url-pattern>/PostDiscuss</url-pattern>
+  </servlet-mapping>
 </web-app>
