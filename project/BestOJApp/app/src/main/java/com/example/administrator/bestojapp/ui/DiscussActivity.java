@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -22,12 +23,14 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.rest.RestService;
 
 import java.util.ArrayList;
 import java.util.List;
 import android.view.ContextMenu;
+import android.widget.Toast;
 
 @EActivity(R.layout.activity_discuss)
 public class DiscussActivity extends AppCompatActivity {
@@ -96,6 +99,23 @@ public class DiscussActivity extends AppCompatActivity {
                    /* Add as many context-menu-options as you want to. */
             }
         });
+    }
+
+    public boolean onContextItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case 0:
+                break;
+            case 1:
+                toast("删除");
+                break;
+            case 2:
+                break;
+        }
+    }
+
+    @UiThread
+    void toast(String str) {
+        Toast.makeText(DiscussActivity.this, str, Toast.LENGTH_SHORT).show();
     }
 
     @Override

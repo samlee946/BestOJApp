@@ -20,7 +20,7 @@ public interface WebService {
 
     @Post("/RegisterServlet?username={username}&password={password}")
     String register(String username, String password);
-
+    
     @Post("/LoginServlet?username={username}&password={password}")
     @SetsCookie("USERID")
     String login(String username, String password);

@@ -1,0 +1,212 @@
+<%@ include file="/common/taglibs.jsp"%>
+
+<head>
+    <title><fmt:message key="userProfile.title"/></title>
+    <meta name="heading" content="<fmt:message key='userProfile.heading'/>"/>
+    <script type="text/javascript" src="<c:url value='/scripts/selectbox.js'/>"></script>
+</head>
+ 
+<s:form name="userForm" action="user_user_edit_Submit_PUBLIC" method="post" validate="true">
+    <li style="display: none">
+        <s:hidden key="user.id"/>
+        <s:hidden key="user.version"/>
+        <s:hidden key="user.oldPassword"/>
+        <c:if test="${!currentUser.administrator}">
+            <s:hidden key="user.enabled"/>
+        </c:if>
+        <input type="hidden" name="from" value="${param.from}"/>
+
+        <c:if test="${cookieLogin == 'true'}">
+            <s:hidden key="user.password"/>
+            <s:hidden key="user.confirmPassword"/>
+        </c:if>
+
+        <s:if test="user.version == null">
+            <input type="hidden" name="encryptPass" value="true" />
+        </s:if>
+    </li>
+    <li class="buttonBar right">
+        <c:set var="buttons">
+            <s:submit key="button.save" onclick="onFormSubmit(this.form)"/>
+            
+            <c:if test="${param.from == 'list' and not empty user.id}">
+                <s:submit key="button.delete" method="delete" onclick="return confirmDelete('user')"/>
+            </c:if>
+        
+            <s:submit key="button.cancel" method="cancel"/>
+        </c:set>
+    </li>
+    <li class="info">
+        <c:choose>
+            <c:when test="${param.from == 'list'}">
+                <p><fmt:message key="userProfile.admin.message"/></p>
+            </c:when>
+            <c:otherwise>
+                <p><fmt:message key="userProfile.message"/></p>
+            </c:otherwise>
+        </c:choose>
+    </li>
+
+   <table width=380 style="margin: 0pt -2pt"><tr>
+   		<td width=50%>
+	    <c:if test="${currentUser.administrator}">
+    		<s:textfield key="user.username" cssClass="text medium" required="true"/>
+	    </c:if>
+	    <c:if test="${!currentUser.administrator}">
+    		<s:textfield key="user.username" cssClass="text medium" required="true" disabled="true" cssStyle="background:#E0E0E0;"/>
+	    </c:if>
+   		</td>
+   		<td width=50%>
+   		</td>
+   	</tr><tr>
+   		<td width=50%>
+   		</td>
+   		<td width=50%>
+   		</td>
+   	</tr></table>
+
+    <c:if test="${cookieLogin != 'true'}">
+    <table width=380 style="margin: 0pt -2pt">
+    	<tr>
+	   		<td width=50%>
+	           <s:password key="user.password" showPassword="true" theme="xhtml" required="true" 
+	               cssClass="text medium" onchange="passwordChanged(this)"/>
+	   		</td>
+	   		<td width=50%>
+	           <s:password key="user.confirmPassword" theme="xhtml" required="true" 
+	               showPassword="true" cssClass="text medium" onchange="passwordChanged(this)"/>
+	   		</td>
+   		</tr><tr>
+   			<td>
+                            <c:if test="${currentUser.administrator}">
+                            <table><tr><td><font color="blue"><b>
+                                       <fmt:message key="user.enabled"/>&nbsp;&nbsp;&nbsp;
+                                    </b></font></td><td>
+                            <s:checkbox name="user.enabled"/>
+                            </td></tr></table>
+                            </c:if>
+			</td>
+   			<td>
+                            <c:choose>
+                                <c:when test="${currentUser.administrator}">
+                                    <table><tr><td><font color="blue"><b>
+                                           <fmt:message key="user.grade"/>
+                                    </b></font></td><td>
+                                    <s:textfield name="user.grade" required="false" cssClass="text small"/>
+                                    </td></tr></table>
+                                </c:when>
+                                <c:otherwise>
+                                    <s:hidden key="user.grade"/>
+                                </c:otherwise>
+                            </c:choose>
+			</td>
+	   	</tr>
+   	</table>
+    </c:if>
+
+    <table width=380 style="margin: 0pt -2pt;background-color:#E0E0E0;">
+    	<tr>
+   			<td colspan=4>
+   	 			<s:textfield key="user.school" required="false" cssClass="text large"/>
+   			</td>
+   		</tr><tr>
+	   		<td width=50% colspan=2>
+	             <s:textfield key="user.className" theme="xhtml" required="false" cssClass="text medium"/>
+	   		</td>
+	   		<td width=50% colspan=2>
+	             <s:textfield key="user.studentNumber" theme="xhtml" required="false" cssClass="text medium"/>
+	   		</td>
+   		</tr><tr>
+	   		<td width=25% colspan=1>
+	             <s:textfield key="user.lastName" theme="xhtml" required="false" cssClass="text small"/>
+                        </td>
+	   		<td width=25% colspan=1>
+	             <s:textfield key="user.firstName" theme="xhtml" required="false" cssClass="text small"/>
+	   		</td>
+	   		<td width=50% colspan=2>
+	             <s:textfield key="user.nick" theme="xhtml" required="false" cssClass="text medium"/>
+	   		</td>
+	   	</tr><tr>
+	   		<td width=50% colspan=2>
+                            <c:choose>
+                                <c:when test="${!currentUser.administrator && !currentUser.exerciseAdministrator && !currentUser.contestAdministrator && user.email!=null && user.email!=''}">
+                                    <s:textfield key="user.email" theme="xhtml" required="false" cssClass="text medium" disabled="true" cssStyle="background:#E0E0E0;"/>
+                                </c:when>
+                                <c:otherwise>
+                                    <s:textfield key="user.email" theme="xhtml" required="false" cssClass="text medium"/>
+                                </c:otherwise>
+                            </c:choose>
+	   		</td>
+	   		<td width=50% colspan=2>
+	                <s:textfield key="user.phoneNumber" theme="xhtml" cssClass="text medium"/>
+	   		</td>
+   		</tr><tr>
+   			<td colspan=4>
+			    <s:textfield key="user.website" required="false" cssClass="text large"/>
+   			</td>
+	   	</tr>
+   	</table>
+
+<c:choose>
+    <c:when test="${currentUser.administrator}">
+    <li>
+        <fieldset>
+            <legend><fmt:message key="userProfile.assignRoles"/></legend>
+            <table class="pickList">
+                <tr>
+                    <th class="pickLabel">
+                        <label class="required"><fmt:message key="user.availableRoles"/></label>
+                    </th>
+                    <td></td>
+                    <th class="pickLabel">
+                        <label class="required"><fmt:message key="user.roles"/></label>
+                    </th>
+                </tr>
+                <c:set var="leftList" value="${availableRoles}" scope="request"/>
+                <s:set name="rightList" value="user.roleList" scope="request"/>
+                <c:import url="/WEB-INF/pages/pickList.jsp">
+                    <c:param name="listCount" value="1"/>
+                    <c:param name="leftId" value="availableRoles"/>
+                    <c:param name="rightId" value="userRoles"/>
+                </c:import>
+            </table>
+        </fieldset>
+    </li>
+    </c:when>
+    <c:otherwise>
+    <li>
+        <strong><fmt:message key="user.roles"/>:</strong>
+        <s:iterator value="user.roleList" status="status">
+          <s:property value="name"/><s:if test="!#status.last">,</s:if>
+          <input type="hidden" name="userRoles" value="<s:property value="name"/>"/>
+        </s:iterator>
+    </li>
+    </c:otherwise>
+</c:choose>
+    <li class="buttonBar bottom">
+    	<p align=center><c:out value="${buttons}" escapeXml="false"/></p>
+    </li>
+</s:form>
+
+<script type="text/javascript">
+    Form.focusFirstElement(document.forms["userForm"]);
+    highlightFormElements();
+
+    function passwordChanged(passwordField) {
+        if (passwordField.name == "user.password") {
+            var origPassword = "<s:property value="user.password"/>";
+        } else if (passwordField.name == "user.confirmPassword") {
+            var origPassword = "<s:property value="user.confirmPassword"/>";
+        }
+        
+        if (passwordField.value != origPassword) {
+            createFormElement("input", "hidden",  "encryptPass", "encryptPass",
+                              "true", passwordField.form);
+        }
+    }
+
+<!-- This is here so we can exclude the selectAll call when roles is hidden -->
+function onFormSubmit(theForm) {
+    selectAll('userRoles');
+}
+</script>

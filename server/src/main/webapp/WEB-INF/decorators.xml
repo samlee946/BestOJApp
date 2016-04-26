@@ -1,0 +1,25 @@
+<decorators defaultdir="/decorators">
+    <excludes>
+        <pattern>/40*.jsp</pattern>
+        <pattern>/*ajax=true*</pattern>
+        <pattern>/scripts/dojo/*</pattern>
+        <pattern>/struts/dojo/*</pattern> 
+        <pattern>/resources/*</pattern>
+        <pattern>/public/*</pattern>
+        <pattern>/*mainFrame.jsp*</pattern>
+        <pattern>/*header.jsp*</pattern>
+        <pattern>/*lefter.jsp*</pattern>
+        <pattern>/*footer.jsp*</pattern>
+        <pattern>*appUser*</pattern>
+    </excludes> 
+    <decorator name="default" page="default.jsp">
+        <excludes>
+            <pattern>/login.jsp</pattern>
+            <pattern>*appUser*</pattern>
+        </excludes>
+        <pattern>/*</pattern>
+    </decorator>
+    <decorator name="login_decorator" page="login_decorator.jsp">
+        <pattern>/login.jsp</pattern>
+    </decorator>
+</decorators>

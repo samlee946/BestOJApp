@@ -9,6 +9,8 @@
 * android studio 1.5.1  
 * gradle 2.8  
 * Droid4X模拟器
+* Eclipse Java EE IDE Helios Service Release 1  
+* Tomcat 7.0.69  
 
 # 目录结构
 ---
@@ -36,3 +38,4 @@ server 	存放刷题宝服务器的项目
 4/6		完成获取题目树功能 完成获取题目信息功能  
 4/8		完成获取提交记录列表功能 完成获取提交记录详情功能  
 4/14	完成讨论功能  
+4/26	完成原服务器端的servlet迁移(已完成3/总共11)  

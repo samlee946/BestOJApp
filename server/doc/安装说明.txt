@@ -1,0 +1,11 @@
+运行要求：
+Tomcat
+Mysql
+
+开发要求：
+eclipse
+
+将database中的myproject解压到mysql的data目录下
+
+管理员admin
+密码admin
