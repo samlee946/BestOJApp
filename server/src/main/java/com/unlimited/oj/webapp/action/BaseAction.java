@@ -16,6 +16,8 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.unlimited.appserver.service.AppUserManager;
+import com.unlimited.appserver.service.DiscussManager;
 import com.unlimited.oj.Constants;
 import com.unlimited.oj.model.User;
 import com.unlimited.oj.service.LoginLogManager;
@@ -66,6 +68,8 @@ public class BaseAction extends ActionSupport implements Preparable
     protected LoginLogManager loginLogManager;
     protected UserManager userManager;
     protected RoleManager roleManager;
+    protected AppUserManager appUserManager;
+    protected DiscussManager discussManager;
 	/**
      * Indicator if the user clicked cancel
      */
@@ -463,5 +467,37 @@ public class BaseAction extends ActionSupport implements Preparable
 
 	public void setDownloadFolder(String downloadFolder) {
 		this.downloadFolder = downloadFolder;
+	}
+
+
+	/**
+	 * @return the appUserManager
+	 */
+	public AppUserManager getAppUserManager() {
+		return appUserManager;
+	}
+
+
+	/**
+	 * @param appUserManager the appUserManager to set
+	 */
+	public void setAppUserManager(AppUserManager appUserManager) {
+		this.appUserManager = appUserManager;
+	}
+
+
+	/**
+	 * @return the discussManager
+	 */
+	public DiscussManager getDiscussManager() {
+		return discussManager;
+	}
+
+
+	/**
+	 * @param discussManager the discussManager to set
+	 */
+	public void setDiscussManager(DiscussManager discussManager) {
+		this.discussManager = discussManager;
 	}
 }

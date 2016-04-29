@@ -96,4 +96,21 @@
             <value description="test_id">1</value>
         </row>
     </table>
+    <table name="app_users">
+        <column>id</column>
+        <column>userName</column>
+        <column>password</column>
+        <column>token</column>
+        <column>credit</column>
+        <column>lastTimeLogin</column>
+        <column>lastTimeSign</column>
+    </table>
+    <table name="discuss">
+        <column>id</column>
+        <column>discussTitle</column>
+        <column>discussContent</column>
+        <column>discussDate</column>
+        <column>problemID</column>
+        <column>userID</column>
+    </table>
 </dataset>

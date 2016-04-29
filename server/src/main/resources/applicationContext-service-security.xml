@@ -27,5 +27,6 @@
     <bean id="roleManager" class="com.unlimited.oj.service.impl.RoleManagerImpl">
         <property name="roleDao" ref="roleDao"/>
     </bean>
+    
 
 </beans>

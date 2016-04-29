@@ -12,20 +12,20 @@ import org.springframework.http.converter.json.GsonHttpMessageConverter;
 /**
  * Created by Administrator on 2016/3/26 0026.
  */
-@Rest(rootUrl = "http://192.168.209.1:8080/BestOJAppServer", converters = { GsonHttpMessageConverter.class } )
+@Rest(rootUrl = "http://192.168.209.1:8080/myproject", converters = { GsonHttpMessageConverter.class } )
 public interface WebService {
 
-    @Get("/CheckNetwork")
+    @Get("/appUser_user_CheckNetwork_PUBLIC.html")
     String checkNetwork();
 
-    @Post("/RegisterServlet?username={username}&password={password}")
+    @Post("/appUser_user_Register_PUBLIC.html?username={username}&password={password}")
     String register(String username, String password);
     
-    @Post("/LoginServlet?username={username}&password={password}")
+    @Post("/appUser_user_login_PUBLIC.html?username={username}&password={password}")
     @SetsCookie("USERID")
     String login(String username, String password);
 
-    @Get("/TestLoginServlet")
+    @Get("/appUser_user_testLogin_PUBLIC.html")
     @RequiresCookie("USERID")
     String testLogin();
 
@@ -34,22 +34,25 @@ public interface WebService {
     @SetsCookie("USERID")
     String logout();
 
-    @Get("/GetOffspringByParentId?token={token}&parentId={parentId}")
+    @Get("/appUser_user_GetOffspringByParentId_PUBLIC.html?token={token}&parentId={parentId}")
     String getOffspringByParentId(String token, Long parentId);
 
-    @Get("/GetProblemByProblemId?token={token}&problemId={problemId}")
+    @Get("/appUser_user_GetProblemByProblemId_PUBLIC.html?token={token}&problemId={problemId}")
     String getProblemByProblemId(String token, Long problemId);
 
-    @Get("/GetListOfUserByProblemId?token={token}&problemId={problemId}")
+    @Get("/appUser_user_GetListOfUserByProblemId_PUBLIC.html?token={token}&problemId={problemId}")
     String getListOfUserByProblemId(String token, Long problemId);
 
-    @Get("/GetBySolutionId?token={token}&solutionId={solutionId}")
+    @Get("/appUser_user_GetBySolutionId_PUBLIC.html?token={token}&solutionId={solutionId}")
     String getBySolutionId(String token, Long solutionId);
 
-    @Get("/GetDiscussByProblemId?problemId={problemId}")
+    @Get("/appUser_user_GetDiscussByProblemId_PUBLIC.html?problemId={problemId}")
     String getDiscussByProblemId(Long problemId);
 
-    @Get("/PostDiscuss?title={title}&content={content}&problemId={problemId}")
+    @Get("/appUser_user_PostDiscuss_PUBLIC.html?title={title}&content={content}&problemId={problemId}")
     @RequiresCookie("USERID")
     String postDiscuss(String title, String content, Long problemId);
+
+    @Get("/appUser_user_removeDiscuss_PUBLIC.html?discussId={discussId}")
+    String removeDiscuss(Long discussId);
 }

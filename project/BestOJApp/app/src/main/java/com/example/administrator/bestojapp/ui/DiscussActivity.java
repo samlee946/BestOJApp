@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -106,11 +107,21 @@ public class DiscussActivity extends AppCompatActivity {
             case 0:
                 break;
             case 1:
-                toast("删除");
+                AdapterView.AdapterContextMenuInfo menuInfo;
+                menuInfo = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+                int index = ((DiscussJavaBean)listView.getItemAtPosition((int)menuInfo.id)).getId();
+                removeDiscuss(new Long((long)index));
+                //toast("删除" + ((DiscussJavaBean)listView.getItemAtPosition((int)menuInfo.id)).getId());
                 break;
             case 2:
                 break;
         }
+        return false;
+    }
+
+    @Background
+    void removeDiscuss(Long discussId) {
+        webService.removeDiscuss(discussId);
     }
 
     @UiThread

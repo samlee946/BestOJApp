@@ -27,5 +27,9 @@
     <bean id="roleManager" class="com.unlimited.oj.service.impl.RoleManagerImpl">
         <property name="roleDao" ref="roleDao"/>
     </bean>
+    
+    <bean id="appUserManager" class="com.unlimited.appserver.service.impl.AppUserManagerImpl">
+    	<property name="iAppUserDAO" ref="iAppUserDAO"></property>
+    </bean>
 
 </beans>

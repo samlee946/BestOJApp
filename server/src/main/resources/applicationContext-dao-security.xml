@@ -17,4 +17,6 @@
     <bean id="roleDao" class="com.unlimited.oj.dao.hibernate.RoleDaoHibernate">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
+    
+
 </beans>

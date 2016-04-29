@@ -7,5 +7,7 @@
                  <mapping class="com.unlimited.oj.model.LoginLog"/>
                  <mapping class="com.unlimited.oj.model.User"/>
                  <mapping class="com.unlimited.oj.model.Role"/>
+                 <mapping class="com.unlimited.appserver.model.AppUser"/>
+                 <mapping class="com.unlimited.appserver.model.Discuss"/>
     </session-factory>
 </hibernate-configuration>
