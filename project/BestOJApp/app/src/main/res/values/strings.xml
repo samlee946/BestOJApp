@@ -45,4 +45,9 @@
     <string name="discuss_title">标题:</string>
     <string name="discuss_content">正文:</string>
     <string name="space">" "</string>
+    <string name="title_activity_exam_list">ExamListActivity</string>
+    <string name="begin_time">开始时间</string>
+    <string name="end_time">结束时间</string>
+    <string name="last_time">持续时间</string>
+    <string name="description">描述</string>
 </resources>

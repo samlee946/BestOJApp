@@ -6,6 +6,7 @@ package com.example.administrator.bestojapp.impl;
 public class UserManager {
     private String userName;
     private String passwd;
+    private String token;
 
     private static UserManager userManager = null;
 
@@ -28,5 +29,13 @@ public class UserManager {
 
     public void setPasswd(String passwd) {
         this.passwd = passwd;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Blob;
 import java.util.LinkedList;
 import java.util.List;
@@ -24,6 +26,9 @@ import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpMethod;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.hibernate.Hibernate;
+
+import sun.rmi.runtime.Log;
+import sun.security.provider.MD5;
 
 import com.unlimited.appserver.dao.exception.DiscussNotFoundException;
 import com.unlimited.appserver.model.AppUser;
@@ -42,6 +47,7 @@ import com.unlimited.oj.webapp.filter.URLDistributeFilter;
 import java.io.*;
 import java.util.*;
 import javax.servlet.ServletContext;
+import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
 
 
 /**
@@ -85,8 +91,11 @@ public class AppUserAction extends BaseAction
     /** APP传过来的讨论正文 */
     private String discussContent;
     
-    /** APP传过来的讨论id*/
+    /** APP传过来的讨论id */
     private String discussId;
+    
+    /** APP传过来的试卷id */
+    private String examPaperId;
     
     /** OJ的基础地址 */
     private String url = "http://172.26.14.60:8000/uoj/";
@@ -138,7 +147,9 @@ public class AppUserAction extends BaseAction
 		try {
 			discussId = getRequest().getParameter("discussId");
         } catch (Exception e) { /*not need handle */ }
-        
+		try {
+			examPaperId = getRequest().getParameter("examPaperId");
+        } catch (Exception e) { /*not need handle */ }
         super.prepare();
     }
     
@@ -149,6 +160,14 @@ public class AppUserAction extends BaseAction
      * @return user_echo_PUBLIC.jsp
      */
     public String user_CheckNetwork_PUBLIC() {
+//    	String hex = "1";
+//    	try {
+//			hex = (new HexBinaryAdapter()).marshal(MessageDigest.getInstance("MD5").digest("1".getBytes()));
+//		} catch (NoSuchAlgorithmException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		returnString = hex;
     	returnString = "网络已连接";
     	return "returnAppData";
     }
@@ -307,6 +326,12 @@ public class AppUserAction extends BaseAction
     	return "returnAppData";
     }
     
+    /**
+     * 
+     * @Title: user_PostDiscuss_PUBLIC 
+     * @Description: 发表新的讨论 
+     * @return user_echo_PUBLIC.jsp
+     */
     public String user_PostDiscuss_PUBLIC() {
     	Cookie[] cookies = getRequest().getCookies();
 		boolean flag = false;
@@ -334,14 +359,69 @@ public class AppUserAction extends BaseAction
      * 
      * @Title: user_removeDiscuss_PUBLIC 
      * @Description: 删除讨论 
-     * @param @return
-     * @return String
-     * @throws
+     * @return user_echo_PUBLIC.jsp
      */
     public String user_removeDiscuss_PUBLIC() {
     	discussManager.removeDiscuss(Long.parseLong(discussId));
 		returnString = "删除成功!";
 		return "returnAppData";
+    }
+    
+    /**
+     * 
+     * @Title: user_exam_examPaper_getAllOfUser_PUBLIC 
+     * @Description: 通过用户token取得用户参加的所有考试 
+     * @return user_echo_PUBLIC.jsp
+     */
+    public String user_exam_examPaper_getAllOfUser_PUBLIC() {
+    	String currentURL = "app_exam_examPaper_getAllOfUser.html";//该方法对应OJ API的html
+    	String parameter = "?token=" + token;//需要的参数
+    	try {
+    		System.out.println(url + currentURL + parameter);
+			getResponse().sendRedirect(url + currentURL + parameter);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	return "returnAppData";
+    }
+    
+    /**
+     * 
+     * @Title: user_exam_examPaper_getDetailOfExamPaper 
+     * @Description: 通过试卷编号获取考试详情 
+     * @return user_echo_PUBLIC.jsp
+     */
+    public String user_exam_examPaper_getDetailOfExamPaper_PUBLIC() {
+    	String currentURL = "app_exam_examPaper_getDetailOfExamPaper.html";//该方法对应OJ API的html
+    	String parameter = "?token=" + token + "&examPaperId=" + examPaperId;//需要的参数
+    	try {
+    		System.out.println(url + currentURL + parameter);
+			getResponse().sendRedirect(url + currentURL + parameter);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	return "returnAppData";
+    }
+    
+    /**
+     * 
+     * @Title: user_exam_examSolution_getListOfExamPaper_PUBLIC 
+     * @Description: 通过试卷编号获取提交记录 
+     * @return user_echo_PUBLIC.jsp
+     */
+    public String user_exam_examSolution_getListOfExamPaper_PUBLIC() {
+    	String currentURL = "app_exam_examSolution_getListOfExamPaper.html";//该方法对应OJ API的html
+    	String parameter = "?token=" + token + "&examPaperId=" + examPaperId;//需要的参数
+    	try {
+    		System.out.println(url + currentURL + parameter);
+			getResponse().sendRedirect(url + currentURL + parameter);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	return "returnAppData";
     }
     
     public String getReturnString() {

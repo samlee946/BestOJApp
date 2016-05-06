@@ -55,4 +55,13 @@ public interface WebService {
 
     @Get("/appUser_user_removeDiscuss_PUBLIC.html?discussId={discussId}")
     String removeDiscuss(Long discussId);
+
+    @Get("/appUser_user_exam_examPaper_getAllOfUser_PUBLIC.html?token={token}")
+    String getExamListFromServer(String token);
+
+    @Get("/appUser_user_exam_examPaper_getDetailOfExamPaper_PUBLIC.html?token={token}&examPaperId={examPaperId}")
+    String getExamPaper(String token, Long examPaperId);
+
+    @Get("/appUser_user_exam_examSolution_getListOfExamPaper_PUBLIC.html?token={token}&examPaperId={examPaperId}")
+    String getExamSolution(String token, Long examPaperId);
 }

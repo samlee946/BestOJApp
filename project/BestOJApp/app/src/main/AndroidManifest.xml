@@ -29,7 +29,9 @@
         <activity android:name=".ui.SettingsActivity_" />
         <activity android:name=".ui.UserActivity_" />
         <activity android:name=".ui.PostActivity_" />
-        <activity android:name=".ui.DiscussActivity_"></activity>
+        <activity android:name=".ui.DiscussActivity_" />
+        <activity android:name=".ui.ExamListActivity_" />
+        <activity android:name=".ui.ExamNodeActivity_" />
     </application>
 
 </manifest>

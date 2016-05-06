@@ -8,6 +8,7 @@ public class SolutionList {
     private int result;
     private String submitTime;
     private Long problemId;
+    private Long examProblemId;
     private int runningMemory;
     private int type;
     private int runningTime;
@@ -78,6 +79,14 @@ public class SolutionList {
         this.runningTime = runningTime;
     }
 
+    public Long getExamProblemId() {
+        return examProblemId;
+    }
+
+    public void setExamProblemId(Long examProblemId) {
+        this.examProblemId = examProblemId;
+    }
+
     public String getResultString() {
         String ret = "";
         switch (result) {
@@ -93,7 +102,8 @@ public class SolutionList {
 
     @Override
     public String toString() {
-        return  "提交时间:" + submitTime + " " +
+        return  "题号:" + (problemId == null ? examProblemId : problemId) + " " +
+                "提交时间:" + submitTime + " " +
                 "评判结果:" + getResultString() + " " +
                 "运行时间" + runningTime + "MS " +
                 "运行内存" + runningMemory + "KB ";

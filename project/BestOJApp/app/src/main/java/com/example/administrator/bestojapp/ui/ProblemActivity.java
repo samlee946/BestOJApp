@@ -1,8 +1,11 @@
 package com.example.administrator.bestojapp.ui;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -30,6 +33,8 @@ public class ProblemActivity extends AppCompatActivity {
 
     private Long problemId;
 
+    private Long paperId;
+
     private DatabaseServiceProblem databaseServiceProblem;
 
     private List<Problem> problems;
@@ -37,6 +42,9 @@ public class ProblemActivity extends AppCompatActivity {
     private OJService ojService;
 
     private ResideMenu resideMenu;
+
+    /** type=1时表示是从考试进入的*/
+    private int type = -1;
 
     @RestService
     WebService webService;
@@ -88,7 +96,8 @@ public class ProblemActivity extends AppCompatActivity {
     void buttonClick(View view) {
         switch (view.getId()) {
             case R.id.button_solution_list: {
-                SolutionListActivity.actionStart(ProblemActivity.this, 1, problemId);
+                if(type == 1) SolutionListActivity.actionStart(ProblemActivity.this, 4, problemId, paperId);
+                else SolutionListActivity.actionStart(ProblemActivity.this, 1, problemId, 0L);
                 break;
             }
             case R.id.button_discuss: {
@@ -98,14 +107,39 @@ public class ProblemActivity extends AppCompatActivity {
         }
     }
 
+    public static void actionStart(Context context, Problem problem, Long paperId, Long problemId) {
+        Intent intent = new Intent(context, ProblemActivity_.class);
+        intent.putExtra("problem", problem);
+        intent.putExtra("type", 1);
+        intent.putExtra("paperId", paperId);
+        intent.putExtra("problemId", problemId);
+        context.startActivity(intent);
+    }
+
     @AfterViews
     void init() {
-        if(!ojService.isProblemDownloaded(problemId)) {
-            downloadProblem(problemId);
+        if(type == -1) {
+            if(!ojService.isProblemDownloaded(problemId)) {
+                downloadProblem(problemId);
+            }
+            while(!ojService.isProblemDownloaded(problemId)) ;
+            problems = databaseServiceProblem.searchByProblemId(problemId);
+            for(Problem problem : problems) {
+                textViewProblemID.setText("" + problem.getId());
+                textViewProblemTitle.setText(problem.getTitle());
+                textViewTimeLimit.setText("" + problem.getTimeLimit());
+                textViewMemoryLimit.setText("" + problem.getMemoryLimit());
+                textViewProblemDescription.setText(Html.fromHtml(problem.getDescription()));
+                textViewProblemInput.setText(Html.fromHtml(problem.getInput()));
+                textViewProblemOutput.setText(Html.fromHtml(problem.getOutput()));
+                textViewProblemSampleInput.setText(Html.fromHtml(problem.getSampleInput()));
+                textViewProblemSampleOutput.setText(Html.fromHtml(problem.getSampleOutput()));
+                textViewProblemSource.setText(Html.fromHtml(problem.getSource()));
+                textViewProblemTip.setText(Html.fromHtml(problem.getTip()));
+            }
         }
-        while(!ojService.isProblemDownloaded(problemId)) ;
-        problems = databaseServiceProblem.searchByProblemId(problemId);
-        for(Problem problem : problems) {
+        else if(type == 1) {
+            Problem problem = (Problem) getIntent().getSerializableExtra("problem");
             textViewProblemID.setText("" + problem.getId());
             textViewProblemTitle.setText(problem.getTitle());
             textViewTimeLimit.setText("" + problem.getTimeLimit());
@@ -117,6 +151,7 @@ public class ProblemActivity extends AppCompatActivity {
             textViewProblemSampleOutput.setText(Html.fromHtml(problem.getSampleOutput()));
             textViewProblemSource.setText(Html.fromHtml(problem.getSource()));
             textViewProblemTip.setText(Html.fromHtml(problem.getTip()));
+            problemId = problem.getId();
         }
     }
 
@@ -134,6 +169,12 @@ public class ProblemActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         problemId = getIntent().getLongExtra("problemId", 1001L);
+
+        type = getIntent().getIntExtra("type", -1);
+
+        paperId = getIntent().getLongExtra("paperId", 1L);
+
+        Log.d("Solution", "********" + problemId + " " + type + " " + paperId);
 
         databaseServiceProblem = new DatabaseServiceProblem(ProblemActivity.this);
 
