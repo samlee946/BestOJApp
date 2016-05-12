@@ -11,11 +11,12 @@ import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpMethod;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.struts2.ServletActionContext;
+
+import com.unlimited.appserver.model.User;
 import com.unlimited.oj.Constants;
 import com.unlimited.oj.dao.support.Page;
 import com.unlimited.oj.enums.*;
 import com.unlimited.oj.model.Role;
-import com.unlimited.oj.model.User;
 import com.unlimited.oj.pojo.DataChart;
 import com.unlimited.oj.service.UserExistsException;
 import com.unlimited.oj.util.Tool;
@@ -124,7 +125,7 @@ public class UserAction extends BaseAction
         userManager.removeUser(user.getId().toString());
 
         List<String> args = new ArrayList<String>();
-        args.add(user.getFullName());
+        args.add(user.getUsername());
         saveMessage(getText("user.deleted", args));
 
         user_list_PUBLIC();
@@ -134,13 +135,10 @@ public class UserAction extends BaseAction
     public String user_editProfile_PUBLIC() throws IOException
     {
     	user = getCurrentUser();
-    	
-        user.setOldPassword(user.getPassword()); // set old password =
         // password
 
         if (user.getUsername() != null)
         {
-            user.setConfirmPassword(user.getPassword());
 
             // if user logged in with remember me, display a warning that they
             // can't change passwords
@@ -183,17 +181,14 @@ public class UserAction extends BaseAction
                 !getCurrentUser().isAdministrator() &&
                 !((getCurrentUser().isContestAdministrator() || getCurrentUser().isExerciseAdministrator()) &&
                 !user.isAdministrator() && !user.isContestAdministrator() && !user.isExerciseAdministrator() &&
-                !user.isExamAdministrator() && user.getGrade() < 5000))
+                !user.isExamAdministrator()))
         {
             addActionError("You have no right to edit [" + user.getUsername() + "]");
             return ERROR();
         }
-        user.setOldPassword(user.getPassword()); // set old password =
-        // password
 
         if (user.getUsername() != null)
         {
-            user.setConfirmPassword(user.getPassword());
 
             // if user logged in with remember me, display a warning that they
             // can't change passwords
@@ -265,11 +260,9 @@ public class UserAction extends BaseAction
         {
             List<String> args = new ArrayList<String>();
             args.add(user.getUsername());
-            args.add(user.getEmail());
             addActionError(getText("errors.existing.user", args));
 
             // redisplay the unencrypted passwords
-            user.setPassword(user.getConfirmPassword());
             return INPUT();
         }
         addActionMessage(getText("user.updated"));
@@ -304,7 +297,7 @@ public class UserAction extends BaseAction
                 !getCurrentUser().isAdministrator() &&
                 !((getCurrentUser().isContestAdministrator() || getCurrentUser().isExerciseAdministrator()) &&
                 !user.isAdministrator() && !user.isContestAdministrator() && !user.isExerciseAdministrator() &&
-                !user.isExamAdministrator() && user.getGrade() < 5000)) // Version>=6为校队队员
+                !user.isExamAdministrator())) // Version>=6为校队队员
         {
             addActionError("You have no right to save [" + user.getUsername() + "]");
             return ERROR();
@@ -339,10 +332,10 @@ public class UserAction extends BaseAction
             {
                 if (getRequest().getParameter("user.enabled") != null)
                 {
-                    user.setEnabled(true);
+//                    user.setEnabled(true);
                 } else
                 {
-                    user.setEnabled(false);
+//                    user.setEnabled(false);
                 }
             }
             userManager.saveUser(user);
@@ -357,11 +350,9 @@ public class UserAction extends BaseAction
         {
             List<String> args = new ArrayList<String>();
             args.add(user.getUsername());
-            args.add(user.getEmail());
             addActionError(getText("errors.existing.user", args));
 
             // redisplay the unencrypted passwords
-            user.setPassword(user.getConfirmPassword());
             return INPUT();
         }
         addActionMessage(getText("user.updated"));
@@ -556,20 +547,12 @@ public class UserAction extends BaseAction
             if (user == null)
             {// 创建该帐号
                 user = new User();
-                user.setClassName(className);
                 user.setNick(nick);
-                user.setEmail("");
-                user.setFirstName("");
-                user.setLastName("");
                 user.setPassword(sPass);
-                user.setConfirmPassword(sPass);
-                user.setPhoneNumber("");
-                user.setSchool("");
-                user.setStudentNumber("");
                 user.setUsername(sUserName);
                 user.addRoleList(roleManager.getRole(Constants.USER_ROLE));
-                user.setRegTime(new java.util.Date(System.currentTimeMillis())); // 设置帐号注册时间
-                user.setEnabled(true);
+                //user.setRegTime(new java.util.Date(System.currentTimeMillis())); // 设置帐号注册时间
+//                user.setEnabled(true);
                 try
                 {
                     userManager.saveUser(user);

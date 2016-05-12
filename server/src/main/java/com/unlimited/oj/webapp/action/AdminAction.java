@@ -23,10 +23,10 @@ import org.apache.commons.httpclient.HttpMethod;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.hibernate.Hibernate;
 
+import com.unlimited.appserver.model.User;
 import com.unlimited.oj.Constants;
 import com.unlimited.oj.dao.support.Page;
 import com.unlimited.oj.model.LoginLog;
-import com.unlimited.oj.model.User;
 import com.unlimited.oj.service.UserExistsException;
 import com.unlimited.oj.util.ApplicationConfig;
 import com.unlimited.oj.util.Tool;

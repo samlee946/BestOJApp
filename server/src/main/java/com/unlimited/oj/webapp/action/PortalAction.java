@@ -1,8 +1,8 @@
 package com.unlimited.oj.webapp.action;
 
+import com.unlimited.appserver.model.User;
 import com.unlimited.oj.dao.support.Page;
 import com.unlimited.oj.model.Role;
-import com.unlimited.oj.model.User;
 import com.unlimited.oj.util.ApplicationConfig;
 import com.unlimited.oj.util.Tool;
 import java.io.File;

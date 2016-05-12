@@ -1,10 +1,14 @@
-package com.unlimited.oj.service;
+package com.unlimited.appserver.service;
 
 import java.util.List;
 
 import org.springframework.security.userdetails.UsernameNotFoundException;
-import com.unlimited.oj.dao.UserDao;
-import com.unlimited.oj.model.User;
+
+import com.unlimited.appserver.dao.UserDao;
+import com.unlimited.appserver.dao.exception.UserNotFoundException;
+import com.unlimited.appserver.model.User;
+import com.unlimited.oj.service.GenericManager;
+import com.unlimited.oj.service.UserExistsException;
 
 
 /**
@@ -65,5 +69,28 @@ public interface UserManager extends GenericManager<User, Long> {
      * @param userId the user's id
      */
     void removeUser(String userId);
+    
+    /**
+     * 通过用户名获取用户id
+     * @Title: getUserIdByUsername 
+     * @Description: TODO 
+     * @param @param username
+     * @param @return
+     * @return Long
+     * @throws
+     */
+    public Long getUserIdByUsername(String username);
+	
+    /**
+     * 通过用户名和密码验证用户是否存在
+     * @Title: isUserExist 
+     * @Description: TODO 
+     * @param @param username
+     * @param @param password
+     * @param @return
+     * @return boolean
+     * @throws
+     */
+	public boolean isUserExist(String username, String password);
 
 }

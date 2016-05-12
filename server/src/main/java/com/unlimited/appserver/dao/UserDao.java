@@ -1,8 +1,12 @@
-package com.unlimited.oj.dao;
+package com.unlimited.appserver.dao;
 
 import org.springframework.security.userdetails.UserDetails;
 import org.springframework.security.userdetails.UsernameNotFoundException;
-import com.unlimited.oj.model.User;
+
+import com.unlimited.appserver.dao.exception.UserNotFoundException;
+import com.unlimited.appserver.model.User;
+import com.unlimited.oj.dao.GenericDao;
+
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -54,5 +58,11 @@ public interface UserDao extends GenericDao<User, Long>{
 
     @Transactional
     public User getUserByEmail(String email) throws UsernameNotFoundException;
+    
+    @Transactional
+    public Long getUserIdByUsername(String username) throws UserNotFoundException;
+    
+    @Transactional
+    public boolean isUserExist(String userNameString, String passwordString) throws UserNotFoundException;
 
 }

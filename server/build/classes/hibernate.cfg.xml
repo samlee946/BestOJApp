@@ -5,11 +5,9 @@
     <session-factory>
                  <mapping class="com.unlimited.oj.model.OjTreeNode"/>
                  <mapping class="com.unlimited.oj.model.Role"/>
-                 <mapping class="com.unlimited.oj.model.User"/>
+                 <mapping class="com.unlimited.appserver.model.User"/>
 
                  <mapping class="com.unlimited.oj.model.LoginLog"/>
-
-                 <mapping class="com.unlimited.oj.model.User"/>
                  <mapping class="com.unlimited.oj.model.Role"/>
     </session-factory>
 </hibernate-configuration>

@@ -3,9 +3,8 @@
 
     <persistence-unit name="ApplicationEntityManager" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
-        <class>com.unlimited.oj.model.User</class>
+        <class>com.unlimited.appserver.model.User</class>
         <class>com.unlimited.oj.model.Role</class>
-        <class>com.unlimited.appserver.model.AppUser</class>
         <class>com.unlimited.appserver.model.Discuss</class>
     </persistence-unit>
 

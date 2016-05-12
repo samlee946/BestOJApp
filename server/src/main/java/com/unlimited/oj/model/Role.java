@@ -7,6 +7,8 @@
 package com.unlimited.oj.model;
 
 import javax.persistence.*;
+
+import com.unlimited.appserver.model.User;
 import com.unlimited.oj.model.*;
 import java.util.*;
 import org.springframework.security.GrantedAuthority;

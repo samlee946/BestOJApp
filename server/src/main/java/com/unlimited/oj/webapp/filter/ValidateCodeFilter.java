@@ -4,11 +4,11 @@
  */
 package com.unlimited.oj.webapp.filter;
 
+import com.unlimited.appserver.model.User;
+import com.unlimited.appserver.service.UserManager;
 import com.unlimited.oj.Constants;
 import com.unlimited.oj.dao.LoginLogDao;
 import com.unlimited.oj.model.LoginLog;
-import com.unlimited.oj.model.User;
-import com.unlimited.oj.service.UserManager;
 
 import java.io.IOException;
 import java.util.*;

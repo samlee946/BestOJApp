@@ -10,7 +10,7 @@
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
-    <bean id="userDao" class="com.unlimited.oj.dao.hibernate.UserDaoHibernate">
+    <bean id="userDao" class="com.unlimited.appserver.dao.hibernate.UserDaoHibernate">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 

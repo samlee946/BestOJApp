@@ -31,12 +31,11 @@ import sun.rmi.runtime.Log;
 import sun.security.provider.MD5;
 
 import com.unlimited.appserver.dao.exception.DiscussNotFoundException;
-import com.unlimited.appserver.model.AppUser;
 import com.unlimited.appserver.model.Discuss;
+import com.unlimited.appserver.model.User;
 import com.unlimited.oj.Constants;
 import com.unlimited.oj.dao.support.Page;
 import com.unlimited.oj.model.LoginLog;
-import com.unlimited.oj.model.User;
 import com.unlimited.oj.service.UserExistsException;
 import com.unlimited.oj.util.ApplicationConfig;
 import com.unlimited.oj.util.Tool;
@@ -253,9 +252,9 @@ public class AppUserAction extends BaseAction
     public String user_Register_PUBLIC() {
     	log.debug("Register:" + username + " " + password + " " + token + " ");
     	try {
-    		AppUser user = new AppUser(username, password, token);
-    		if(appUserManager == null) log.debug("-------------------MANAGER NULL------------------");
-			appUserManager.saveAppUser(user);
+    		User user = new User(username, password, token);
+    		if(userManager == null) log.debug("-------------------MANAGER NULL------------------");
+    		userManager.saveUser(user);
 		} catch (UserExistsException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -270,9 +269,9 @@ public class AppUserAction extends BaseAction
      * @return user_echo_PUBLIC.jsp
      */
     public String user_login_PUBLIC() {
-    	Long userId = appUserManager.getUserIdByUsername(username);
+    	Long userId = userManager.getUserIdByUsername(username);
     	System.out.println(userId+username+password+"登陆");
-    	if(appUserManager.isUserExist(username, password)) {
+    	if(userManager.isUserExist(username, password)) {
     		Cookie cookie = new Cookie("USERID", "" + userId);
     		getResponse().addCookie(cookie);
         	returnString = "登陆成功";

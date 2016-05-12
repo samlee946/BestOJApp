@@ -1,5 +1,6 @@
 package com.unlimited.oj.webapp.listener;
 
+import com.unlimited.appserver.model.User;
 import com.unlimited.oj.dao.LoginLogDao;
 import com.unlimited.oj.model.LoginLog;
 import java.util.Set;
@@ -11,7 +12,6 @@ import javax.servlet.ServletContextListener;
 import javax.servlet.http.HttpSessionAttributeListener;
 import javax.servlet.http.HttpSessionBindingEvent;
 
-import com.unlimited.oj.model.User;
 import java.util.Date;
 import org.springframework.security.context.HttpSessionContextIntegrationFilter;
 import org.springframework.security.context.SecurityContext;

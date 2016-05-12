@@ -15,10 +15,6 @@
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
     
-	<bean id="iAppUserDAO" class="com.unlimited.appserver.dao.hibernate.AppUserDaoHibernate">
-        <property name="sessionFactory" ref="sessionFactory"/>
-    </bean>
-    
 	<bean id="iDiscussDAO" class="com.unlimited.appserver.dao.hibernate.DiscussDaoHibernate">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>

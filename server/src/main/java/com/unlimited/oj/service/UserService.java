@@ -1,6 +1,7 @@
 package com.unlimited.oj.service;
 
-import com.unlimited.oj.model.User;
+import com.unlimited.appserver.model.User;
+
 import org.springframework.security.userdetails.UsernameNotFoundException;
 
 import javax.jws.WebService;

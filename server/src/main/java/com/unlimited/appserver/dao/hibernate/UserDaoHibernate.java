@@ -1,10 +1,14 @@
-package com.unlimited.oj.dao.hibernate;
+package com.unlimited.appserver.dao.hibernate;
 
 import org.springframework.security.userdetails.UserDetails;
 import org.springframework.security.userdetails.UserDetailsService;
 import org.springframework.security.userdetails.UsernameNotFoundException;
-import com.unlimited.oj.dao.UserDao;
-import com.unlimited.oj.model.User;
+
+import com.unlimited.appserver.dao.UserDao;
+import com.unlimited.appserver.dao.exception.UserNotFoundException;
+import com.unlimited.appserver.model.User;
+import com.unlimited.oj.dao.hibernate.GenericDaoHibernate;
+
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
@@ -94,6 +98,28 @@ public class UserDaoHibernate extends GenericDaoHibernate<User, Long> implements
 		} else
 		{
 			return (User) users.get(0);
+		}
+	}
+
+	public Long getUserIdByUsername(String username) throws UserNotFoundException {
+		List users = getHibernateTemplate().find("from User where user_name = " + username);
+		if(users == null || users.isEmpty()) {
+			throw new UserNotFoundException("Didn't find user whose username = " + username);
+		}
+		else {
+			User user = (User) users.get(0);
+			return user.getId();
+		}
+	}
+	
+	public boolean isUserExist(String userNameString, String passwordString) throws UserNotFoundException {
+		// TODO Auto-generated method stub
+		List users = getHibernateTemplate().find("from User where user_name = " + userNameString + " and password = " + passwordString);
+		if(users == null || users.isEmpty()) {
+			throw new UserNotFoundException("Didn't find user whose user_name = " + userNameString + " and password = " + passwordString);
+		}
+		else {
+			return true;
 		}
 	}
 

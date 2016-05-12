@@ -16,14 +16,13 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.unlimited.appserver.service.AppUserManager;
+import com.unlimited.appserver.model.User;
 import com.unlimited.appserver.service.DiscussManager;
+import com.unlimited.appserver.service.UserManager;
 import com.unlimited.oj.Constants;
-import com.unlimited.oj.model.User;
 import com.unlimited.oj.service.LoginLogManager;
 import com.unlimited.oj.service.MailEngine;
 import com.unlimited.oj.service.RoleManager;
-import com.unlimited.oj.service.UserManager;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.mail.SimpleMailMessage;
@@ -68,7 +67,6 @@ public class BaseAction extends ActionSupport implements Preparable
     protected LoginLogManager loginLogManager;
     protected UserManager userManager;
     protected RoleManager roleManager;
-    protected AppUserManager appUserManager;
     protected DiscussManager discussManager;
 	/**
      * Indicator if the user clicked cancel
@@ -206,10 +204,10 @@ public class BaseAction extends ActionSupport implements Preparable
     {
         if (log.isDebugEnabled())
         {
-            log.debug("sending e-mail to user [" + user.getEmail() + "]...");
+            log.debug("sending e-mail to user [samlee946@gmail.com]...");
         }
 
-        mailMessage.setTo(user.getUsername() + "<" + user.getEmail() + ">");
+        mailMessage.setTo(user.getUsername() + "<samlee946@gmail.com>");
 
         Map<String, Object> model = new HashMap<String, Object>();
         model.put("user", user);
@@ -467,22 +465,6 @@ public class BaseAction extends ActionSupport implements Preparable
 
 	public void setDownloadFolder(String downloadFolder) {
 		this.downloadFolder = downloadFolder;
-	}
-
-
-	/**
-	 * @return the appUserManager
-	 */
-	public AppUserManager getAppUserManager() {
-		return appUserManager;
-	}
-
-
-	/**
-	 * @param appUserManager the appUserManager to set
-	 */
-	public void setAppUserManager(AppUserManager appUserManager) {
-		this.appUserManager = appUserManager;
 	}
 
 

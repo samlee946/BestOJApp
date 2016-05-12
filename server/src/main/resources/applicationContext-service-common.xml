@@ -15,10 +15,6 @@
         <property name="taskDao" ref="taskDao"/>
     </bean>
     
-    <bean id="appUserManager" class="com.unlimited.appserver.service.impl.AppUserManagerImpl">
-        <property name="iAppUserDAO" ref="iAppUserDAO"/>
-    </bean>
-    
     <bean id="discussManager" class="com.unlimited.appserver.service.impl.DiscussManagerImpl">
         <property name="iDiscussDAO" ref="iDiscussDAO"/>
     </bean>

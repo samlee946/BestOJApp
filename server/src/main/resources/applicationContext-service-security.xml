@@ -19,7 +19,7 @@
         <property name="lookupDao" ref="lookupDao"/>
     </bean>
 
-    <bean id="userManager" class="com.unlimited.oj.service.impl.UserManagerImpl">
+    <bean id="userManager" class="com.unlimited.appserver.service.impl.UserManagerImpl">
         <property name="userDao" ref="userDao"/>
         <property name="passwordEncoder" ref="passwordEncoder"/>
     </bean>
