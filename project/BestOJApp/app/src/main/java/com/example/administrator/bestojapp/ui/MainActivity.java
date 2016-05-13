@@ -21,6 +21,7 @@ import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.rest.RestService;
 
+
 @EActivity(R.layout.activity_main)
 public class MainActivity extends AppCompatActivity{
 

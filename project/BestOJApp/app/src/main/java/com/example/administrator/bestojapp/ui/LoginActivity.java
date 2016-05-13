@@ -28,6 +28,7 @@ import org.androidannotations.annotations.rest.RestService;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.ResourceAccessException;
 
+
 @EActivity(R.layout.activity_login)
 public class LoginActivity extends AppCompatActivity {
 

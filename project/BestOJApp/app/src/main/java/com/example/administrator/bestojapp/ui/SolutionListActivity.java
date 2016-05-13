@@ -12,7 +12,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.administrator.bestojapp.Bean.SolutionList;
 import com.example.administrator.bestojapp.manager.AccessManager;
 import com.example.administrator.bestojapp.web.WebService;
 
@@ -25,6 +24,7 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.rest.RestService;
 
+
 @EActivity(R.layout.activity_solution_list_by_problem)
 public class SolutionListActivity extends AppCompatActivity {
 
@@ -32,7 +32,7 @@ public class SolutionListActivity extends AppCompatActivity {
     private Long id;
     private Long paperId;
 
-    private SolutionList[] solutionLists = null;
+    private database.exam.solution.list.SolutionList[] solutionLists = null;
 
     private AccessManager accessManager;
 
@@ -80,8 +80,8 @@ public class SolutionListActivity extends AppCompatActivity {
             solutionLists = accessManager.getSolutionLists();
         }
         if(accessManager.getEcho() == 0) {
-            ArrayAdapter<SolutionList> adapter = new ArrayAdapter<SolutionList>(SolutionListActivity.this, android.R.layout.simple_list_item_1);
-            for(SolutionList solutionList : solutionLists) {
+            ArrayAdapter<database.exam.solution.list.SolutionList> adapter = new ArrayAdapter<database.exam.solution.list.SolutionList>(SolutionListActivity.this, android.R.layout.simple_list_item_1);
+            for(database.exam.solution.list.SolutionList solutionList : solutionLists) {
                 if(type == 4) {
                     Log.d("Solution", solutionList.getId() + " " + solutionList.getExamProblemId() + " " + id);
                     if(!solutionList.getExamProblemId().equals(id)) {
@@ -98,7 +98,7 @@ public class SolutionListActivity extends AppCompatActivity {
                 listViewSolution.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        SolutionList solutionList = (SolutionList) listViewSolution.getItemAtPosition(position);
+                        database.exam.solution.list.SolutionList solutionList = (database.exam.solution.list.SolutionList) listViewSolution.getItemAtPosition(position);
                         SolutionDetailActivity.actionStart(SolutionListActivity.this, solutionList.getId());
                     }
                 });

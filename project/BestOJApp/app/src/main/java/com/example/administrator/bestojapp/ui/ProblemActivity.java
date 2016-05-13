@@ -11,11 +11,13 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.administrator.bestojapp.R;
 
 import com.example.administrator.bestojapp.manager.AccessManager;
 import com.example.administrator.bestojapp.web.WebService;
+
 import database.problem.Problem;
 import com.special.ResideMenu.ResideMenu;
 
@@ -121,8 +123,10 @@ public class ProblemActivity extends AppCompatActivity {
      */
     @UiThread
     void showProblem() {
+        boolean flag = false;
         if(type == -1) {
             for(Problem problem : problems) {
+                if(problem.getId() != null) flag = true;
                 textViewProblemID.setText("" + problem.getId());
                 textViewProblemTitle.setText(problem.getTitle());
                 textViewTimeLimit.setText("" + problem.getTimeLimit());
@@ -138,6 +142,7 @@ public class ProblemActivity extends AppCompatActivity {
         }
         else if(type == 1) {
             Problem problem = (Problem) getIntent().getSerializableExtra("problem");
+            if(problem.getId() != null) flag = true;
             textViewProblemID.setText("" + problem.getId());
             textViewProblemTitle.setText(problem.getTitle());
             textViewTimeLimit.setText("" + problem.getTimeLimit());
@@ -151,6 +156,15 @@ public class ProblemActivity extends AppCompatActivity {
             textViewProblemTip.setText(Html.fromHtml(problem.getTip()));
             problemId = problem.getId();
         }
+        if(!flag) {
+            toastShort(getString(R.string.fail_loading_problem));
+            this.finish();
+        }
+    }
+
+    @UiThread
+    void toastShort(String msg) {
+        Toast.makeText(ProblemActivity.this, msg, Toast.LENGTH_SHORT).show();
     }
 
     /**

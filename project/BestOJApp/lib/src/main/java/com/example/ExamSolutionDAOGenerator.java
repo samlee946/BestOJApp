@@ -9,7 +9,7 @@ import de.greenrobot.daogenerator.Schema;
  */
 public class ExamSolutionDAOGenerator {
     public static void main(String[] args) throws Exception {
-        Schema schema = new Schema(1, "com.exam.solution");
+        Schema schema = new Schema(1, "database.exam.solution");
         addExamSolution(schema);
         new DaoGenerator().generateAll(schema, "C:\\Users\\Administrator\\Desktop\\Grade3\\GraduateDesign\\BestOJApp\\project\\BestOJApp\\app\\src\\main\\java-gen");
     }

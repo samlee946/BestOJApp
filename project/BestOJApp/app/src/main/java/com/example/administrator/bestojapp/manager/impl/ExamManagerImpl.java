@@ -12,14 +12,14 @@ import com.example.administrator.bestojapp.manager.ExamManager;
  * Created by Administrator on 2016/5/6 0006.
  * 实现DatabaseServiceExam接口
  */
-public class ExamManagerManagerImpl implements ExamManager {
+public class ExamManagerImpl implements ExamManager {
 
     private SQLiteDatabase db;
     private DaoMaster daoMaster;
     private DaoSession daoSession;
     private Context context;
 
-    public ExamManagerManagerImpl(Context context) {
+    public ExamManagerImpl(Context context) {
         this.context = context;
         setupDatabase();
         getExamDao();

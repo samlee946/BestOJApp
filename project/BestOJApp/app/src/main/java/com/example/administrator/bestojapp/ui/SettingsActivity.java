@@ -17,6 +17,7 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.rest.RestService;
 
+
 @EActivity(R.layout.activity_settings)
 public class SettingsActivity extends AppCompatActivity {
 

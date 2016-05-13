@@ -4,14 +4,14 @@ package com.example.administrator.bestojapp.Bean;
  * Created by Administrator on 2016/4/8 0008.
  */
 public class SolutionListJavaBean {
-    private SolutionList[] notes;
+    private database.exam.solution.list.SolutionList[] notes;
     private int echo;
 
-    public SolutionList[] getNotes() {
+    public database.exam.solution.list.SolutionList[] getNotes() {
         return notes;
     }
 
-    public void setNotes(SolutionList[] notes) {
+    public void setNotes(database.exam.solution.list.SolutionList[] notes) {
         this.notes = notes;
     }
 

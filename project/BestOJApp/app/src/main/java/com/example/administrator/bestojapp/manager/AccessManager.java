@@ -1,16 +1,20 @@
 package com.example.administrator.bestojapp.manager;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
+import database.exam.discuss.Discuss;
+import database.exam.solution.Solution;
 import database.example.TreeNode2;
 import com.example.administrator.bestojapp.Bean.Discusses;
 import com.example.administrator.bestojapp.Bean.ExamList;
 import com.example.administrator.bestojapp.Bean.ExamPaper;
 import com.example.administrator.bestojapp.Bean.OJTreeNodeJavaBean;
-import com.example.administrator.bestojapp.Bean.SolutionDetailJavaBean;
-import com.example.administrator.bestojapp.Bean.SolutionList;
 import com.example.administrator.bestojapp.Bean.SolutionListJavaBean;
+import com.example.administrator.bestojapp.manager.impl.DiscussManagerImpl;
+import com.example.administrator.bestojapp.manager.impl.ExamPaperManagerImpl;
 import com.example.administrator.bestojapp.web.WebService;
 
 import com.google.gson.Gson;
@@ -32,6 +36,8 @@ public class AccessManager {
 
     private TreeNodeManagerImpl treeNodeManager;
     private ProblemManagerImpl problemManager;
+    private ExamPaperManagerImpl examPapaerManager;
+    private DiscussManagerImpl discussManager;
 
     private Integer echo = -1;
 
@@ -42,10 +48,10 @@ public class AccessManager {
     private Context context;
 
     /** 提交记录列表 */
-    private SolutionList[] solutionLists;
+    private database.exam.solution.list.SolutionList[] solutionLists;
 
     /** 详细提交记录 */
-    private SolutionDetailJavaBean solutionDetailJavaBean;
+    private Solution solution;
 
     /** 讨论列表 */
     private Discusses discusses;
@@ -66,6 +72,10 @@ public class AccessManager {
         treeNodeManager.init(context);
         problemManager = new ProblemManagerImpl();
         problemManager.init(context);
+        examPapaerManager = new ExamPaperManagerImpl();
+        examPapaerManager.init(context);
+        discussManager = new DiscussManagerImpl();
+        discussManager.init(context);
     }
 
     /**
@@ -149,26 +159,40 @@ public class AccessManager {
         this.echo = -1;
         response = webService.getBySolutionId(token, solutionId);
         Gson gson = new Gson();
-        solutionDetailJavaBean = gson.fromJson(response, SolutionDetailJavaBean.class);
-        echo = solutionDetailJavaBean.getEcho();
+        solution = gson.fromJson(response, Solution.class);
+        echo = solution.getEcho();
     }
 
     /**
      * 通过题目id获取当前题目下的所有讨论
      * @param problemID
      */
-    public void getDiscussByProblemId(Long problemID) {
-        this.echo = -1;
-        response = webService.getDiscussByProblemId(problemID);
-        Gson gson = new Gson();
-        discusses = gson.fromJson(response, Discusses.class);
-        echo = discusses.getEcho();
+    public List<Discuss> getDiscussByProblemId(Long problemID) {
+        List<Discuss> discussList = null;
+        try {
+            this.echo = -1;
+            response = webService.getDiscussByProblemId(problemID);
+            Log.d("response", "getDiscussByProblemId: " + response);
+            Gson gson = new Gson();
+            discusses = gson.fromJson(response, Discusses.class);
+            echo = discusses.getEcho();
+            discussManager.deleteDiscussByProblemId(problemID);
+            for(Discuss discuss : discusses.getDiscusses()) {
+                discussManager.addDiscuss(discuss);
+            }
+        } catch (Exception e) {
+
+        } finally {
+            discussList  = discussManager.getDiscussByProblemId(problemID);
+        }
+        return discussList;
     }
 
     /**
      * 获取当前用户参加的所有考试
      */
     public void getExamListFromServer() {
+        SharedPreferences sPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         try {
             this.echo = -1;
             Log.d("solution", "*getExamListFromServer: ");
@@ -176,12 +200,20 @@ public class AccessManager {
             Log.d("solution", "**getExamListFromServer: " + response);
             Gson gson = new Gson();
             this.examList = gson.fromJson(response, ExamList.class);
+            sPrefs.edit().putString("ExamList", response).commit();
             Log.d("solution", "**getExamListFromServer: " + this.examList.toString());
             echo = this.examList.getEcho();
         } catch (Exception e) {
 
         } finally { /** 从本地获取 */
-
+            response = sPrefs.getString("ExamList", null);
+            Log.d("response", "getExamListFromServer: " + response);
+            Gson gson = new Gson();
+            this.examList = gson.fromJson(response, ExamList.class);
+            if(this.examList != null) {
+                Log.d("solution", "**getExamListFromServer: " + this.examList.toString());
+                echo = this.examList.getEcho();
+            }
         }
     }
 
@@ -189,11 +221,27 @@ public class AccessManager {
      * 通过考试id获取考试详情
      */
     public void getExamPaperFromServer(Long examPaperId) {
-        this.echo = -1;
-        response = webService.getExamPaper(token, examPaperId);
-        Gson gson = new Gson();
-        examPaper = gson.fromJson(response, ExamPaper.class);
-        echo = examPaper.getEcho();
+        try {
+            this.echo = -1;
+            response = webService.getExamPaper(token, examPaperId);
+            Gson gson = new Gson();
+            examPaper = gson.fromJson(response, ExamPaper.class);
+            echo = examPaper.getEcho();
+            database.exam.paper.ExamPaper examPaperToSave = new database.exam.paper.ExamPaper(examPaper.getId(), response);
+            examPapaerManager.addExamPaper(examPaperToSave);
+        } catch (Exception e) {
+
+        } finally {
+            database.exam.paper.ExamPaper localExamPaper = examPapaerManager.getExamPaperByPaperId(examPaperId);
+            if(localExamPaper != null) {
+                Gson gson = new Gson();
+                examPaper = gson.fromJson(localExamPaper.getExamPaper(), ExamPaper.class);
+                if(examPaper != null) {
+                    echo = examPaper.getEcho();
+                }
+            }
+            else examPaper = null;
+        }
     }
 
     /**
@@ -229,7 +277,7 @@ public class AccessManager {
         treeNodeManager.createTable();
     }
 
-    public SolutionList[] getSolutionLists() {
+    public database.exam.solution.list.SolutionList[] getSolutionLists() {
         return solutionLists;
     }
 
@@ -245,8 +293,8 @@ public class AccessManager {
         return response;
     }
 
-    public SolutionDetailJavaBean getSolutionDetailJavaBean() {
-        return solutionDetailJavaBean;
+    public Solution getSolution() {
+        return solution;
     }
 
     public Discusses getDiscusses() {

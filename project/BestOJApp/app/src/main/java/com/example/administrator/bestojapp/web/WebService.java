@@ -18,8 +18,8 @@ class AppRequestFactory extends SimpleClientHttpRequestFactory {
 
     @AfterInject
     void afterinject() {
-        setReadTimeout(8*1000); //set 8s read timeout
-        setConnectTimeout(8*1000); //set 8s connect timeout
+        setReadTimeout(2*1000); //set 8s read timeout
+        setConnectTimeout(2*1000); //set 8s connect timeout
     }
 }
 

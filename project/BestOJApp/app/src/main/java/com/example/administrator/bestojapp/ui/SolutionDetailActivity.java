@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.widget.TextView;
 
-import com.example.administrator.bestojapp.Bean.SolutionDetailJavaBean;
 import com.example.administrator.bestojapp.manager.AccessManager;
 import com.example.administrator.bestojapp.web.WebService;
 
@@ -20,6 +19,9 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.rest.RestService;
 
+import database.exam.solution.Solution;
+
+
 @EActivity(R.layout.activity_solution_detail)
 public class SolutionDetailActivity extends AppCompatActivity {
 
@@ -27,7 +29,7 @@ public class SolutionDetailActivity extends AppCompatActivity {
 
     private Long solutionId;
 
-    private SolutionDetailJavaBean solutionDetailJavaBean;
+    private Solution solution;
 
     private ResideMenu resideMenu;
 
@@ -64,16 +66,16 @@ public class SolutionDetailActivity extends AppCompatActivity {
         getBySolutionId(solutionId);
         while(accessManager.getEcho() == -1) ;
         if(accessManager.getEcho() == 0) {
-            solutionDetailJavaBean = accessManager.getSolutionDetailJavaBean();
+            solution = accessManager.getSolution();
 
-            listViewProblemID.setText("题号:" + solutionDetailJavaBean.getProblemId());
+            listViewProblemID.setText("题号:" + solution.getProblemId());
             listViewProblemTitle.setText("");
-            listViewRunningTime.setText(solutionDetailJavaBean.getRunningTime()+"MS");
-            listViewRunningMemory.setText(solutionDetailJavaBean.getRunningMemory()+"KB7");
-            listViewSubmitTime.setText(solutionDetailJavaBean.getSubmitTime());
-            listViewResult.setText(solutionDetailJavaBean.getResultString());
-            listViewDetail.setText(solutionDetailJavaBean.getDetail());
-            listViewCode.setText(solutionDetailJavaBean.getSource());
+            listViewRunningTime.setText(solution.getRunningTime()+"MS");
+            listViewRunningMemory.setText(solution.getRunningMemory()+"KB7");
+            listViewSubmitTime.setText(solution.getSubmitTime());
+            listViewResult.setText(solution.getResultString());
+            listViewDetail.setText(solution.getDetail());
+            listViewCode.setText(solution.getSource());
         }
     }
 

@@ -19,19 +19,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.TreeNodeActivity_" />
-        <activity android:name=".ui.MainActivity_" />
-        <activity android:name=".ui.LoginActivity_" />
-        <activity android:name=".ui.ProblemActivity_" />
-        <activity android:name=".ui.RootActivity_" />
-        <activity android:name=".ui.SolutionListActivity_" />
-        <activity android:name=".ui.SolutionDetailActivity_" />
-        <activity android:name=".ui.SettingsActivity_" />
-        <activity android:name=".ui.UserActivity_" />
-        <activity android:name=".ui.PostActivity_" />
-        <activity android:name=".ui.DiscussActivity_" />
-        <activity android:name=".ui.ExamListActivity_" />
-        <activity android:name=".ui.ExamNodeActivity_" />
+        <activity android:name="com.example.administrator.bestojapp.ui.TreeNodeActivity_" />
+        <activity android:name="com.example.administrator.bestojapp.ui.MainActivity_" />
+        <activity android:name="com.example.administrator.bestojapp.ui.LoginActivity_" />
+        <activity android:name="com.example.administrator.bestojapp.ui.ProblemActivity_" />
+        <activity android:name="com.example.administrator.bestojapp.ui.RootActivity_" />
+        <activity android:name="com.example.administrator.bestojapp.ui.SolutionListActivity_" />
+        <activity android:name="com.example.administrator.bestojapp.ui.SolutionDetailActivity_" />
+        <activity android:name="com.example.administrator.bestojapp.ui.SettingsActivity_" />
+        <activity android:name="com.example.administrator.bestojapp.ui.UserActivity_" />
+        <activity android:name="com.example.administrator.bestojapp.ui.PostActivity_" />
+        <activity android:name="com.example.administrator.bestojapp.ui.DiscussActivity_" />
+        <activity android:name="com.example.administrator.bestojapp.ui.ExamListActivity_" />
+        <activity android:name="com.example.administrator.bestojapp.ui.ExamNodeActivity_" />
     </application>
 
 </manifest>

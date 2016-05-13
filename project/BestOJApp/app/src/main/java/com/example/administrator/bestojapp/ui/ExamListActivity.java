@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -13,6 +12,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import database.exam.Exam;
+
 import com.example.administrator.bestojapp.Bean.ExamList;
 import com.example.administrator.bestojapp.R;
 
@@ -72,13 +72,13 @@ public class ExamListActivity extends AppCompatActivity {
         examList = accessManager.getExamList();
         showExamList();
         showProgressDialog(false);
-        Log.d("solution", "loadExamList: " + examList.toString());
     }
 
     @UiThread
     void showExamList() {
         if(examList == null || examList.getEcho() != 0) {
-            toastShort("获取考试信息失败，请检查网络连接");
+            toastShort(getString(R.string.fail_loading_exam));
+            this.finish();
         }
         else {
             for(Exam exam : examList.getExams()) {

@@ -22,6 +22,7 @@ import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.rest.RestService;
 
+
 @EActivity(R.layout.activity_post)
 public class PostActivity extends AppCompatActivity {
 

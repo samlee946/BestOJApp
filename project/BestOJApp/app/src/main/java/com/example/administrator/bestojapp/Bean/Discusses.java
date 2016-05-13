@@ -1,18 +1,20 @@
 package com.example.administrator.bestojapp.Bean;
 
+import database.exam.discuss.Discuss;
+
 /**
  * Created by Administrator on 2016/4/15 0015.
  */
 public class Discusses {
-    private DiscussJavaBean[] discussJavaBeans;
+    private Discuss[] discusses;
     private int echo;
 
-    public DiscussJavaBean[] getDiscussJavaBeans() {
-        return discussJavaBeans;
+    public Discuss[] getDiscusses() {
+        return discusses;
     }
 
-    public void setDiscussJavaBeans(DiscussJavaBean[] discussJavaBeans) {
-        this.discussJavaBeans = discussJavaBeans;
+    public void setDiscuss(Discuss[] discusses) {
+        this.discusses = discusses;
     }
 
     public int getEcho() {

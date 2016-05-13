@@ -15,7 +15,7 @@ public class DiscussDaoHibernate extends GenericDaoHibernate<Discuss, Long> impl
 	}
 
 	public String getDiscussByProblemID(Long problemID) {
-		String ret = "{\"discussJavaBeans\":";
+		String ret = "{\"discusses\":";
 		List discusses = getHibernateTemplate().find("from discuss where problemID = " + problemID);
 		ret += "[";
 		for(int i = 0; i < discusses.size(); i++) {
