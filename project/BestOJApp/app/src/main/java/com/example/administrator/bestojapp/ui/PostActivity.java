@@ -10,8 +10,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.administrator.bestojapp.R;
-import com.example.administrator.bestojapp.api.WebService;
-import com.example.administrator.bestojapp.impl.UserManager;
+import com.example.administrator.bestojapp.web.WebService;
+import com.example.administrator.bestojapp.manager.UserManager;
 import com.special.ResideMenu.ResideMenu;
 
 import org.androidannotations.annotations.AfterViews;

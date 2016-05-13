@@ -9,21 +9,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.example.administrator.bestojapp.R;
-import com.example.administrator.bestojapp.api.OJService;
-import com.example.administrator.bestojapp.api.WebService;
-import com.special.ResideMenu.ResideMenu;
-import com.special.ResideMenu.ResideMenuItem;
+import com.example.administrator.bestojapp.manager.AccessManager;
+import com.example.administrator.bestojapp.web.WebService;
 
-import org.androidannotations.annotations.Background;
+import com.example.administrator.bestojapp.R;
+import com.special.ResideMenu.ResideMenu;
+
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.rest.RestService;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.HttpServerErrorException;
-import org.springframework.web.client.ResourceAccessException;
 
 @EActivity(R.layout.activity_main)
 public class MainActivity extends AppCompatActivity{
@@ -38,7 +34,7 @@ public class MainActivity extends AppCompatActivity{
     private String token = "6fa590b6ccad27feee1eaf4206ed0beb497936af";
     private String jsonString = null;
 
-    private OJService ojService;
+    private AccessManager accessManager;
 
     private Intent intent = null;
 
@@ -68,8 +64,6 @@ public class MainActivity extends AppCompatActivity{
                 break;
             }
             case R.id.button_homepage_experiment: {
-                if(!ojService.isTreeNodeDownloaded(parentIdExperiment)) downloadTreeNode(parentIdExperiment);
-                while(!ojService.isTreeNodeDownloaded(parentIdExperiment)) ;
                 intent = new Intent();
                 intent.setClass(MainActivity.this, TreeNodeActivity_.class);
                 intent.putExtra("parentId", parentIdExperiment);
@@ -77,8 +71,6 @@ public class MainActivity extends AppCompatActivity{
                 break;
             }
             case R.id.button_homepage_data_structure: {
-                if(!ojService.isTreeNodeDownloaded(parentIdDataStructure)) downloadTreeNode(parentIdDataStructure);
-                while(!ojService.isTreeNodeDownloaded(parentIdDataStructure)) ;
                 intent = new Intent();
                 intent.setClass(MainActivity.this, TreeNodeActivity_.class);
                 intent.putExtra("parentId", parentIdDataStructure);
@@ -86,38 +78,12 @@ public class MainActivity extends AppCompatActivity{
                 break;
             }
             case R.id.button_homepage_advanced_program: {
-                if(!ojService.isTreeNodeDownloaded(parentIdAdvancedProgram)) downloadTreeNode(parentIdAdvancedProgram);
-                while(!ojService.isTreeNodeDownloaded(parentIdAdvancedProgram)) ;
                 intent = new Intent();
                 intent.setClass(MainActivity.this, TreeNodeActivity_.class);
                 intent.putExtra("parentId", parentIdAdvancedProgram);
                 startActivity(intent);
                 break;
             }
-            case R.id.button_homepage_download_data: {
-
-                break;
-            }
-        }
-    }
-
-    @Background
-    public void downloadTreeNode(Long parentId) {
-        ojService.getTreeNodeByParentID(parentId);
-    }
-
-    @Background
-    public void getTreeNode(Long parentId) {
-        try {
-            ojService.getTreeNodeByParentID(parentId);
-        } catch (HttpClientErrorException e) {
-            toastShort("网络连接错误!原因可能是:" + e.getMessage());
-        } catch (ResourceAccessException e) {
-            toastShort("网络连接错误!原因可能是:" + e.getMessage());
-        } catch (HttpServerErrorException e) {
-            toastShort("网络连接错误!原因可能是:" + e.getMessage());
-        } finally {
-            setButtonDataStructureEnable(true);
         }
     }
 
@@ -150,7 +116,7 @@ public class MainActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ojService = new OJService(MainActivity.this, webService);
+        accessManager = new AccessManager(MainActivity.this, webService);
 
         resideMenu = new ResideMenuGeneral(MainActivity.this, MainActivity.this).getResideMenu();
     }

@@ -8,8 +8,9 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.example.administrator.bestojapp.R;
-import com.example.administrator.bestojapp.api.OJService;
-import com.example.administrator.bestojapp.api.WebService;
+
+import com.example.administrator.bestojapp.manager.AccessManager;
+import com.example.administrator.bestojapp.web.WebService;
 import com.special.ResideMenu.ResideMenu;
 
 import org.androidannotations.annotations.Click;
@@ -19,7 +20,7 @@ import org.androidannotations.annotations.rest.RestService;
 @EActivity(R.layout.activity_settings)
 public class SettingsActivity extends AppCompatActivity {
 
-    private OJService ojService;
+    private AccessManager accessManager;
 
     @RestService
     WebService webService;
@@ -32,7 +33,7 @@ public class SettingsActivity extends AppCompatActivity {
     void buttonOnClick(View view) {
         switch (view.getId()) {
             case R.id.button_settingspage_delete_treenode: {
-                    ojService.deleteTreeNode();
+                    accessManager.deleteTreeNode();
                     break;
             }
         }
@@ -51,7 +52,7 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ojService = new OJService(SettingsActivity.this, webService);
+        accessManager = new AccessManager(SettingsActivity.this, webService);
         resideMenu = new ResideMenuGeneral(SettingsActivity.this, SettingsActivity.this).getResideMenu();
     }
 }

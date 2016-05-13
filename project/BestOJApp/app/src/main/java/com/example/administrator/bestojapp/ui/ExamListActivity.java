@@ -1,33 +1,30 @@
 package com.example.administrator.bestojapp.ui;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.ContextMenu;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
-import com.exam.Exam;
-import com.example.administrator.bestojapp.Bean.DiscussJavaBean;
+import database.exam.Exam;
 import com.example.administrator.bestojapp.Bean.ExamList;
 import com.example.administrator.bestojapp.R;
-import com.example.administrator.bestojapp.api.OJService;
-import com.example.administrator.bestojapp.api.WebService;
-import com.example.administrator.bestojapp.impl.DiscussAdapter;
-import com.example.administrator.bestojapp.impl.ExamAdapter;
-import com.example.administrator.bestojapp.impl.UserManager;
-import com.problem.Problem;
+
+import com.example.administrator.bestojapp.manager.AccessManager;
+import com.example.administrator.bestojapp.web.WebService;
+import com.example.administrator.bestojapp.adapter.ExamAdapter;
+
 import com.special.ResideMenu.ResideMenu;
 
-import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.rest.RestService;
 
@@ -48,9 +45,9 @@ public class ExamListActivity extends AppCompatActivity {
 
     private ResideMenu resideMenu;
 
-    private UserManager userManager;
+    private AccessManager accessManager;
 
-    private OJService ojService;
+    ProgressDialog progressDialog;
 
     /** 服务器返回的考试列表 */
     private ExamList examList;
@@ -63,17 +60,27 @@ public class ExamListActivity extends AppCompatActivity {
         context.startActivity(intent);
     }
 
-    @Background
-    void getExamList() {
-        ojService.getExamListFromServer();
+    @UiThread
+    void toastShort(String msg) {
+        Toast.makeText(ExamListActivity.this, msg, Toast.LENGTH_SHORT).show();
     }
 
-    @AfterViews
-    void init() {
-        getExamList();
-        while(ojService.getEcho() == -1) ;
-        examList = ojService.getExamList();
-        if(ojService.getEcho() == 0) {
+    @Background
+    void loadExamList() {
+        showProgressDialog(true);
+        accessManager.getExamListFromServer();
+        examList = accessManager.getExamList();
+        showExamList();
+        showProgressDialog(false);
+        Log.d("solution", "loadExamList: " + examList.toString());
+    }
+
+    @UiThread
+    void showExamList() {
+        if(examList == null || examList.getEcho() != 0) {
+            toastShort("获取考试信息失败，请检查网络连接");
+        }
+        else {
             for(Exam exam : examList.getExams()) {
                 exams.add(exam);
             }
@@ -89,6 +96,29 @@ public class ExamListActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * 用于显示正在加载的对话框
+     * @param operation
+     */
+    @UiThread
+    void showProgressDialog(boolean operation) {
+        if(operation == true) progressDialog.show();
+        else progressDialog.cancel();
+    }
+    void init() {
+        resideMenu = new ResideMenuGeneral(ExamListActivity.this, ExamListActivity.this).getResideMenu();
+        accessManager = new AccessManager(ExamListActivity.this, webService);
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setMessage("正在读取");
+        progressDialog.setIndeterminate(false);
+        progressDialog.setCancelable(false);
+    }
+
+    void afterInit() {
+        loadExamList();
+    }
+
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         return resideMenu.dispatchTouchEvent(ev);
@@ -97,8 +127,7 @@ public class ExamListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        resideMenu = new ResideMenuGeneral(ExamListActivity.this, ExamListActivity.this).getResideMenu();
-        userManager = UserManager.getInstance();
-        ojService = new OJService(ExamListActivity.this, webService);
+        init();
+        afterInit();
     }
 }

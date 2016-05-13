@@ -5,29 +5,25 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MotionEvent;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.administrator.bestojapp.Bean.SolutionDetailJavaBean;
-import com.example.administrator.bestojapp.Bean.SolutionList;
+import com.example.administrator.bestojapp.manager.AccessManager;
+import com.example.administrator.bestojapp.web.WebService;
+
 import com.example.administrator.bestojapp.R;
-import com.example.administrator.bestojapp.api.OJService;
-import com.example.administrator.bestojapp.api.WebService;
 import com.special.ResideMenu.ResideMenu;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
-import org.androidannotations.annotations.rest.Rest;
 import org.androidannotations.annotations.rest.RestService;
-
-import java.util.List;
 
 @EActivity(R.layout.activity_solution_detail)
 public class SolutionDetailActivity extends AppCompatActivity {
 
-    private OJService ojService;
+    private AccessManager accessManager;
 
     private Long solutionId;
 
@@ -66,9 +62,9 @@ public class SolutionDetailActivity extends AppCompatActivity {
     public void init() {
         this.solutionId = getIntent().getLongExtra("solutionId", 1L);
         getBySolutionId(solutionId);
-        while(ojService.getEcho() == -1) ;
-        if(ojService.getEcho() == 0) {
-            solutionDetailJavaBean = ojService.getSolutionDetailJavaBean();
+        while(accessManager.getEcho() == -1) ;
+        if(accessManager.getEcho() == 0) {
+            solutionDetailJavaBean = accessManager.getSolutionDetailJavaBean();
 
             listViewProblemID.setText("题号:" + solutionDetailJavaBean.getProblemId());
             listViewProblemTitle.setText("");
@@ -83,7 +79,7 @@ public class SolutionDetailActivity extends AppCompatActivity {
 
     @Background
     public void getBySolutionId(Long solutionId) {
-        ojService.getBySolutionId(solutionId);
+        accessManager.getBySolutionId(solutionId);
     }
 
     public static void actionStart(Context context, Long solutionId) {
@@ -101,7 +97,7 @@ public class SolutionDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ojService = new OJService(SolutionDetailActivity.this, webService);
+        accessManager = new AccessManager(SolutionDetailActivity.this, webService);
 
         resideMenu = new ResideMenuGeneral(SolutionDetailActivity.this, SolutionDetailActivity.this).getResideMenu();
     }

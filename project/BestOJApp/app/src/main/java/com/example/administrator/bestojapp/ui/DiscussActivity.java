@@ -10,14 +10,14 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.example.administrator.bestojapp.Bean.DiscussJavaBean;
 import com.example.administrator.bestojapp.Bean.Discusses;
+import com.example.administrator.bestojapp.manager.AccessManager;
+import com.example.administrator.bestojapp.web.WebService;
+import com.example.administrator.bestojapp.adapter.DiscussAdapter;
+
 import com.example.administrator.bestojapp.R;
-import com.example.administrator.bestojapp.api.OJService;
-import com.example.administrator.bestojapp.api.WebService;
-import com.example.administrator.bestojapp.impl.DiscussAdapter;
 import com.special.ResideMenu.ResideMenu;
 
 import org.androidannotations.annotations.AfterViews;
@@ -36,16 +36,16 @@ import android.widget.Toast;
 @EActivity(R.layout.activity_discuss)
 public class DiscussActivity extends AppCompatActivity {
 
-    @ViewById(R.id.listView_discuss)
+    @ViewById(com.example.administrator.bestojapp.R.id.listView_discuss)
     ListView listView;
 
-    @ViewById(R.id.button_post)
+    @ViewById(com.example.administrator.bestojapp.R.id.button_post)
     Button button_post;
 
     @RestService
     WebService webService;
 
-    OJService ojService;
+    AccessManager accessManager;
 
     private Long problemID;
 
@@ -63,7 +63,7 @@ public class DiscussActivity extends AppCompatActivity {
 
     @Background
     public void getDiscussByProblemID(Long problemID) {
-        ojService.getDiscussByProblemId(problemID);
+        accessManager.getDiscussByProblemId(problemID);
     }
 
     @Click(R.id.button_post)
@@ -80,9 +80,9 @@ public class DiscussActivity extends AppCompatActivity {
     void init() {
         problemID = getIntent().getLongExtra("problemID", 0L);
         getDiscussByProblemID(problemID);
-        while(ojService.getEcho() == -1) ;
-        discusses = ojService.getDiscusses();
-        if(ojService.getEcho() == 0) {
+        while(accessManager.getEcho() == -1) ;
+        discusses = accessManager.getDiscusses();
+        if(accessManager.getEcho() == 0) {
             for(DiscussJavaBean discussJavaBean : discusses.getDiscussJavaBeans()) {
                 discussJavaBeanList.add(discussJavaBean);
             }
@@ -137,7 +137,7 @@ public class DiscussActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ojService = new OJService(DiscussActivity.this, webService);
+        accessManager = new AccessManager(DiscussActivity.this, webService);
         resideMenu = new ResideMenuGeneral(DiscussActivity.this, DiscussActivity.this).getResideMenu();
     }
 }

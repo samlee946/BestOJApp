@@ -11,14 +11,12 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.exam.Exam;
-import com.example.TreeNode2;
 import com.example.administrator.bestojapp.Bean.ExamPaper;
 import com.example.administrator.bestojapp.R;
-import com.example.administrator.bestojapp.api.OJService;
-import com.example.administrator.bestojapp.api.WebService;
-import com.example.administrator.bestojapp.impl.ExamAdapter;
-import com.problem.Problem;
+
+import com.example.administrator.bestojapp.manager.AccessManager;
+import com.example.administrator.bestojapp.web.WebService;
+import database.problem.Problem;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
@@ -42,7 +40,7 @@ public class ExamNodeActivity extends AppCompatActivity {
     /** 考试的题目列表 */
     private List<Problem> problemList = new ArrayList<Problem>();
 
-    private OJService ojService;
+    private AccessManager accessManager;
 
     @RestService
     WebService webService;
@@ -85,9 +83,9 @@ public class ExamNodeActivity extends AppCompatActivity {
     void init() {
         examPaperId = getIntent().getLongExtra("examPaperId", 0L);
         getExamNode();
-        while(ojService.getEcho() == -1) ;
-        examPaper = ojService.getExamPaper();
-        if(ojService.getEcho() == 0) {
+        while(accessManager.getEcho() == -1) ;
+        examPaper = accessManager.getExamPaper();
+        if(accessManager.getEcho() == 0) {
             textView_exam_title.setText(examPaper.getTitle());
             textView_exam_begin_time.setText(examPaper.getStartTime());
             textView_exam_last_time.setText("" + examPaper.getLast() + "分钟");
@@ -109,12 +107,12 @@ public class ExamNodeActivity extends AppCompatActivity {
 
     @Background
     void getExamNode() {
-        ojService.getExamPaperFromServer(examPaperId);
+        accessManager.getExamPaperFromServer(examPaperId);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ojService = new OJService(ExamNodeActivity.this, webService);
+        accessManager = new AccessManager(ExamNodeActivity.this, webService);
     }
 }

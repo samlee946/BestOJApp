@@ -12,12 +12,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.administrator.bestojapp.Bean.SolutionDetailJavaBean;
 import com.example.administrator.bestojapp.Bean.SolutionList;
-import com.example.administrator.bestojapp.Bean.SolutionListJavaBean;
+import com.example.administrator.bestojapp.manager.AccessManager;
+import com.example.administrator.bestojapp.web.WebService;
+
 import com.example.administrator.bestojapp.R;
-import com.example.administrator.bestojapp.api.OJService;
-import com.example.administrator.bestojapp.api.WebService;
 import com.special.ResideMenu.ResideMenu;
 
 import org.androidannotations.annotations.AfterViews;
@@ -35,7 +34,7 @@ public class SolutionListActivity extends AppCompatActivity {
 
     private SolutionList[] solutionLists = null;
 
-    private OJService ojService;
+    private AccessManager accessManager;
 
     private ResideMenu resideMenu;
 
@@ -61,7 +60,7 @@ public class SolutionListActivity extends AppCompatActivity {
 
     @Background
     void getExamSolution() {
-        ojService.getExamSolutionFromServer(paperId);
+        accessManager.getExamSolutionFromServer(paperId);
     }
 
     @AfterViews
@@ -72,15 +71,15 @@ public class SolutionListActivity extends AppCompatActivity {
         Log.d("Solution", type + " " + id + " " + paperId);
         if(type == 3 || type == 4) {
             getExamSolution();
-            while(ojService.getEcho() == -1) ;
-            solutionLists = ojService.getSolutionLists();
+            while(accessManager.getEcho() == -1) ;
+            solutionLists = accessManager.getSolutionLists();
         }
         else {
             getListOfUserByProblemId(id);
-            while(ojService.getEcho() == -1) ;
-            solutionLists = ojService.getSolutionLists();
+            while(accessManager.getEcho() == -1) ;
+            solutionLists = accessManager.getSolutionLists();
         }
-        if(ojService.getEcho() == 0) {
+        if(accessManager.getEcho() == 0) {
             ArrayAdapter<SolutionList> adapter = new ArrayAdapter<SolutionList>(SolutionListActivity.this, android.R.layout.simple_list_item_1);
             for(SolutionList solutionList : solutionLists) {
                 if(type == 4) {
@@ -105,14 +104,14 @@ public class SolutionListActivity extends AppCompatActivity {
                 });
             }
         }
-        else if(ojService.getEcho() == 2) {
+        else if(accessManager.getEcho() == 2) {
             Toast.makeText(SolutionListActivity.this, "没有找到本题的提交记录", Toast.LENGTH_SHORT).show();
         }
     }
 
     @Background
     public void getListOfUserByProblemId(Long problemId) {
-        ojService.getListOfUserByProblemId(problemId);
+        accessManager.getListOfUserByProblemId(problemId);
     }
 
     @Override
@@ -124,7 +123,7 @@ public class SolutionListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ojService = new OJService(SolutionListActivity.this, webService);
+        accessManager = new AccessManager(SolutionListActivity.this, webService);
 
         resideMenu = new ResideMenuGeneral(SolutionListActivity.this, SolutionListActivity.this).getResideMenu();
     }

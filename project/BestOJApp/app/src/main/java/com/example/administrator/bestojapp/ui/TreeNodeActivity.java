@@ -1,5 +1,6 @@
 package com.example.administrator.bestojapp.ui;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -8,15 +9,20 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
-import com.example.TreeNode2;
+import database.example.TreeNode2;
+import com.example.administrator.bestojapp.web.WebService;
+import com.example.administrator.bestojapp.manager.AccessManager;
+
 import com.example.administrator.bestojapp.R;
-import com.example.administrator.bestojapp.database.DatabaseService;
 import com.special.ResideMenu.ResideMenu;
 
-import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
+import org.androidannotations.annotations.rest.RestService;
 
 import java.util.List;
 
@@ -31,13 +37,21 @@ public class TreeNodeActivity extends AppCompatActivity {
 
     private List<TreeNode2> nodes;
 
-    private DatabaseService databaseService;
+    private AccessManager accessManager;
+
+    ProgressDialog progressDialog;
 
     @ViewById(R.id.listView_treeNode)
     ListView listView;
 
-    @AfterViews
-    void init() {
+    @RestService
+    WebService webService;
+
+    /**
+     * 显示获取到的树结点
+     */
+    @UiThread
+    void showTreeNode() {
         listView.setAdapter(new ArrayAdapter<TreeNode2>(TreeNodeActivity.this, android.R.layout.simple_list_item_1, nodes));
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -64,15 +78,61 @@ public class TreeNodeActivity extends AppCompatActivity {
         return resideMenu.dispatchTouchEvent(ev);
     }
 
+
+    /**
+     * 获取树结点并显示
+     */
+    @Background
+    void loadTreeNode() {
+        showProgressDialog(true);
+        nodes = accessManager.getTreeNodeByParentID(parentId);
+        if(nodes.isEmpty()) {
+            toastShort("获取节点失败，请检查网络连接");
+        }
+        else {
+            showTreeNode();
+        }
+        showProgressDialog(false);
+    }
+
+    /**
+     * 用于显示正在加载的对话框
+     * @param operation
+     */
+    @UiThread
+    void showProgressDialog(boolean operation) {
+        if(operation == true) progressDialog.show();
+        else progressDialog.cancel();
+    }
+
+    @UiThread
+    void toastShort(String msg) {
+        Toast.makeText(TreeNodeActivity.this, msg, Toast.LENGTH_SHORT).show();
+    }
+
+    void init() {
+        parentId = getIntent().getLongExtra("parentId", 1099385798655L);
+
+        accessManager = new AccessManager(TreeNodeActivity.this, webService);
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setMessage("正在读取");
+        progressDialog.setIndeterminate(false);
+        progressDialog.setCancelable(false);
+
+        resideMenu = new ResideMenuGeneral(TreeNodeActivity.this, TreeNodeActivity.this).getResideMenu();
+    }
+
+    void afterInit() {
+        loadTreeNode();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        parentId = getIntent().getLongExtra("parentId", 1099385798655L);
 
-        databaseService = new DatabaseService(TreeNodeActivity.this);
-
-        nodes = databaseService.searchByParentId(parentId);
-
-        resideMenu = new ResideMenuGeneral(TreeNodeActivity.this, TreeNodeActivity.this).getResideMenu();
+        init();
+        afterInit();
     }
 }

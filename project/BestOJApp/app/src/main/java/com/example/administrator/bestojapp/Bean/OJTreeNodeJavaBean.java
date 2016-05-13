@@ -1,28 +1,27 @@
 package com.example.administrator.bestojapp.Bean;
 
-import com.example.TreeNode;
-import com.example.administrator.bestojapp.Bean.TreeNodeBean;
-
 import java.util.Arrays;
+
+import database.example.TreeNode2;
 
 /**
  * Created by Administrator on 2016/4/1 0001.
  */
 public class OJTreeNodeJavaBean {
     private int echo;
-    private TreeNodeBean[] notes;
+    private TreeNode2[] notes;
 
-    public OJTreeNodeJavaBean(int echo, TreeNodeBean[] notes) {
+    public OJTreeNodeJavaBean(int echo, TreeNode2[] notes) {
         this.echo = echo;
         this.notes = notes;
     }
 
-    public TreeNodeBean[] getNotes() {
+    public TreeNode2[] getNotes() {
 
         return notes;
     }
 
-    public void setNotes(TreeNodeBean[] notes) {
+    public void setNotes(TreeNode2[] notes) {
         this.notes = notes;
     }
 

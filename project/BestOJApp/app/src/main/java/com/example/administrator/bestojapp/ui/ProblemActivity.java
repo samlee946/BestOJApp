@@ -1,5 +1,6 @@
 package com.example.administrator.bestojapp.ui;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -11,18 +12,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.administrator.bestojapp.Bean.SolutionList;
 import com.example.administrator.bestojapp.R;
-import com.example.administrator.bestojapp.api.OJService;
-import com.example.administrator.bestojapp.api.WebService;
-import com.example.administrator.bestojapp.database.DatabaseServiceProblem;
-import com.problem.Problem;
+
+import com.example.administrator.bestojapp.manager.AccessManager;
+import com.example.administrator.bestojapp.web.WebService;
+import database.problem.Problem;
 import com.special.ResideMenu.ResideMenu;
 
-import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.rest.RestService;
 
@@ -35,13 +35,13 @@ public class ProblemActivity extends AppCompatActivity {
 
     private Long paperId;
 
-    private DatabaseServiceProblem databaseServiceProblem;
-
     private List<Problem> problems;
 
-    private OJService ojService;
+    private AccessManager accessManager;
 
     private ResideMenu resideMenu;
+
+    ProgressDialog progressDialog;
 
     /** type=1时表示是从考试进入的*/
     private int type = -1;
@@ -116,14 +116,12 @@ public class ProblemActivity extends AppCompatActivity {
         context.startActivity(intent);
     }
 
-    @AfterViews
-    void init() {
+    /**
+     * 显示题目
+     */
+    @UiThread
+    void showProblem() {
         if(type == -1) {
-            if(!ojService.isProblemDownloaded(problemId)) {
-                downloadProblem(problemId);
-            }
-            while(!ojService.isProblemDownloaded(problemId)) ;
-            problems = databaseServiceProblem.searchByProblemId(problemId);
             for(Problem problem : problems) {
                 textViewProblemID.setText("" + problem.getId());
                 textViewProblemTitle.setText(problem.getTitle());
@@ -155,31 +153,60 @@ public class ProblemActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * 读取并显示题目
+     */
+    @Background
+    void loadProblem() {
+        showProgressDialog(true);
+        problems = accessManager.getProblemByProblemId(problemId);
+        showProblem();
+        showProgressDialog(false);
+    }
+
+    /**
+     * 用于显示正在加载的对话框
+     * @param operation
+     */
+    @UiThread
+    void showProgressDialog(boolean operation) {
+        if(operation == true) progressDialog.show();
+        else progressDialog.cancel();
+    }
+
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         return resideMenu.dispatchTouchEvent(ev);
     }
 
-    @Background
-    void downloadProblem(Long problemId) {
-        ojService.getProblemByProblemId(problemId);
+    void init() {
+        problemId = getIntent().getLongExtra("problemId", 1001L);
+        type = getIntent().getIntExtra("type", -1);
+        paperId = getIntent().getLongExtra("paperId", 1L);
+
+        Log.d("Solution", "********" + problemId + " " + type + " " + paperId);
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setMessage("正在读取");
+        progressDialog.setIndeterminate(false);
+        progressDialog.setCancelable(false);
+
+        accessManager = new AccessManager(ProblemActivity.this, webService);
+
+        resideMenu = new ResideMenuGeneral(ProblemActivity.this, ProblemActivity.this).getResideMenu();
+    }
+
+    void afterInit() {
+        loadProblem();
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        problemId = getIntent().getLongExtra("problemId", 1001L);
 
-        type = getIntent().getIntExtra("type", -1);
+        init();
 
-        paperId = getIntent().getLongExtra("paperId", 1L);
-
-        Log.d("Solution", "********" + problemId + " " + type + " " + paperId);
-
-        databaseServiceProblem = new DatabaseServiceProblem(ProblemActivity.this);
-
-        ojService = new OJService(ProblemActivity.this, webService);
-
-        resideMenu = new ResideMenuGeneral(ProblemActivity.this, ProblemActivity.this).getResideMenu();
+        afterInit();
     }
 }

@@ -215,8 +215,9 @@ public class AppUserAction extends BaseAction
      */
     public String user_GetOffspringByParentId_PUBLIC() {
     	String currentURL = "app_common_ojTreeNode_getOffspringByParentId.html";//该方法对应OJ API的html
-    	String parameter = "?token=" + token + "&parentId=" + problemId;//需要的参数
+    	String parameter = "?token=" + token + "&parentId=" + parentId;//需要的参数
     	try {
+			log.debug(url + currentURL + parameter);
 			getResponse().sendRedirect(url + currentURL + parameter);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

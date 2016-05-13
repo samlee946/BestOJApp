@@ -1,7 +1,9 @@
 package com.example.administrator.bestojapp.Bean;
 
-import com.exam.Exam;
+import database.exam.Exam;
 import com.google.gson.annotations.SerializedName;
+
+import java.util.Arrays;
 
 /**
  * Created by Administrator on 2016/5/6 0006.
@@ -25,5 +27,18 @@ public class ExamList {
 
     public void setEcho(int echo) {
         this.echo = echo;
+    }
+
+    @Override
+    public String toString() {
+        String str;
+        str = "ExamList{" +
+                "exams=" ;
+        for(Exam exam : exams) {
+            str += exam.toString();
+        }
+        return str +
+                ", echo=" + echo +
+                '}';
     }
 }

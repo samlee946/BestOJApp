@@ -8,13 +8,13 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.administrator.bestojapp.web.WebService;
+import com.example.administrator.bestojapp.manager.UserManager;
+
 import com.example.administrator.bestojapp.R;
-import com.example.administrator.bestojapp.api.WebService;
-import com.example.administrator.bestojapp.impl.UserManager;
 import com.github.ybq.android.spinkit.style.FadingCircle;
 import com.special.ResideMenu.ResideMenu;
 
