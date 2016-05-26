@@ -37,11 +37,6 @@ public class ProblemManagerImpl implements ProblemManager{
         return (List<Problem>) queryBuilder.list();
     }
 
-    public boolean isProblemDownloaded(Long problemId) {
-        if(searchByProblemId(problemId).isEmpty()) return false;
-        else return true;
-    }
-
     private ProblemDao getProblemDao() {
         return daoSession.getProblemDao();
     }

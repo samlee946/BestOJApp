@@ -60,6 +60,10 @@ public interface WebService {
     @Get("/appUser_user_GetDiscussByProblemId_PUBLIC.html?problemId={problemId}")
     String getDiscussByProblemId(Long problemId);
 
+    @Get("/appUser_user_PostDiscuss_PUBLIC.html?title={title}&content={content}&problemId={problemId}&replyId={replyId}")
+    @RequiresCookie("USERID")
+    String postDiscuss(String title, String content, Long problemId, Long replyId);
+
     @Get("/appUser_user_PostDiscuss_PUBLIC.html?title={title}&content={content}&problemId={problemId}")
     @RequiresCookie("USERID")
     String postDiscuss(String title, String content, Long problemId);

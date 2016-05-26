@@ -34,6 +34,8 @@ public class Discuss {
 	private Long problemID;
 	/** 发帖用户 */
 	private Long userID;
+	/** 回复的帖子id*/
+	private Long replyID;
 	
 	/**
 	 * @return the id
@@ -107,6 +109,20 @@ public class Discuss {
 		this.problemID = problemID;
 	}
 	/**
+	 * @return the replyID
+	 */
+	@Basic(optional=false)
+	@Column(name="replyID", nullable=true, insertable=true, updatable=true)
+	public Long getreplyID() {
+		return problemID;
+	}
+	/**
+	 * @param problemID the problemID to set
+	 */
+	public void setreplyID(Long replyID) {
+		this.replyID = replyID;
+	}
+	/**
 	 * @return the userID
 	 */
 	@Basic(optional=false)
@@ -132,6 +148,17 @@ public class Discuss {
 		this.discussContent = discussContent;
 		this.problemID = problemID;
 		this.userID = userID;
+		this.discussDate = new java.sql.Timestamp(new java.util.Date().getTime()).toString();
+	}
+	/**  */
+	public Discuss(String discussTitle, String discussContent, Long problemID,
+			Long userID, Long replyID) {
+		super();
+		this.discussTitle = discussTitle;
+		this.discussContent = discussContent;
+		this.problemID = problemID;
+		this.userID = userID;
+		this.replyID = replyID;
 		this.discussDate = new java.sql.Timestamp(new java.util.Date().getTime()).toString();
 	}
 	/* (non-Javadoc)

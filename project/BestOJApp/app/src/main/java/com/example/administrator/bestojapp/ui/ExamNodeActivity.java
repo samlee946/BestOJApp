@@ -23,7 +23,6 @@ import com.special.ResideMenu.ResideMenu;
 
 import database.problem.Problem;
 
-import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
@@ -139,8 +138,7 @@ public class ExamNodeActivity extends AppCompatActivity {
     @Background
     void loadExamPaper() {
         showProgressDialog(true);
-        accessManager.getExamPaperFromServer(examPaperId);
-        examPaper = accessManager.getExamPaper();
+        examPaper = accessManager.getExamPaper(examPaperId);
         showExamPaper();
         showProgressDialog(false);
     }

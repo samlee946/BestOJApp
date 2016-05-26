@@ -7,6 +7,7 @@ import android.util.Log;
 
 import database.exam.discuss.Discuss;
 import database.exam.solution.Solution;
+import database.exam.solution.list.SolutionList;
 import database.example.TreeNode2;
 import com.example.administrator.bestojapp.Bean.Discusses;
 import com.example.administrator.bestojapp.Bean.ExamList;
@@ -15,6 +16,8 @@ import com.example.administrator.bestojapp.Bean.OJTreeNodeJavaBean;
 import com.example.administrator.bestojapp.Bean.SolutionListJavaBean;
 import com.example.administrator.bestojapp.manager.impl.DiscussManagerImpl;
 import com.example.administrator.bestojapp.manager.impl.ExamPaperManagerImpl;
+import com.example.administrator.bestojapp.manager.impl.SolutionListManagerImpl;
+import com.example.administrator.bestojapp.manager.impl.SolutionManagerImpl;
 import com.example.administrator.bestojapp.web.WebService;
 
 import com.google.gson.Gson;
@@ -34,10 +37,12 @@ import java.util.List;
  */
 public class AccessManager {
 
-    private TreeNodeManagerImpl treeNodeManager;
-    private ProblemManagerImpl problemManager;
-    private ExamPaperManagerImpl examPapaerManager;
-    private DiscussManagerImpl discussManager;
+    private TreeNodeManager     treeNodeManager;
+    private ProblemManager      problemManager;
+    private ExamPaperManager    examPaperManager;
+    private DiscussManager      discussManager;
+    private SolutionListManager solutionListManager;
+    private SolutionManager     solutionManager;
 
     private Integer echo = -1;
 
@@ -47,35 +52,24 @@ public class AccessManager {
 
     private Context context;
 
-    /** 提交记录列表 */
-    private database.exam.solution.list.SolutionList[] solutionLists;
-
-    /** 详细提交记录 */
-    private Solution solution;
-
-    /** 讨论列表 */
-    private Discusses discusses;
-
-    /** 考试列表 */
-    private ExamList examList;
-
-    /** 考试详情 */
-    private ExamPaper examPaper;
-
     WebService webService;
 
     public AccessManager(Context context, WebService webService) {
         this.context = context;
         this.webService = webService;
         this.echo = -1;
-        treeNodeManager = new TreeNodeManagerImpl();
+        treeNodeManager     = new TreeNodeManagerImpl();
         treeNodeManager.init(context);
-        problemManager = new ProblemManagerImpl();
+        problemManager      = new ProblemManagerImpl();
         problemManager.init(context);
-        examPapaerManager = new ExamPaperManagerImpl();
-        examPapaerManager.init(context);
-        discussManager = new DiscussManagerImpl();
+        examPaperManager    = new ExamPaperManagerImpl();
+        examPaperManager.init(context);
+        discussManager      = new DiscussManagerImpl();
         discussManager.init(context);
+        solutionListManager = new SolutionListManagerImpl();
+        solutionListManager.init(context);
+        solutionManager     = new SolutionManagerImpl();
+        solutionManager.init(context);
     }
 
     /**
@@ -138,29 +132,64 @@ public class AccessManager {
 
     /**
      * 通过题目id获取用户对于某一题的提交记录
+     * type == 3 || 4 时为获取考试的提交记录
+     *                    其他为获取平时题目的提交记录
      * @param problemId
      */
-    public void getListOfUserByProblemId(Long problemId) {
-        this.echo = -1;
-        response = webService.getListOfUserByProblemId(token, problemId);
-        Gson gson = new Gson();
-        SolutionListJavaBean solutionListJavaBean = gson.fromJson(response, SolutionListJavaBean.class);
-        echo = solutionListJavaBean.getEcho();
-        if(echo == 0) {
-            solutionLists = solutionListJavaBean.getNotes();
+    public SolutionList[] getListOfUserByProblemId(int type, Long problemId, Long examPaperId) {
+        SolutionList[] solutionLists = null;
+        try {
+            this.echo = -1;
+            if(type == 3 || type == 4) {
+                response = webService.getExamSolution(token, examPaperId);
+            }
+            else {
+                response = webService.getListOfUserByProblemId(token, problemId);
+            }
+            Log.d("solution", "getListOfUserByProblemId: " + response);
+            Gson gson = new Gson();
+            SolutionListJavaBean solutionListJavaBean = gson.fromJson(response, SolutionListJavaBean.class);
+            echo = solutionListJavaBean.getEcho();
+            if(echo == 0) {
+                solutionLists = solutionListJavaBean.getNotes();
+                for(SolutionList solutionList : solutionLists) {
+                    solutionListManager.addSolutionList(solutionList);
+                }
+            }
+        } catch (Exception e) {
+
+        } finally { /** 最终从数据库中读取 */
+            if (echo != 0) {
+                List<SolutionList> tempSolutionList = solutionListManager.searchBySolutionListId(problemId);
+                solutionLists = new SolutionList[tempSolutionList.size()];
+                tempSolutionList.toArray(solutionLists);
+                echo = 0;
+            }
         }
+        return solutionLists;
     }
 
     /**
      * 通过提交记录id获取用户的提交详情
      * @param solutionId
      */
-    public void getBySolutionId(Long solutionId) {
-        this.echo = -1;
-        response = webService.getBySolutionId(token, solutionId);
-        Gson gson = new Gson();
-        solution = gson.fromJson(response, Solution.class);
-        echo = solution.getEcho();
+    public Solution getBySolutionId(Long solutionId) {
+        Solution solution = null;
+        try {
+            this.echo = -1;
+            response = webService.getBySolutionId(token, solutionId);
+            Log.d("AccessManagerSolution", response);
+            Gson gson = new Gson();
+            solution = gson.fromJson(response, Solution.class);
+            echo = solution.getEcho();
+        } catch (Exception e) {
+
+        } finally { /** 最终从数据库中读取 */
+            if(solutionManager.searchByParentId(solutionId).size() > 0) {
+                solution = solutionManager.searchByParentId(solutionId).get(0);
+            }
+        }
+        return solution;
     }
 
     /**
@@ -169,6 +198,7 @@ public class AccessManager {
      */
     public List<Discuss> getDiscussByProblemId(Long problemID) {
         List<Discuss> discussList = null;
+        Discusses discusses;
         try {
             this.echo = -1;
             response = webService.getDiscussByProblemId(problemID);
@@ -191,36 +221,37 @@ public class AccessManager {
     /**
      * 获取当前用户参加的所有考试
      */
-    public void getExamListFromServer() {
+    public ExamList getExamList() {
         SharedPreferences sPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        ExamList examList;
         try {
             this.echo = -1;
-            Log.d("solution", "*getExamListFromServer: ");
             response = webService.getExamListFromServer(token);
-            Log.d("solution", "**getExamListFromServer: " + response);
             Gson gson = new Gson();
-            this.examList = gson.fromJson(response, ExamList.class);
+            examList = gson.fromJson(response, ExamList.class);
             sPrefs.edit().putString("ExamList", response).commit();
-            Log.d("solution", "**getExamListFromServer: " + this.examList.toString());
-            echo = this.examList.getEcho();
+            Log.d("solution", "getExamList: " + examList.toString());
+            echo = examList.getEcho();
         } catch (Exception e) {
 
         } finally { /** 从本地获取 */
             response = sPrefs.getString("ExamList", null);
-            Log.d("response", "getExamListFromServer: " + response);
+            Log.d("response", "getExamList: " + response);
             Gson gson = new Gson();
-            this.examList = gson.fromJson(response, ExamList.class);
-            if(this.examList != null) {
-                Log.d("solution", "**getExamListFromServer: " + this.examList.toString());
-                echo = this.examList.getEcho();
+            examList = gson.fromJson(response, ExamList.class);
+            if(examList != null) {
+                Log.d("solution", "**getExamList: " + examList.toString());
+                echo = examList.getEcho();
             }
         }
+        return examList;
     }
 
     /**
      * 通过考试id获取考试详情
      */
-    public void getExamPaperFromServer(Long examPaperId) {
+    public ExamPaper getExamPaper(Long examPaperId) {
+        ExamPaper examPaper = null;
         try {
             this.echo = -1;
             response = webService.getExamPaper(token, examPaperId);
@@ -228,11 +259,11 @@ public class AccessManager {
             examPaper = gson.fromJson(response, ExamPaper.class);
             echo = examPaper.getEcho();
             database.exam.paper.ExamPaper examPaperToSave = new database.exam.paper.ExamPaper(examPaper.getId(), response);
-            examPapaerManager.addExamPaper(examPaperToSave);
+            examPaperManager.addExamPaper(examPaperToSave);
         } catch (Exception e) {
 
         } finally {
-            database.exam.paper.ExamPaper localExamPaper = examPapaerManager.getExamPaperByPaperId(examPaperId);
+            database.exam.paper.ExamPaper localExamPaper = examPaperManager.getExamPaperByPaperId(examPaperId);
             if(localExamPaper != null) {
                 Gson gson = new Gson();
                 examPaper = gson.fromJson(localExamPaper.getExamPaper(), ExamPaper.class);
@@ -242,33 +273,7 @@ public class AccessManager {
             }
             else examPaper = null;
         }
-    }
-
-    /**
-     * 通过考试id获取提交记录
-     * @param examPaperId
-     */
-    public void getExamSolutionFromServer(Long examPaperId) {
-        this.echo = -1;
-        response = webService.getExamSolution(token, examPaperId);
-        Gson gson = new Gson();
-        SolutionListJavaBean solutionListJavaBean = gson.fromJson(response, SolutionListJavaBean.class);
-        echo = solutionListJavaBean.getEcho();
-        if(echo == 0) {
-            solutionLists = solutionListJavaBean.getNotes();
-        }
-    }
-
-    public boolean isDiscussDownloaded() {
-        return echo == 0;
-    }
-
-    public boolean isTreeNodeDownloaded(Long parentID) {
-        return treeNodeManager.isTreeNodeDownloaded(parentID);
-    }
-
-    public boolean isProblemDownloaded(Long problemId) {
-        return problemManager.isProblemDownloaded(problemId);
+        return examPaper;
     }
 
     public void deleteTreeNode() {
@@ -277,35 +282,7 @@ public class AccessManager {
         treeNodeManager.createTable();
     }
 
-    public database.exam.solution.list.SolutionList[] getSolutionLists() {
-        return solutionLists;
-    }
-
     public Integer getEcho() {
         return echo;
-    }
-
-    public void setEcho(Integer echo) {
-        this.echo = echo;
-    }
-
-    public String getResponse() {
-        return response;
-    }
-
-    public Solution getSolution() {
-        return solution;
-    }
-
-    public Discusses getDiscusses() {
-        return discusses;
-    }
-
-    public ExamList getExamList() {
-        return examList;
-    }
-
-    public ExamPaper getExamPaper() {
-        return examPaper;
     }
 }

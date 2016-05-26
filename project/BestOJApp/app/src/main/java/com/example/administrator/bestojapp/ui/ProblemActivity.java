@@ -198,7 +198,7 @@ public class ProblemActivity extends AppCompatActivity {
         type = getIntent().getIntExtra("type", -1);
         paperId = getIntent().getLongExtra("paperId", 1L);
 
-        Log.d("Solution", "********" + problemId + " " + type + " " + paperId);
+        Log.d("ProblemActivity", "********" + problemId + " " + type + " " + paperId);
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);

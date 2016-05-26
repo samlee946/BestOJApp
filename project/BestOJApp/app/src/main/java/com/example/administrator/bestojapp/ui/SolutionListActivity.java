@@ -1,5 +1,6 @@
 package com.example.administrator.bestojapp.ui;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -18,9 +19,9 @@ import com.example.administrator.bestojapp.web.WebService;
 import com.example.administrator.bestojapp.R;
 import com.special.ResideMenu.ResideMenu;
 
-import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.rest.RestService;
 
@@ -37,6 +38,8 @@ public class SolutionListActivity extends AppCompatActivity {
     private AccessManager accessManager;
 
     private ResideMenu resideMenu;
+
+    ProgressDialog progressDialog;
 
     @RestService
     WebService webService;
@@ -58,60 +61,36 @@ public class SolutionListActivity extends AppCompatActivity {
         context.startActivity(intent);
     }
 
-    @Background
-    void getExamSolution() {
-        accessManager.getExamSolutionFromServer(paperId);
-    }
-
-    @AfterViews
-    public void init() {
-        this.type = getIntent().getIntExtra("type", 1);
-        this.id = getIntent().getLongExtra("id", 1L);
-        this.paperId = getIntent().getLongExtra("paperId", 1L);
-        Log.d("Solution", type + " " + id + " " + paperId);
-        if(type == 3 || type == 4) {
-            getExamSolution();
-            while(accessManager.getEcho() == -1) ;
-            solutionLists = accessManager.getSolutionLists();
-        }
-        else {
-            getListOfUserByProblemId(id);
-            while(accessManager.getEcho() == -1) ;
-            solutionLists = accessManager.getSolutionLists();
-        }
-        if(accessManager.getEcho() == 0) {
-            ArrayAdapter<database.exam.solution.list.SolutionList> adapter = new ArrayAdapter<database.exam.solution.list.SolutionList>(SolutionListActivity.this, android.R.layout.simple_list_item_1);
-            for(database.exam.solution.list.SolutionList solutionList : solutionLists) {
-                if(type == 4) {
-                    Log.d("Solution", solutionList.getId() + " " + solutionList.getExamProblemId() + " " + id);
-                    if(!solutionList.getExamProblemId().equals(id)) {
-                        continue;
-                    }
+    @UiThread
+    public void showSolutionList() {
+        ArrayAdapter<database.exam.solution.list.SolutionList> adapter = new ArrayAdapter<database.exam.solution.list.SolutionList>(SolutionListActivity.this, android.R.layout.simple_list_item_1);
+        for(database.exam.solution.list.SolutionList solutionList : solutionLists) {
+            if(type == 4) {
+                Log.d("Solution", solutionList.getId() + " " + solutionList.getExamProblemId() + " " + id);
+                if(!solutionList.getExamProblemId().equals(id)) {
+                    continue;
                 }
-                adapter.add(solutionList);
             }
-            if(adapter.isEmpty()) {
-                Toast.makeText(SolutionListActivity.this, "没有找到本题的提交记录", Toast.LENGTH_SHORT).show();
-            }
-            else {
-                listViewSolution.setAdapter(adapter);
-                listViewSolution.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        database.exam.solution.list.SolutionList solutionList = (database.exam.solution.list.SolutionList) listViewSolution.getItemAtPosition(position);
-                        SolutionDetailActivity.actionStart(SolutionListActivity.this, solutionList.getId());
-                    }
-                });
-            }
+            adapter.add(solutionList);
         }
-        else if(accessManager.getEcho() == 2) {
+        if(adapter.isEmpty()) {
             Toast.makeText(SolutionListActivity.this, "没有找到本题的提交记录", Toast.LENGTH_SHORT).show();
         }
+        else {
+            listViewSolution.setAdapter(adapter);
+            listViewSolution.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    database.exam.solution.list.SolutionList solutionList = (database.exam.solution.list.SolutionList) listViewSolution.getItemAtPosition(position);
+                    SolutionDetailActivity.actionStart(SolutionListActivity.this, solutionList.getId());
+                }
+            });
+        }
     }
 
-    @Background
-    public void getListOfUserByProblemId(Long problemId) {
-        accessManager.getListOfUserByProblemId(problemId);
+    @UiThread
+    void toastShort(String msg) {
+        Toast.makeText(SolutionListActivity.this, msg, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -119,12 +98,51 @@ public class SolutionListActivity extends AppCompatActivity {
         return resideMenu.dispatchTouchEvent(ev);
     }
 
+    void init() {
+        accessManager = new AccessManager(SolutionListActivity.this, webService);
+        resideMenu = new ResideMenuGeneral(SolutionListActivity.this, SolutionListActivity.this).getResideMenu();
+        this.type = getIntent().getIntExtra("type", 1);
+        this.id = getIntent().getLongExtra("id", 1L);
+        this.paperId = getIntent().getLongExtra("paperId", 1L);
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setMessage("正在读取");
+        progressDialog.setIndeterminate(false);
+        progressDialog.setCancelable(false);
+        Log.d("Solution", type + " " + id + " " + paperId);
+    }
+
+    @Background
+    void loadSolutionList() {
+        showProgressDialog(true);
+        solutionLists = accessManager.getListOfUserByProblemId(type, id, paperId);
+        showProgressDialog(false);
+        if(solutionLists == null || solutionLists.length <= 0) {
+            toastShort(getString(R.string.fail_loading_solution_list));
+        }
+        else {
+            showSolutionList();
+        }
+    }
+
+    void afterinit() {
+        loadSolutionList();
+    }
+
+    /**
+     * 用于显示正在加载的对话框
+     * @param operation
+     */
+    @UiThread
+    void showProgressDialog(boolean operation) {
+        if(operation == true) progressDialog.show();
+        else progressDialog.cancel();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        accessManager = new AccessManager(SolutionListActivity.this, webService);
-
-        resideMenu = new ResideMenuGeneral(SolutionListActivity.this, SolutionListActivity.this).getResideMenu();
+        init();
+        afterinit();
     }
 }

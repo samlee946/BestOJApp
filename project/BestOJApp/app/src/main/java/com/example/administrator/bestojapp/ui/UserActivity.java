@@ -13,8 +13,6 @@ import com.special.ResideMenu.ResideMenu;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
-import com.example.administrator.bestojapp.ui.UserActivity_;
-
 @EActivity(R.layout.activity_user)
 public class UserActivity extends AppCompatActivity {
 

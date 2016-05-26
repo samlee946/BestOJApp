@@ -28,6 +28,8 @@ public class PostActivity extends AppCompatActivity {
 
     private Long problemID;
 
+    private Long replyID;
+
     private ResideMenu resideMenu;
 
     @ViewById(R.id.editText_discuss_title)
@@ -41,9 +43,10 @@ public class PostActivity extends AppCompatActivity {
 
     UserManager userManager = UserManager.getInstance();
 
-    public static void actionStart(Context context, Long problemID) {
+    public static void actionStart(Context context, Long problemID, Long replyID) {
         Intent intent = new Intent(context, PostActivity_.class);
         intent.putExtra("problemId", problemID);
+        if(replyID != null) intent.putExtra("replyID", replyID);
         context.startActivity(intent);
     }
 
@@ -79,6 +82,7 @@ public class PostActivity extends AppCompatActivity {
     @AfterViews
     void init() {
         problemID = getIntent().getLongExtra("problemId", 0L);
+        problemID = getIntent().getLongExtra("replyID", -1L);
         login();
     }
 

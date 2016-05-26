@@ -12,8 +12,6 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import database.example.TreeNode2;
-import com.example.administrator.bestojapp.ui.ProblemActivity_;
-import com.example.administrator.bestojapp.ui.TreeNodeActivity_;
 
 import com.example.administrator.bestojapp.web.WebService;
 import com.example.administrator.bestojapp.manager.AccessManager;

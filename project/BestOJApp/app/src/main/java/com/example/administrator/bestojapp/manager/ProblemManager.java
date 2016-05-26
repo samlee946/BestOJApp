@@ -29,11 +29,4 @@ public interface ProblemManager {
      * @return
      */
     public List<Problem> searchByProblemId(Long problemId);
-
-    /**
-     * check if a problem is downloaded in local database by problemId
-     * @param problemId
-     * @return
-     */
-    public boolean isProblemDownloaded(Long problemId);
 }

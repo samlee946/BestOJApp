@@ -55,4 +55,5 @@
     <string name="fail_loading_tree_node">获取节点失败，请检查网络连接</string>
     <string name="fail_loading_problem">加载题目失败，请检查网络连接</string>
     <string name="fail_loading_discuss">加载讨论失败，该题没有人发表过讨论或网络连接异常</string>
+    <string name="fail_loading_solution_list">加载提交记录失败，该题没有提交记录或网络连接异常</string>
 </resources>

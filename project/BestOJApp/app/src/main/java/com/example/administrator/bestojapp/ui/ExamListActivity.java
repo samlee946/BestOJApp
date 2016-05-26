@@ -68,7 +68,6 @@ public class ExamListActivity extends AppCompatActivity {
     @Background
     void loadExamList() {
         showProgressDialog(true);
-        accessManager.getExamListFromServer();
         examList = accessManager.getExamList();
         showExamList();
         showProgressDialog(false);
