@@ -18,6 +18,7 @@ import org.apache.commons.logging.LogFactory;
 
 import com.unlimited.appserver.model.User;
 import com.unlimited.appserver.service.DiscussManager;
+import com.unlimited.appserver.service.MessageManager;
 import com.unlimited.appserver.service.UserManager;
 import com.unlimited.oj.Constants;
 import com.unlimited.oj.service.LoginLogManager;
@@ -68,6 +69,7 @@ public class BaseAction extends ActionSupport implements Preparable
     protected UserManager userManager;
     protected RoleManager roleManager;
     protected DiscussManager discussManager;
+    protected MessageManager messageManager;
 	/**
      * Indicator if the user clicked cancel
      */
@@ -482,4 +484,22 @@ public class BaseAction extends ActionSupport implements Preparable
 	public void setDiscussManager(DiscussManager discussManager) {
 		this.discussManager = discussManager;
 	}
+
+
+	/**
+	 * @return the messageManager
+	 */
+	public MessageManager getMessageManager() {
+		return messageManager;
+	}
+
+
+	/**
+	 * @param messageManager the messageManager to set
+	 */
+	public void setMessageManager(MessageManager messageManager) {
+		this.messageManager = messageManager;
+	}
+	
+	
 }

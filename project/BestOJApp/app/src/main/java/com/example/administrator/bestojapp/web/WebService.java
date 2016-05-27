@@ -60,13 +60,11 @@ public interface WebService {
     @Get("/appUser_user_GetDiscussByProblemId_PUBLIC.html?problemId={problemId}")
     String getDiscussByProblemId(Long problemId);
 
-    @Get("/appUser_user_PostDiscuss_PUBLIC.html?title={title}&content={content}&problemId={problemId}&replyId={replyId}")
-    @RequiresCookie("USERID")
-    String postDiscuss(String title, String content, Long problemId, Long replyId);
+    @Get("/appUser_user_PostDiscuss_PUBLIC.html?username={username}&password={password}&title={title}&content={content}&problemId={problemId}&replyId={replyId}")
+    String postDiscuss(String username, String password, String title, String content, Long problemId, Long replyId);
 
-    @Get("/appUser_user_PostDiscuss_PUBLIC.html?title={title}&content={content}&problemId={problemId}")
-    @RequiresCookie("USERID")
-    String postDiscuss(String title, String content, Long problemId);
+    @Get("/appUser_user_PostDiscuss_PUBLIC.html?username={username}&password={password}&title={title}&content={content}&problemId={problemId}")
+    String postDiscuss(String username, String password, String title, String content, Long problemId);
 
     @Get("/appUser_user_removeDiscuss_PUBLIC.html?discussId={discussId}")
     String removeDiscuss(Long discussId);
@@ -79,4 +77,7 @@ public interface WebService {
 
     @Get("/appUser_user_exam_examSolution_getListOfExamPaper_PUBLIC.html?token={token}&examPaperId={examPaperId}")
     String getExamSolution(String token, Long examPaperId);
+
+    @Get("/appUser_user_GetMessageByUserId_PUBLIC.html?username={username}&password={password}")
+    String getMessage(String username, String password);
 }

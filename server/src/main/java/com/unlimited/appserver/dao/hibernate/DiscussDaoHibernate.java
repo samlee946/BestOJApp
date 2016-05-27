@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.unlimited.appserver.dao.IDiscussDAO;
 import com.unlimited.appserver.model.Discuss;
+import com.unlimited.appserver.model.Message;
 import com.unlimited.oj.dao.GenericDao;
 import com.unlimited.oj.dao.hibernate.GenericDaoHibernate;
 
@@ -40,6 +41,14 @@ public class DiscussDaoHibernate extends GenericDaoHibernate<Discuss, Long> impl
 		List discusses = getHibernateTemplate().find("from discuss where id = " + DiscussID);
 		if(discusses.size() == 1) {
 			return (Discuss) discusses.get(0);
+		}
+		return null;
+	}
+	
+	public Long getDiscussUserIDByDiscussID(Long discussID) {
+		List discusses = getHibernateTemplate().find("from discuss where id = " + discussID);
+		if(discusses.size() == 1) {
+			return ((Discuss) discusses.get(0)).getUserID();
 		}
 		return null;
 	}

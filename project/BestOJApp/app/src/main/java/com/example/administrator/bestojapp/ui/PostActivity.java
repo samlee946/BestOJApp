@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.administrator.bestojapp.R;
+import com.example.administrator.bestojapp.manager.AccessManager;
 import com.example.administrator.bestojapp.web.WebService;
 import com.example.administrator.bestojapp.manager.UserManager;
 import com.special.ResideMenu.ResideMenu;
@@ -31,6 +32,8 @@ public class PostActivity extends AppCompatActivity {
     private Long replyID;
 
     private ResideMenu resideMenu;
+
+    private AccessManager accessManager;
 
     @ViewById(R.id.editText_discuss_title)
     EditText editText_title;
@@ -62,16 +65,20 @@ public class PostActivity extends AppCompatActivity {
 
     @Background
     void post() {
+        String username = userManager.getUserName();
+        String password = userManager.getPasswd();
         String title = editText_title.getText().toString();
         String content = editText_content.getText().toString();
-        String responseString = webService.postDiscuss(title, content, problemID);
-        webService.testLogin();
-        toastShort(responseString);
-    }
-
-    @Background
-    void login() {
-        webService.login(userManager.getUserName(), userManager.getPasswd());
+        if(username != null && password != null) {
+            String responseString = accessManager.postDiscuss(username, password, title, content, problemID, replyID);
+            if(responseString != null) {
+                toastShort(responseString);
+            } else {
+                toastShort(getString(R.string.fail_posting));
+            }
+        } else {
+            toastShort(getString(R.string.input_username_and_password_first));
+        }
     }
 
     @UiThread
@@ -81,9 +88,10 @@ public class PostActivity extends AppCompatActivity {
 
     @AfterViews
     void init() {
+        resideMenu = new ResideMenuGeneral(PostActivity.this, PostActivity.this).getResideMenu();
+        accessManager = new AccessManager(PostActivity.this, webService);
         problemID = getIntent().getLongExtra("problemId", 0L);
-        problemID = getIntent().getLongExtra("replyID", -1L);
-        login();
+        replyID = getIntent().getLongExtra("replyID", -1L);
     }
 
     @Override
@@ -93,6 +101,5 @@ public class PostActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        resideMenu = new ResideMenuGeneral(PostActivity.this, PostActivity.this).getResideMenu();
     }
 }

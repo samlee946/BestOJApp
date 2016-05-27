@@ -51,4 +51,12 @@
         <column>problemID</column>
         <column>userID</column>
     </table>
+    <table name="messages">
+        <column>id</column>
+        <column>date</column>
+        <column>type</column>
+        <column>linkedID</column>
+        <column>extraMsg</column>
+        <column>userID</column>
+    </table>
 </dataset>

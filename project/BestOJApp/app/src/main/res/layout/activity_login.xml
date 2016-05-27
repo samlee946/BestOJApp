@@ -19,6 +19,13 @@
         android:hint="@string/hint_password"
         android:inputType="textPassword"/>
 
+    <EditText
+        android:id="@+id/editText_token"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_token"
+        android:inputType="textPassword"/>
+
     <Button
         android:id="@+id/button_login"
         android:layout_width="match_parent"
@@ -34,17 +41,25 @@
     <TextView
         android:id="@+id/textViewDebug"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
 
     <Button
         android:id="@+id/button_testLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:text="@string/testlogin"/>
 
     <Button
         android:id="@+id/button_logout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:text="@string/logout"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/hint"/>
 </LinearLayout>

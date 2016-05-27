@@ -6,6 +6,7 @@
         <class>com.unlimited.appserver.model.User</class>
         <class>com.unlimited.oj.model.Role</class>
         <class>com.unlimited.appserver.model.Discuss</class>
+        <class>com.unlimited.appserver.model.Message</class>
     </persistence-unit>
 
     <!-- WARNING: This file's file original source is at web/common/src/main/resources/META-INF. The

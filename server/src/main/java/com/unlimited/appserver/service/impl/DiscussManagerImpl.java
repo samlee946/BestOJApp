@@ -39,6 +39,20 @@ public class DiscussManagerImpl extends GenericManagerImpl<Discuss, Long> implem
 		}
 	}
 	
+	public Long getDiscussUserIDByDiscussID(Long discussId){
+		Long ret = null;
+		try {
+			ret = iDiscussDAO.getDiscussUserIDByDiscussID(discussId);
+			log.debug(ret);
+			return ret;
+		} catch (DataIntegrityViolationException e)
+		{
+			e.printStackTrace();
+			log.warn(e.getMessage());
+		}
+		return ret;
+	}
+	
 	public boolean postDiscuss(Discuss discuss) {
 		boolean ret = true;
 		try {

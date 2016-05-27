@@ -18,4 +18,8 @@
     <bean id="discussManager" class="com.unlimited.appserver.service.impl.DiscussManagerImpl">
         <property name="iDiscussDAO" ref="iDiscussDAO"/>
     </bean>
+    
+    <bean id="messageManager" class="com.unlimited.appserver.service.impl.MessageManagerImpl">
+        <property name="messageDAO" ref="messageDAO"/>
+    </bean>
 </beans>

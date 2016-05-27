@@ -12,4 +12,15 @@ public interface DiscussManager {
 	public boolean postDiscuss(Discuss discuss);
 	
 	public void removeDiscuss(Long discussId);
+	
+	/**
+	 * 通过讨论编号获取发讨论的用户的编号
+	 * @Title: getDiscussUserIDByDiscussID 
+	 * @Description: TODO 
+	 * @param @param discussId
+	 * @param @return
+	 * @return Long
+	 * @throws
+	 */
+	public Long getDiscussUserIDByDiscussID(Long discussId);
 }

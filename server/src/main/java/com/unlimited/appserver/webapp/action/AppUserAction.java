@@ -32,6 +32,7 @@ import sun.security.provider.MD5;
 
 import com.unlimited.appserver.dao.exception.DiscussNotFoundException;
 import com.unlimited.appserver.model.Discuss;
+import com.unlimited.appserver.model.Message;
 import com.unlimited.appserver.model.User;
 import com.unlimited.oj.Constants;
 import com.unlimited.oj.dao.support.Page;
@@ -339,27 +340,19 @@ public class AppUserAction extends BaseAction
      * @return user_echo_PUBLIC.jsp
      */
     public String user_PostDiscuss_PUBLIC() {
-    	Cookie[] cookies = getRequest().getCookies();
-		boolean flag = false;
-		Long userID = null;
-		if(cookies != null) {
-			for(Cookie cookie : cookies) {
-				if(cookie.getName().equals("USERID") && !cookie.getValue().equals("null")) {
-					flag = true;
-					userID = Long.parseLong(cookie.getValue());
-					break;
-				}
-			}
-		}
+		boolean flag = userManager.isUserExist(username, password);
 		if(flag == false) {
-			returnString = "请先登陆!";
+			returnString = "账号名或密码错误!";
 		}
 		else {
-			if(replyId != null) {
+			Long userID = userManager.getUserIdByUsername(username);
+			if(replyId == null || Long.parseLong(replyId) <= 0) {
 				discussManager.postDiscuss(new Discuss(discussTitle, discussContent, Long.parseLong(problemId), userID));
 			}
 			else {
 				discussManager.postDiscuss(new Discuss(discussTitle, discussContent, Long.parseLong(problemId), userID, Long.parseLong(replyId)));
+				Long replyUserId = discussManager.getDiscussUserIDByDiscussID(Long.parseLong(replyId));
+				messageManager.saveMessage(new Message(1, Long.parseLong(problemId), "你在题目" + Long.parseLong(problemId) + "的讨论有新的回复", replyUserId));
 			}
 			returnString = "发帖成功!";
 		}
@@ -433,6 +426,31 @@ public class AppUserAction extends BaseAction
 			e.printStackTrace();
 		}
     	return "returnAppData";
+    }
+    
+    /**
+     * 查找该用户的所有推送信息
+     * @Title: user_GetMessageByUserId 
+     * @Description: TODO 
+     * @param @return
+     * @return String
+     * @throws
+     */
+    public String user_GetMessageByUserId_PUBLIC() {
+    	returnString = "无消息";
+    	try {
+    		if(userManager.isUserExist(username, password)) {
+        		Long userID = userManager.getUserIdByUsername(username);
+        		returnString = messageManager.getMessageByUserID(userID);
+    		}
+    	} catch (Exception e) {
+			// TODO: handle exception
+		}
+    	return "returnAppData";
+    }
+    
+    public void user_RemoveMessageByMessageId() {
+    	
     }
     
     public String getReturnString() {

@@ -24,12 +24,15 @@ import com.google.gson.Gson;
 
 import com.example.administrator.bestojapp.manager.impl.ProblemManagerImpl;
 import com.example.administrator.bestojapp.manager.impl.TreeNodeManagerImpl;
+
+import database.message.Message;
 import database.problem.Problem;
 
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.ResourceAccessException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -199,6 +202,7 @@ public class AccessManager {
     public List<Discuss> getDiscussByProblemId(Long problemID) {
         List<Discuss> discussList = null;
         Discusses discusses;
+        Log.d("getDiscussByProblemId", "problemID: " + problemID);
         try {
             this.echo = -1;
             response = webService.getDiscussByProblemId(problemID);
@@ -274,6 +278,62 @@ public class AccessManager {
             else examPaper = null;
         }
         return examPaper;
+    }
+
+    /**
+     * 用户发表讨论
+     * @param username 用户的用户名
+     * @param password 用户的密码
+     * @param title 回复的标题
+     * @param content 回复的正文
+     * @param problemId 回复的题目
+     * @param replyId 当用户是回复的时候 replyId表示用户回复的讨论编号
+     * @return
+     */
+    public String postDiscuss(String username, String password, String title, String content, Long problemId, Long replyId) {
+        String ret = null;
+        if(replyId != null) {
+            ret = webService.postDiscuss(username, password, title, content, problemId, replyId);
+        }
+        else {
+            ret = webService.postDiscuss(username, password, title, content, problemId);
+        }
+        return ret;
+    }
+
+    /**
+     * 通过discussId删除一条discuss
+     * @param discussId
+     */
+    public void removeDiscuss(Long discussId) {
+        webService.removeDiscuss(discussId);
+    }
+
+    /**
+     * 获得用户的推送信息
+     * @param username
+     * @param password
+     */
+    public List<Message>  getMessage(String username, String password) {
+        List<Message> messageList = new ArrayList<Message>();
+        Message[] messages;
+        try {
+            response =  webService.getMessage(username, password);
+            Log.d("getMessage response", "getMessage: " + response);
+            Gson gson = new Gson();
+            messages = gson.fromJson(response, Message[].class);
+            Log.d("getMessage0", messages[0].toString());
+            Log.d("getMessage1", messages[1].toString());
+            for(Message message : messages) {
+                messageList.add(message);
+                Log.d("getMessage", message.toString());
+            }
+        } catch (Exception e) {
+
+        } finally {
+
+        }
+        return messageList;
     }
 
     public void deleteTreeNode() {

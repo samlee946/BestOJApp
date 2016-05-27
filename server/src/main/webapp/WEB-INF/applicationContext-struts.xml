@@ -58,6 +58,7 @@
     <bean id="appUserAction" class="com.unlimited.appserver.webapp.action.AppUserAction" scope="prototype">
         <property name="userManager" ref="userManager"/>
         <property name="discussManager" ref="discussManager"/>
+        <property name="messageManager" ref="messageManager"/>
     </bean>
 
 

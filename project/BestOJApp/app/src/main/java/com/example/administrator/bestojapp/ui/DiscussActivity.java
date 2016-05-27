@@ -75,7 +75,7 @@ public class DiscussActivity extends AppCompatActivity {
     void buttonOnClick(View view) {
         switch (view.getId()) {
             case R.id.button_post: {
-                PostActivity.actionStart(DiscussActivity.this, problemID);
+                PostActivity.actionStart(DiscussActivity.this, problemID, null);
                 break;
             }
         }
@@ -99,16 +99,20 @@ public class DiscussActivity extends AppCompatActivity {
     }
 
     public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo menuInfo;
+        Long index;
         switch (item.getItemId()) {
-            case 0:
-                break;
-            case 1:
-                AdapterView.AdapterContextMenuInfo menuInfo;
+            case 0: //回复
                 menuInfo = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
-                Long index = ((Discuss)listView.getItemAtPosition((int)menuInfo.id)).getId();
+                index = ((Discuss)listView.getItemAtPosition((int)menuInfo.id)).getId();
+                PostActivity.actionStart(DiscussActivity.this, problemID, index);
+                break;
+            case 1: //删除
+                menuInfo = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+                index = ((Discuss)listView.getItemAtPosition((int)menuInfo.id)).getId();
                 removeDiscuss(index);
                 break;
-            case 2:
+            case 2: //封禁
                 break;
         }
         return false;
@@ -116,7 +120,7 @@ public class DiscussActivity extends AppCompatActivity {
 
     @Background
     void removeDiscuss(Long discussId) {
-        webService.removeDiscuss(discussId);
+        accessManager.removeDiscuss(discussId);
     }
 
     /**

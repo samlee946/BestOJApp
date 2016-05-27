@@ -7,6 +7,7 @@ public class UserManager {
     private String userName;
     private String passwd;
     private String token;
+    private boolean isLogin;
 
     private static UserManager userManager = null;
 
