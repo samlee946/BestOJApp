@@ -51,9 +51,6 @@ public class ProblemActivity extends AppCompatActivity {
     @RestService
     WebService webService;
 
-    @ViewById
-    Button buttonSolutionList;
-
     @ViewById(R.id.textViewProblemID)
     TextView textViewProblemID;
 

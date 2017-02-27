@@ -62,4 +62,6 @@
     <string name="hint_token">OJ的token</string>
     <string name="hint">提示: 使用讨论功能需要你输入正确的用户名和密码, 使用OJ相关功能需要你输入正确的OJ token</string>
     <string name="input_username_and_password_first">请先填写用户名和密码!</string>
+    <string name="problem_follow">关注该题</string>
+    <string name="problem_dislike">不喜欢该题</string>
 </resources>
