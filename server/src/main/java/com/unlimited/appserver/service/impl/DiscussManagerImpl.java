@@ -3,7 +3,7 @@ package com.unlimited.appserver.service.impl;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.dao.DataIntegrityViolationException;
 
-import com.unlimited.appserver.dao.IDiscussDAO;
+import com.unlimited.appserver.dao.DiscussDao;
 import com.unlimited.appserver.dao.exception.DiscussNotFoundException;
 import com.unlimited.appserver.model.Discuss;
 import com.unlimited.appserver.service.DiscussManager;
@@ -12,11 +12,11 @@ import com.unlimited.oj.service.impl.GenericManagerImpl;
 
 public class DiscussManagerImpl extends GenericManagerImpl<Discuss, Long> implements DiscussManager{
 
-	private IDiscussDAO iDiscussDAO;
+	private DiscussDao discussDao;
 	
 	public void saveDiscuss(Discuss discuss) throws DiscussNotFoundException {
 		try {
-			iDiscussDAO.save(discuss);
+			discussDao.save(discuss);
 		} catch (DataIntegrityViolationException e)
 		{
 			e.printStackTrace();
@@ -28,7 +28,7 @@ public class DiscussManagerImpl extends GenericManagerImpl<Discuss, Long> implem
 	public String getDiscussByProblemID(Long problemID) throws DiscussNotFoundException {
 		String ret = "获取失败";
 		try {
-			ret = iDiscussDAO.getDiscussByProblemID(problemID);
+			ret = discussDao.getDiscussByProblemID(problemID);
 			log.debug(ret);
 			return ret;
 		} catch (DataIntegrityViolationException e)
@@ -42,7 +42,7 @@ public class DiscussManagerImpl extends GenericManagerImpl<Discuss, Long> implem
 	public Long getDiscussUserIDByDiscussID(Long discussId){
 		Long ret = null;
 		try {
-			ret = iDiscussDAO.getDiscussUserIDByDiscussID(discussId);
+			ret = discussDao.getDiscussUserIDByDiscussID(discussId);
 			log.debug(ret);
 			return ret;
 		} catch (DataIntegrityViolationException e)
@@ -56,7 +56,7 @@ public class DiscussManagerImpl extends GenericManagerImpl<Discuss, Long> implem
 	public boolean postDiscuss(Discuss discuss) {
 		boolean ret = true;
 		try {
-			iDiscussDAO.save(discuss);
+			discussDao.save(discuss);
 		} catch (Exception e) {
 			// TODO: handle exception
 			ret = false;
@@ -65,21 +65,22 @@ public class DiscussManagerImpl extends GenericManagerImpl<Discuss, Long> implem
 	}
 	
 	public void removeDiscuss(Long discussId) {
-		iDiscussDAO.remove(iDiscussDAO.getDiscussByDiscussID(discussId));
+		discussDao.remove(discussDao.getDiscussByDiscussID(discussId));
 	}
 
 	/**
-	 * @return the iDiscussDAO
+	 * @return the discussDao
 	 */
-	public IDiscussDAO getiDiscussDAO() {
-		return iDiscussDAO;
+	public DiscussDao getDiscussDao() {
+		return discussDao;
 	}
 
 	/**
-	 * @param iDiscussDAO the iDiscussDAO to set
+	 * @param discussDao the discussDao to set
 	 */
-	@Required
-	public void setiDiscussDAO(IDiscussDAO iDiscussDAO) {
-		this.iDiscussDAO = iDiscussDAO;
+	public void setDiscussDao(DiscussDao discussDao) {
+		this.discussDao = discussDao;
 	}
+	
+	
 }

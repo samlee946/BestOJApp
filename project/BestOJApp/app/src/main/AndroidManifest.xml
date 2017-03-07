@@ -11,11 +11,10 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme.NoActionBar">
         <activity android:name=".ui.StartUpActivity_">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -32,6 +31,8 @@
         <activity android:name="com.example.administrator.bestojapp.ui.DiscussActivity_" />
         <activity android:name="com.example.administrator.bestojapp.ui.ExamListActivity_" />
         <activity android:name="com.example.administrator.bestojapp.ui.ExamNodeActivity_" />
+        <activity android:name="com.example.administrator.bestojapp.ui.BookActivity_" />
+        <activity android:name="com.example.administrator.bestojapp.ui.TestActivity_" />
     </application>
 
 </manifest>

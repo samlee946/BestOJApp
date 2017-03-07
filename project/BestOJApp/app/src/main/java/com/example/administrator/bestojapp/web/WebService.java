@@ -2,11 +2,17 @@ package com.example.administrator.bestojapp.web;
 
 import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.EBean;
-import org.androidannotations.annotations.rest.Get;
-import org.androidannotations.annotations.rest.Post;
-import org.androidannotations.annotations.rest.RequiresCookie;
-import org.androidannotations.annotations.rest.Rest;
-import org.androidannotations.annotations.rest.SetsCookie;
+//import org.androidannotations.rest.spring.annotations.Get;
+//import org.androidannotations.rest.spring.annotations.Post;
+//import org.androidannotations.rest.spring.annotations.RequiresCookie;
+//import org.androidannotations.rest.spring.annotations.Rest;
+//import org.androidannotations.rest.spring.annotations.SetsCookie;
+//import org.androidannotations.annotations.rest.Get;
+//import org.androidannotations.annotations.rest.Post;
+//import org.androidannotations.annotations.rest.RequiresCookie;
+//import org.androidannotations.annotations.rest.Rest;
+//import org.androidannotations.annotations.rest.SetsCookie;
+import org.androidannotations.annotations.rest.*;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.http.converter.json.GsonHttpMessageConverter;
 
@@ -80,4 +86,7 @@ public interface WebService {
 
     @Get("/appUser_user_GetMessageByUserId_PUBLIC.html?username={username}&password={password}")
     String getMessage(String username, String password);
+
+    @Get("/appUser_user_GetBookByBookId_PUBLIC.html?bookId={bookId}")
+    String getBookByBookId(String bookId);
 }

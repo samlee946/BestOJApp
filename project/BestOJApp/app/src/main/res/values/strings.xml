@@ -64,4 +64,7 @@
     <string name="input_username_and_password_first">请先填写用户名和密码!</string>
     <string name="problem_follow">关注该题</string>
     <string name="problem_dislike">不喜欢该题</string>
+    <string name="book_name">书名</string>
+    <string name="book_author">作者</string>
+    <string name="book_intro">内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容</string>
 </resources>

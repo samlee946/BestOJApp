@@ -15,7 +15,7 @@ import com.special.ResideMenu.ResideMenu;
 
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.rest.RestService;
+import org.androidannotations.annotations.rest.*;
 
 
 @EActivity(R.layout.activity_settings)

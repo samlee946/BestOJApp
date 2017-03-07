@@ -14,5 +14,4 @@
 	<bean id="taskDao" class="com.unlimited.oj.dao.hibernate.TaskDaoHibernate">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
-	
 </beans>

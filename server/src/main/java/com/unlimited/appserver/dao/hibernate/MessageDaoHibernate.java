@@ -2,12 +2,12 @@ package com.unlimited.appserver.dao.hibernate;
 
 import java.util.List;
 
-import com.unlimited.appserver.dao.MessageDAO;
+import com.unlimited.appserver.dao.MessageDao;
 import com.unlimited.appserver.model.Discuss;
 import com.unlimited.appserver.model.Message;
 import com.unlimited.oj.dao.hibernate.GenericDaoHibernate;
 
-public class MessageDaoHibernate extends GenericDaoHibernate<Message, Long> implements MessageDAO{
+public class MessageDaoHibernate extends GenericDaoHibernate<Message, Long> implements MessageDao{
 
 	public MessageDaoHibernate() {
 		super(Message.class);

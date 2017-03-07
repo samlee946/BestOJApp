@@ -19,7 +19,7 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
-import org.androidannotations.annotations.rest.RestService;
+import org.androidannotations.annotations.rest.*;
 
 
 @EActivity(R.layout.activity_main)

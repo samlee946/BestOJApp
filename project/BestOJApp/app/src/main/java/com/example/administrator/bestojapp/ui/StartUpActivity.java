@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -21,7 +22,7 @@ import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
-import org.androidannotations.annotations.rest.RestService;
+import org.androidannotations.annotations.rest.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,6 +68,8 @@ public class StartUpActivity extends AppCompatActivity {
 //                SolutionDetailActivity.actionStart(SolutionListActivity.this, solutionList.getId());
             }
         });
+//        TestActivity.actionStart(StartUpActivity.this, 2L);
+//        BookActivity.actionStart(StartUpActivity.this,1L);
     }
 
     @Background

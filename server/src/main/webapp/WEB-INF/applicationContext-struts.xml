@@ -59,6 +59,7 @@
         <property name="userManager" ref="userManager"/>
         <property name="discussManager" ref="discussManager"/>
         <property name="messageManager" ref="messageManager"/>
+        <property name="bookManager" ref="bookManager"/>
     </bean>
 
 

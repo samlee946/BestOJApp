@@ -16,10 +16,14 @@
     </bean>
     
     <bean id="discussManager" class="com.unlimited.appserver.service.impl.DiscussManagerImpl">
-        <property name="iDiscussDAO" ref="iDiscussDAO"/>
+        <property name="discussDao" ref="discussDao"/>
     </bean>
     
     <bean id="messageManager" class="com.unlimited.appserver.service.impl.MessageManagerImpl">
-        <property name="messageDAO" ref="messageDAO"/>
+        <property name="messageDao" ref="messageDao"/>
+    </bean>
+    
+    <bean id="bookManager" class="com.unlimited.appserver.service.impl.BookManagerImpl">
+        <property name="bookDao" ref="bookDao"/>
     </bean>
 </beans>

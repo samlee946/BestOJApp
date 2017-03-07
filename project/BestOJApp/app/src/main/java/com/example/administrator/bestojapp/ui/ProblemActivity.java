@@ -26,7 +26,7 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
-import org.androidannotations.annotations.rest.RestService;
+import org.androidannotations.annotations.rest.*;
 
 import java.util.List;
 
@@ -124,10 +124,10 @@ public class ProblemActivity extends AppCompatActivity {
         if(type == -1) {
             for(Problem problem : problems) {
                 if(problem.getId() != null) flag = true;
-                textViewProblemID.setText("" + problem.getId());
+                textViewProblemID.setText(String.format("%d", problem.getId()));
                 textViewProblemTitle.setText(problem.getTitle());
-                textViewTimeLimit.setText("" + problem.getTimeLimit());
-                textViewMemoryLimit.setText("" + problem.getMemoryLimit());
+                textViewTimeLimit.setText(String.format("%d", problem.getTimeLimit()));
+                textViewMemoryLimit.setText(String.format("%d", problem.getMemoryLimit()));
                 textViewProblemDescription.setText(Html.fromHtml(problem.getDescription()));
                 textViewProblemInput.setText(Html.fromHtml(problem.getInput()));
                 textViewProblemOutput.setText(Html.fromHtml(problem.getOutput()));
@@ -140,10 +140,10 @@ public class ProblemActivity extends AppCompatActivity {
         else if(type == 1) {
             Problem problem = (Problem) getIntent().getSerializableExtra("problem");
             if(problem.getId() != null) flag = true;
-            textViewProblemID.setText("" + problem.getId());
+            textViewProblemID.setText(String.format("%d", problem.getId()));
             textViewProblemTitle.setText(problem.getTitle());
-            textViewTimeLimit.setText("" + problem.getTimeLimit());
-            textViewMemoryLimit.setText("" + problem.getMemoryLimit());
+            textViewTimeLimit.setText(String.format("%d", problem.getTimeLimit()));
+            textViewMemoryLimit.setText(String.format("%d", problem.getMemoryLimit()));
             textViewProblemDescription.setText(Html.fromHtml(problem.getDescription()));
             textViewProblemInput.setText(Html.fromHtml(problem.getInput()));
             textViewProblemOutput.setText(Html.fromHtml(problem.getOutput()));
@@ -177,11 +177,11 @@ public class ProblemActivity extends AppCompatActivity {
 
     /**
      * 用于显示正在加载的对话框
-     * @param operation
+     * @param operation boolean
      */
     @UiThread
     void showProgressDialog(boolean operation) {
-        if(operation == true) progressDialog.show();
+        if(operation) progressDialog.show();
         else progressDialog.cancel();
     }
 
@@ -215,9 +215,7 @@ public class ProblemActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         init();
-
         afterInit();
     }
 }

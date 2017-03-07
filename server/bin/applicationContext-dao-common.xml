@@ -15,11 +15,15 @@
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
     
-	<bean id="iDiscussDAO" class="com.unlimited.appserver.dao.hibernate.DiscussDaoHibernate">
+	<bean id="discussDao" class="com.unlimited.appserver.dao.hibernate.DiscussDaoHibernate">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
     
-	<bean id="messageDAO" class="com.unlimited.appserver.dao.hibernate.MessageDaoHibernate">
+	<bean id="messageDao" class="com.unlimited.appserver.dao.hibernate.MessageDaoHibernate">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="bookDao" class="com.unlimited.appserver.dao.hibernate.BookDaoHibernate">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 </beans>

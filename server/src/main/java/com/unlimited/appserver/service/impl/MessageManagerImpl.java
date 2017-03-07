@@ -3,18 +3,18 @@ package com.unlimited.appserver.service.impl;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.dao.DataIntegrityViolationException;
 
-import com.unlimited.appserver.dao.MessageDAO;
+import com.unlimited.appserver.dao.MessageDao;
 import com.unlimited.appserver.model.Message;
 import com.unlimited.appserver.service.MessageManager;
 import com.unlimited.oj.service.impl.GenericManagerImpl;
 
 public class MessageManagerImpl extends GenericManagerImpl<Message, Long> implements MessageManager{
 
-	private MessageDAO messageDAO;
+	private MessageDao messageDao;
 	
 	public void saveMessage(Message message) {
 		try {
-			messageDAO.save(message);
+			messageDao.save(message);
 		} catch (DataIntegrityViolationException e) {
 			e.printStackTrace();
 			log.warn(e.getMessage());
@@ -22,13 +22,13 @@ public class MessageManagerImpl extends GenericManagerImpl<Message, Long> implem
 	}
 	
 	public String getMessageByMessageId(Long MessageID) {
-		return messageDAO.getMessageByMessageID(MessageID).toString();
+		return messageDao.getMessageByMessageID(MessageID).toString();
 	}
 	
 	public String getMessageByUserID(Long userID) {
 		String ret = "获取失败";
 		try {
-			ret = messageDAO.getMessageByUserID(userID);
+			ret = messageDao.getMessageByUserID(userID);
 			return ret;
 		} catch (DataIntegrityViolationException e)
 		{
@@ -39,22 +39,22 @@ public class MessageManagerImpl extends GenericManagerImpl<Message, Long> implem
 	}
 	
 	public void removeMessge(Long messageId) {
-		messageDAO.remove(messageDAO.getMessageByMessageID(messageId));
+		messageDao.remove(messageDao.getMessageByMessageID(messageId));
 	}
 
 	/**
-	 * @return the messageDAO
+	 * @return the messageDao
 	 */
-	public MessageDAO getMessageDAO() {
-		return messageDAO;
+	public MessageDao getMessageDao() {
+		return messageDao;
 	}
 
 	/**
-	 * @param messageDAO the messageDAO to set
+	 * @param messageDao the messageDao to set
 	 */
 	@Required
-	public void setMessageDAO(MessageDAO messageDAO) {
-		this.messageDAO = messageDAO;
+	public void setMessageDao(MessageDao messageDao) {
+		this.messageDao = messageDao;
 	}
 	
 	

@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import database.book.Book;
 import database.exam.discuss.Discuss;
 import database.exam.solution.Solution;
 import database.exam.solution.list.SolutionList;
@@ -314,7 +315,7 @@ public class AccessManager {
      * @param username
      * @param password
      */
-    public List<Message>  getMessage(String username, String password) {
+    public List<Message> getMessage(String username, String password) {
         List<Message> messageList = new ArrayList<Message>();
         Message[] messages;
         try {
@@ -334,6 +335,29 @@ public class AccessManager {
 
         }
         return messageList;
+    }
+
+    /**
+     * 通过书本ID获取书本信息
+     * @param bookId
+     * @return
+     */
+    public Book getBookById(String bookId) {
+        Log.d("getBookById", "Started");
+        Book book =null;
+        try {
+            response = webService.getBookByBookId(bookId);
+            Log.d("getBookById response", "getBookById: " + response);
+            Gson gson = new Gson();
+            book = gson.fromJson(response, Book.class);
+            Log.d("getBookById: title: ", book.getTitle());
+        } catch (Exception e) {
+            Log.d("getBookById", "Failed because of " + e.toString() + " " + e.getMessage() + " " + response + " " + book);
+        } finally {
+
+        }
+        Log.d("getBookById", "Ended");
+        return book;
     }
 
     public void deleteTreeNode() {

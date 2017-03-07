@@ -34,6 +34,7 @@ import com.unlimited.appserver.dao.exception.DiscussNotFoundException;
 import com.unlimited.appserver.model.Discuss;
 import com.unlimited.appserver.model.Message;
 import com.unlimited.appserver.model.User;
+import com.unlimited.appserver.service.BookManager;
 import com.unlimited.oj.Constants;
 import com.unlimited.oj.dao.support.Page;
 import com.unlimited.oj.model.LoginLog;
@@ -100,6 +101,9 @@ public class AppUserAction extends BaseAction
     /** APP传过来的回复的讨论id */
     private String replyId;
     
+    /** APP传过来的书本id */
+    private String bookId;
+    
     /** OJ的基础地址 */
     private String url = "http://172.26.14.60:8000/uoj/";
 //    private String url = "http://acm.scau.edu.cn:8000/uoj/";
@@ -156,6 +160,9 @@ public class AppUserAction extends BaseAction
 		try {
 			replyId = getRequest().getParameter("replyId");
         } catch (Exception e) { /*not need handle */ }
+		try {
+			bookId = getRequest().getParameter("bookId");
+        } catch (Exception e) { /*not need handle */ }
         super.prepare();
     }
     
@@ -175,6 +182,7 @@ public class AppUserAction extends BaseAction
 //		}
 //		returnString = hex;
     	returnString = "网络已连接";
+    	System.out.println("接收到get请求");
     	return "returnAppData";
     }
     
@@ -449,8 +457,25 @@ public class AppUserAction extends BaseAction
     	return "returnAppData";
     }
     
+    /** 
+     * @Title: user_GetBookByBookId_PUBLIC 
+     * @Description: 通过书本ID获取书本详细信息 
+     * @param @return
+     * @return String
+     * @throws 
+     */
+    public String user_GetBookByBookId_PUBLIC() {
+    	returnString = "获取失败";
+    	try {
+    		returnString = bookManager.getBookByBookID(bookId);
+    	} catch (Exception e) {
+			// TODO: handle exception
+		}
+    	return "returnAppData";
+    }
+    
     public void user_RemoveMessageByMessageId() {
-    	
+    	//TODO
     }
     
     public String getReturnString() {

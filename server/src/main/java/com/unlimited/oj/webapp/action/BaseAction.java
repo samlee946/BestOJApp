@@ -17,6 +17,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.unlimited.appserver.model.User;
+import com.unlimited.appserver.service.BookManager;
 import com.unlimited.appserver.service.DiscussManager;
 import com.unlimited.appserver.service.MessageManager;
 import com.unlimited.appserver.service.UserManager;
@@ -70,6 +71,7 @@ public class BaseAction extends ActionSupport implements Preparable
     protected RoleManager roleManager;
     protected DiscussManager discussManager;
     protected MessageManager messageManager;
+    protected BookManager bookManager;
 	/**
      * Indicator if the user clicked cancel
      */
@@ -500,6 +502,23 @@ public class BaseAction extends ActionSupport implements Preparable
 	public void setMessageManager(MessageManager messageManager) {
 		this.messageManager = messageManager;
 	}
+
+
+	/**
+	 * @return the bookManager
+	 */
+	public BookManager getBookManager() {
+		return bookManager;
+	}
+
+
+	/**
+	 * @param bookManager the bookManager to set
+	 */
+	public void setBookManager(BookManager bookManager) {
+		this.bookManager = bookManager;
+	}
+
 	
 	
 }

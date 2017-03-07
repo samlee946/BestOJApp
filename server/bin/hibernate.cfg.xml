@@ -9,5 +9,6 @@
                  <mapping class="com.unlimited.oj.model.Role"/>
                  <mapping class="com.unlimited.appserver.model.Discuss"/>
                  <mapping class="com.unlimited.appserver.model.Message"/>
+                 <mapping class="com.unlimited.appserver.model.Book"/>
     </session-factory>
 </hibernate-configuration>

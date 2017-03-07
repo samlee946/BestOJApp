@@ -6,7 +6,7 @@ import com.unlimited.appserver.model.Message;
 import com.unlimited.oj.dao.GenericDao;
 import com.unlimited.oj.dao.hibernate.GenericDaoHibernate;
 
-public interface MessageDAO extends GenericDao<Message, Long> {
+public interface MessageDao extends GenericDao<Message, Long> {
 
 	/**
 	 * 查找该用户的所有推送信息
