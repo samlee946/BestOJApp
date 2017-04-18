@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity{
     private Long parentIdAdvancedProgram = 1099347001343L;
 
     private String response = null;
-    private String token = "6fa590b6ccad27feee1eaf4206ed0beb497936af";
+    private String token = null;
     private String jsonString = null;
 
     private AccessManager accessManager;
@@ -41,29 +41,23 @@ public class MainActivity extends AppCompatActivity{
 
     private ResideMenu resideMenu;
 
-    @ViewById(R.id.button_homepage_login)
-    Button button_login;
-
     @ViewById(R.id.button_homepage_data_structure)
     Button button_data_structure;
+
+    @ViewById(R.id.button_homepage_problem_recommendation)
+    Button button_problem_recommendation;
 
     @RestService
     WebService webService;
 
-    @Click({R.id.button_homepage_login,
-            R.id.button_homepage_experiment,
+    @Click({R.id.button_homepage_experiment,
             R.id.button_homepage_data_structure,
             R.id.button_homepage_download_data,
             R.id.button_homepage_advanced_program,
+            R.id.button_homepage_problem_recommendation
             })
     void buttonOnClicked(View view) {
         switch (view.getId()) {
-            case R.id.button_homepage_login: {
-                intent = new Intent();
-                intent.setClass(MainActivity.this, LoginActivity_.class);
-                startActivity(intent);
-                break;
-            }
             case R.id.button_homepage_experiment: {
                 intent = new Intent();
                 intent.setClass(MainActivity.this, TreeNodeActivity_.class);
@@ -83,6 +77,10 @@ public class MainActivity extends AppCompatActivity{
                 intent.setClass(MainActivity.this, TreeNodeActivity_.class);
                 intent.putExtra("parentId", parentIdAdvancedProgram);
                 startActivity(intent);
+                break;
+            }
+            case R.id.button_homepage_problem_recommendation: {
+                RecommendationActivity.actionStart(MainActivity.this);
                 break;
             }
         }

@@ -1,5 +1,6 @@
 package com.unlimited.appserver.webapp.action;
 
+import java.awt.Desktop;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -25,6 +26,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpMethod;
 import org.apache.commons.httpclient.methods.GetMethod;
+import org.apache.commons.httpclient.methods.PostMethod;
+import org.apache.http.HttpRequest;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.hibernate.Hibernate;
 
 import sun.rmi.runtime.Log;
@@ -105,8 +109,8 @@ public class AppUserAction extends BaseAction
     private String bookId;
     
     /** OJ的基础地址 */
-    private String url = "http://172.26.14.60:8000/uoj/";
-//    private String url = "http://acm.scau.edu.cn:8000/uoj/";
+//    private String url = "http://172.26.14.60:8000/uoj/";
+    private String url = "http://acm.scau.edu.cn:8000/uoj/";
 
     /**
      * Grab the entity from the database before populating with request
@@ -271,9 +275,11 @@ public class AppUserAction extends BaseAction
     		User user = new User(username, password, token);
     		if(userManager == null) log.debug("-------------------MANAGER NULL------------------");
     		userManager.saveUser(user);
+    		returnString = "token";
 		} catch (UserExistsException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			returnString = "404";
 		}
     	return "returnAppData";
     }
@@ -285,13 +291,14 @@ public class AppUserAction extends BaseAction
      * @return user_echo_PUBLIC.jsp
      */
     public String user_login_PUBLIC() {
-    	Long userId = userManager.getUserIdByUsername(username);
-    	System.out.println(userId+username+password+"登陆");
+    	System.out.println(username+password+"登陆");
     	if(userManager.isUserExist(username, password)) {
-    		Cookie cookie = new Cookie("USERID", "" + userId);
-    		getResponse().addCookie(cookie);
-        	returnString = "登陆成功";
+//    		Cookie cookie = new Cookie("USERID", "" + userId);
+//    		getResponse().addCookie(cookie);
+        	User user = userManager.getUserByUsername(username);
+        	returnString = user.getToken();
     	}
+    	else returnString = "404";
     	return "returnAppData";
     }
     
@@ -470,6 +477,55 @@ public class AppUserAction extends BaseAction
     		returnString = bookManager.getBookByBookID(bookId);
     	} catch (Exception e) {
 			// TODO: handle exception
+		}
+    	return "returnAppData";
+    }
+    
+    /**
+     * 
+     * @Title: user_problem_getProblemRecommendation_PUBLIC 
+     * @Description: 通过用户token获取题目推荐
+     * @return user_echo_PUBLIC.jsp
+     * @throws InterruptedException 
+     */
+    public String user_problem_getProblemRecommendation_PUBLIC() throws InterruptedException {
+    	String currentURL = "app_common_solution_getAllAcceptedOfUser.html";//该方法对应OJ API的html
+    	String parameter = "?token=" + token;//需要的参数
+    	try {
+    		HttpClient httpClient = new HttpClient();
+    		GetMethod getMethod = new GetMethod(url + currentURL + parameter);
+    		httpClient.executeMethod(getMethod);
+    		String str = getMethod.getResponseBodyAsString();
+    		returnString = "";
+    		int cnt = 0;
+    		for(int i = 0; i < str.length(); ) {
+    			int start = str.indexOf("\"problemId\":", i);
+    			int end = str.indexOf(",", start);
+    			if(start < 0) break;
+    			i = end;
+    			returnString += str.substring(start + 12, end) + " ";
+    			cnt++;
+    		}
+    		returnString = cnt + " " + returnString;
+			String input_file = "C:\\recommendation\\recommendation_real\\bin\\Debug\\in.txt";
+            File exeFile = new File("C:\\recommendation\\recommendation_real\\bin\\Debug\\recommendation.exe");
+            File output_file = new File("C:\\recommendation\\recommendation_real\\bin\\Debug\\out.txt");
+			File file = new File(input_file);
+			BufferedWriter out = new BufferedWriter(new FileWriter(input_file));
+			out.write(returnString);
+            out.flush();
+            out.close();
+            String command = exeFile.toString() + " < " + input_file.toString();// + " > " + output_file.toString();
+            Process process = Runtime.getRuntime().exec("cmd /c " + command);
+            BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));  
+            String line = null;  
+            returnString = "";
+            while ((line = br.readLine()) != null && !line.isEmpty()) {
+            	returnString = line;
+            }
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
     	return "returnAppData";
     }

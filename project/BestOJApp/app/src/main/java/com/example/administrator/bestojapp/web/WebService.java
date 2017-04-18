@@ -29,14 +29,14 @@ class AppRequestFactory extends SimpleClientHttpRequestFactory {
     }
 }
 
-@Rest(rootUrl = "http://192.168.209.1:8080/myproject", requestFactory = AppRequestFactory.class, converters = { GsonHttpMessageConverter.class } )
+@Rest(rootUrl = "http://10.0.2.2:8080/myproject", requestFactory = AppRequestFactory.class, converters = { GsonHttpMessageConverter.class } )
 public interface WebService {
 
     @Get("/appUser_user_CheckNetwork_PUBLIC.html")
     String checkNetwork();
 
-    @Post("/appUser_user_Register_PUBLIC.html?username={username}&password={password}")
-    String register(String username, String password);
+    @Post("/appUser_user_Register_PUBLIC.html?username={username}&password={password}&token={token}")
+    String register(String username, String password, String token);
     
     @Post("/appUser_user_login_PUBLIC.html?username={username}&password={password}")
     @SetsCookie("USERID")
@@ -89,4 +89,7 @@ public interface WebService {
 
     @Get("/appUser_user_GetBookByBookId_PUBLIC.html?bookId={bookId}")
     String getBookByBookId(String bookId);
+
+    @Get("/appUser_user_problem_getProblemRecommendation_PUBLIC.html?token={token}")
+    String getProblemRecommendation(String token);
 }

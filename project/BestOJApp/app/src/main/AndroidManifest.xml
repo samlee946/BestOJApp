@@ -32,7 +32,8 @@
         <activity android:name="com.example.administrator.bestojapp.ui.ExamListActivity_" />
         <activity android:name="com.example.administrator.bestojapp.ui.ExamNodeActivity_" />
         <activity android:name="com.example.administrator.bestojapp.ui.BookActivity_" />
-        <activity android:name="com.example.administrator.bestojapp.ui.TestActivity_" />
+        <activity android:name="com.example.administrator.bestojapp.ui.RecommendationActivity_" />
+
     </application>
 
 </manifest>

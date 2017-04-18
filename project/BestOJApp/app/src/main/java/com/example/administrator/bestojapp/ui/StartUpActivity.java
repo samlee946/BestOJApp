@@ -1,7 +1,11 @@
 package com.example.administrator.bestojapp.ui;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -11,6 +15,7 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.administrator.bestojapp.R;
 import com.example.administrator.bestojapp.manager.AccessManager;
@@ -38,10 +43,9 @@ public class StartUpActivity extends AppCompatActivity {
     WebService webService;
 
     AccessManager accessManager;
+    UserManager userManager;
 
     private List<Message> messageList = new ArrayList<Message>();
-
-    UserManager userManager = UserManager.getInstance();
 
     ProgressDialog progressDialog;
 
@@ -61,29 +65,40 @@ public class StartUpActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Message message = (Message) listView_messages.getItemAtPosition(position);
-                if(message.getType() == 1) { //普通题目下的讨论
+                if (message.getType() == 1) { //普通题目下的讨论
                     DiscussActivity.actionStart(StartUpActivity.this, message.getLinkedID());
                 }
-//                database.exam.solution.list.SolutionList solutionList = (database.exam.solution.list.SolutionList) listViewSolution.getItemAtPosition(position);
-//                SolutionDetailActivity.actionStart(SolutionListActivity.this, solutionList.getId());
             }
         });
-//        TestActivity.actionStart(StartUpActivity.this, 2L);
-//        BookActivity.actionStart(StartUpActivity.this,1L);
     }
 
     @Background
     public void loadMessages() {
         showProgressDialog(true);
-//        messageList = accessManager.getMessage(userManager.getUserName(), userManager.getPasswd());
-        messageList = accessManager.getMessage("1", "1");
-        Log.d("loadMessages", messageList.toString());
+        if(userManager.getIsLogin() == 1) {
+            messageList = accessManager.getMessage(userManager.getUserName(), userManager.getPasswd());
+            Log.d("loadMessages", messageList.toString());
+            showMessage();
+        }
+        else {
+            toastShort("读取消息失败，请先登陆。");
+        }
         showProgressDialog(false);
-        showMessage();
+    }
+
+    @UiThread
+    void toastShort(String msg) {
+        Toast.makeText(StartUpActivity.this, msg, Toast.LENGTH_SHORT).show();
+    }
+
+    public static void actionStart(Context context) {
+        Intent intent = new Intent(context, StartUpActivity_.class);
+        context.startActivity(intent);
     }
 
     private void init() {
         accessManager = new AccessManager(StartUpActivity.this, webService);
+        userManager = UserManager.getInstance(StartUpActivity.this);
         resideMenu = new ResideMenuGeneral(StartUpActivity.this, StartUpActivity.this).getResideMenu();
         progressDialog = new ProgressDialog(this);
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);

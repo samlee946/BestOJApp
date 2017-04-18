@@ -344,8 +344,8 @@ public class User implements UserDetails, java.io.Serializable {
 	/**
 	 * @return the credit
 	 */
-	@Basic(optional=false)
-	@Column(name="credit", nullable=false, insertable=true, updatable=true)
+	@Basic(optional=true)
+	@Column(name="credit", nullable=true, insertable=true, updatable=true)
 	public Long getCredit() {
 		return credit;
 	}

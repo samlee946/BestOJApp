@@ -9,7 +9,6 @@ import android.text.Html;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -106,6 +105,12 @@ public class ProblemActivity extends AppCompatActivity {
         }
     }
 
+    public static void actionStart(Context context, String problemId) {
+        Intent intent = new Intent(context, ProblemActivity_.class);
+        intent.putExtra("problemId", problemId);
+        context.startActivity(intent);
+    }
+
     public static void actionStart(Context context, Problem problem, Long paperId, Long problemId) {
         Intent intent = new Intent(context, ProblemActivity_.class);
         intent.putExtra("problem", problem);
@@ -124,6 +129,28 @@ public class ProblemActivity extends AppCompatActivity {
         if(type == -1) {
             for(Problem problem : problems) {
                 if(problem.getId() != null) flag = true;
+                try {
+                    textViewProblemID.setText(String.format("%d", problem.getId()));
+                    textViewProblemTitle.setText(problem.getTitle());
+                    textViewTimeLimit.setText(String.format("%d", problem.getTimeLimit()));
+                    textViewMemoryLimit.setText(String.format("%d", problem.getMemoryLimit()));
+                    textViewProblemDescription.setText(Html.fromHtml(problem.getDescription()));
+                    textViewProblemInput.setText(Html.fromHtml(problem.getInput()));
+                    textViewProblemOutput.setText(Html.fromHtml(problem.getOutput()));
+                    textViewProblemSampleInput.setText(Html.fromHtml(problem.getSampleInput()));
+                    textViewProblemSampleOutput.setText(Html.fromHtml(problem.getSampleOutput()));
+                    textViewProblemSource.setText(Html.fromHtml(problem.getSource()));
+                    textViewProblemTip.setText(Html.fromHtml(problem.getTip()));
+                } catch (NullPointerException e) {
+                    toastShort("该题不是编程题，暂时不支持显示！");
+                    Log.e("ProblemActivity", "showProblem: NullPointerException");
+                }
+            }
+        }
+        else if(type == 1) {
+            Problem problem = (Problem) getIntent().getSerializableExtra("problem");
+            if(problem.getId() != null) flag = true;
+            try {
                 textViewProblemID.setText(String.format("%d", problem.getId()));
                 textViewProblemTitle.setText(problem.getTitle());
                 textViewTimeLimit.setText(String.format("%d", problem.getTimeLimit()));
@@ -135,23 +162,11 @@ public class ProblemActivity extends AppCompatActivity {
                 textViewProblemSampleOutput.setText(Html.fromHtml(problem.getSampleOutput()));
                 textViewProblemSource.setText(Html.fromHtml(problem.getSource()));
                 textViewProblemTip.setText(Html.fromHtml(problem.getTip()));
+                problemId = problem.getId();
+            } catch (NullPointerException e) {
+                toastShort("该题不是编程题，暂时不支持显示！");
+                Log.e("ProblemActivity", "showProblem: NullPointerException");
             }
-        }
-        else if(type == 1) {
-            Problem problem = (Problem) getIntent().getSerializableExtra("problem");
-            if(problem.getId() != null) flag = true;
-            textViewProblemID.setText(String.format("%d", problem.getId()));
-            textViewProblemTitle.setText(problem.getTitle());
-            textViewTimeLimit.setText(String.format("%d", problem.getTimeLimit()));
-            textViewMemoryLimit.setText(String.format("%d", problem.getMemoryLimit()));
-            textViewProblemDescription.setText(Html.fromHtml(problem.getDescription()));
-            textViewProblemInput.setText(Html.fromHtml(problem.getInput()));
-            textViewProblemOutput.setText(Html.fromHtml(problem.getOutput()));
-            textViewProblemSampleInput.setText(Html.fromHtml(problem.getSampleInput()));
-            textViewProblemSampleOutput.setText(Html.fromHtml(problem.getSampleOutput()));
-            textViewProblemSource.setText(Html.fromHtml(problem.getSource()));
-            textViewProblemTip.setText(Html.fromHtml(problem.getTip()));
-            problemId = problem.getId();
         }
         if(!flag) {
             toastShort(getString(R.string.fail_loading_problem));
@@ -170,8 +185,13 @@ public class ProblemActivity extends AppCompatActivity {
     @Background
     void loadProblem() {
         showProgressDialog(true);
-        problems = accessManager.getProblemByProblemId(problemId);
-        showProblem();
+        if(problemId == 404) {
+            toastShort("读取题目失败");
+        }
+        else {
+            problems = accessManager.getProblemByProblemId(problemId);
+            showProblem();
+        }
         showProgressDialog(false);
     }
 
@@ -191,7 +211,7 @@ public class ProblemActivity extends AppCompatActivity {
     }
 
     void init() {
-        problemId = getIntent().getLongExtra("problemId", 1001L);
+        problemId = getIntent().getLongExtra("problemId", 404L);
         type = getIntent().getIntExtra("type", -1);
         paperId = getIntent().getLongExtra("paperId", 1L);
 

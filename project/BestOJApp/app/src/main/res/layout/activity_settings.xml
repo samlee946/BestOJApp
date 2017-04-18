@@ -6,9 +6,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-<Button
+    <Button
         android:id="@+id/button_settingspage_delete_treenode"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/delete_treenode"/>
+        android:text="删除本地缓存"/>
+    <Button
+        android:id="@+id/button_settingspage_delete_treenode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="备份日志"/>
+    <Button
+        android:id="@+id/button_settingspage_delete_treenode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="查看日志"/>
+    <Button
+        android:id="@+id/button_settingspage_delete_treenode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="备份数据库"/>
 </LinearLayout>

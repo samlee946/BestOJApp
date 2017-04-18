@@ -2,7 +2,7 @@
     <string name="app_name">BestOJApp</string>
     <string name="hint_username">用户名</string>
     <string name="hint_password">密码</string>
-    <string name="login">验证并保存信息</string>
+    <string name="login">登陆</string>
     <string name="login_register">登陆/注册</string>
     <string name="register">注册用户</string>
     <string name="testlogin">测试是否登陆成功</string>
@@ -67,4 +67,6 @@
     <string name="book_name">书名</string>
     <string name="book_author">作者</string>
     <string name="book_intro">内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容</string>
+    <string name="problem_recommendation">每日题目推荐</string>
+    <string name="ac_ratio">和你年级的相同的人中，0%的人完成了这道题</string>
 </resources>

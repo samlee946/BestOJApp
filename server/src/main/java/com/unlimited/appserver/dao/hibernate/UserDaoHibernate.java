@@ -85,13 +85,13 @@ public class UserDaoHibernate extends GenericDaoHibernate<User, Long> implements
 	{
 		SimpleJdbcTemplate jdbcTemplate = new SimpleJdbcTemplate(SessionFactoryUtils.getDataSource(getSessionFactory()));
 		Table table = AnnotationUtils.findAnnotation(User.class, Table.class);
-		return jdbcTemplate.queryForObject("select password from " + table.name() + " where user_name=?", String.class, username);
+		return jdbcTemplate.queryForObject("select password from " + table.name() + " where user_name= '" + username + "'", String.class);
 
 	}
 
 	public User getUserByUsername(String username) throws UsernameNotFoundException
 	{
-		List users = getHibernateTemplate().find("from User where user_name=?", username);
+		List users = getHibernateTemplate().find("from User where user_name='" + username + "'");
 		if (users == null || users.isEmpty())
 		{
 			throw new UsernameNotFoundException("user '" + username + "' not found...");
@@ -102,7 +102,7 @@ public class UserDaoHibernate extends GenericDaoHibernate<User, Long> implements
 	}
 
 	public Long getUserIdByUsername(String username) throws UserNotFoundException {
-		List users = getHibernateTemplate().find("from User where user_name = " + username);
+		List users = getHibernateTemplate().find("from User where user_name = '" + username + "'");
 		if(users == null || users.isEmpty()) {
 			throw new UserNotFoundException("Didn't find user whose username = " + username);
 		}
@@ -114,7 +114,7 @@ public class UserDaoHibernate extends GenericDaoHibernate<User, Long> implements
 	
 	public boolean isUserExist(String userNameString, String passwordString) throws UserNotFoundException {
 		// TODO Auto-generated method stub
-		List users = getHibernateTemplate().find("from User where user_name = " + userNameString + " and password = " + passwordString);
+		List users = getHibernateTemplate().find("from User where user_name = '" + userNameString + "' and password = '" + passwordString + "'");
 		if(users == null || users.isEmpty()) {
 			throw new UserNotFoundException("Didn't find user whose user_name = " + userNameString + " and password = " + passwordString);
 		}

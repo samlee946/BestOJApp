@@ -76,8 +76,8 @@ public class UserManagerImpl extends GenericManagerImpl<User, Long> implements
 		} catch (DataIntegrityViolationException e) {
 			e.printStackTrace();
 			log.warn(e.getMessage());
-			throw new UserExistsException("User '" + user.getUsername()
-					+ "' already exists!");
+			log.warn(user.getUsername() + " " + user.getToken() + "User registering failed");
+			throw new UserExistsException("User '" + user.getUsername() + "' already exists!");
 		}
 	}
 

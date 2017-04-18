@@ -43,7 +43,9 @@ public class ResideMenuGeneral implements View.OnClickListener{
         } else if(view == itemExam) {
             ExamListActivity.actionStart(context);
         } else if(view == itemBook) {
-            TestActivity.actionStart(context, 1L);
+            BookActivity.actionStart(context, 1L);
+        } else if(view == itemNews) {
+            StartUpActivity.actionStart(context);
         }
         resideMenu.closeMenu();
     }
@@ -61,6 +63,7 @@ public class ResideMenuGeneral implements View.OnClickListener{
         itemProblem = new ResideMenuItem(context, R.drawable.icon_home, "刷题助手");
         itemExam = new ResideMenuItem(context, R.drawable.icon_exam, "考试管家");
         itemBook = new ResideMenuItem(context, R.drawable.icon_book, "好书推荐");
+        itemWiki = new ResideMenuItem(context, R.drawable.experience, "大牛心得");
         itemSetting = new ResideMenuItem(context, R.drawable.icon_settings, "系统设置");
 
         itemUser.setOnClickListener(this);
@@ -69,12 +72,14 @@ public class ResideMenuGeneral implements View.OnClickListener{
         itemExam.setOnClickListener(this);
         itemBook.setOnClickListener(this);
         itemSetting.setOnClickListener(this);
+        itemWiki.setOnClickListener(this);
 
         resideMenu.addMenuItem(itemUser, ResideMenu.DIRECTION_LEFT);
         resideMenu.addMenuItem(itemNews, ResideMenu.DIRECTION_LEFT);
         resideMenu.addMenuItem(itemProblem, ResideMenu.DIRECTION_LEFT);
         resideMenu.addMenuItem(itemExam, ResideMenu.DIRECTION_LEFT);
         resideMenu.addMenuItem(itemBook, ResideMenu.DIRECTION_LEFT);
+        resideMenu.addMenuItem(itemWiki, ResideMenu.DIRECTION_LEFT);
         resideMenu.addMenuItem(itemSetting, ResideMenu.DIRECTION_LEFT);
     }
 

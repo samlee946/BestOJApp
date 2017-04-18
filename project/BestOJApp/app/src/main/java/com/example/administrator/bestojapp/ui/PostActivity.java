@@ -44,7 +44,7 @@ public class PostActivity extends AppCompatActivity {
     @RestService
     WebService webService;
 
-    UserManager userManager = UserManager.getInstance();
+    UserManager userManager;
 
     public static void actionStart(Context context, Long problemID, Long replyID) {
         Intent intent = new Intent(context, PostActivity_.class);
@@ -90,6 +90,7 @@ public class PostActivity extends AppCompatActivity {
     void init() {
         resideMenu = new ResideMenuGeneral(PostActivity.this, PostActivity.this).getResideMenu();
         accessManager = new AccessManager(PostActivity.this, webService);
+        userManager = UserManager.getInstance(PostActivity.this);
         problemID = getIntent().getLongExtra("problemId", 0L);
         replyID = getIntent().getLongExtra("replyID", -1L);
     }

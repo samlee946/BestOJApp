@@ -4,9 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,9 +36,12 @@ public class LoginActivity extends AppCompatActivity {
 
     private String usernameString;
     private String passwordString;
+    private String tokenString;
     private String responseString;
 
     private ResideMenu resideMenu;
+
+    private UserManager userManager;
 
     @ViewById(R.id.button_login)
     Button buttonLogin;
@@ -53,8 +58,14 @@ public class LoginActivity extends AppCompatActivity {
     @ViewById(R.id.editText_password)
     EditText editTextPassword;
 
+    @ViewById(R.id.editText_token)
+    EditText editTextToken;
+
     @ViewById
     TextView textViewDebug;
+
+    @ViewById(R.id.checkbox)
+    CheckBox checkbox;
 
     @RestService
     WebService webService;
@@ -94,25 +105,76 @@ public class LoginActivity extends AppCompatActivity {
 
     @Background
     void login() {
+        if(editTextUsername.getText() == null || editTextUsername.getText().toString().isEmpty()) {
+            toastShort("请输入用户名");
+            return ;
+        }
+        if(editTextPassword.getText() == null || editTextPassword.getText().toString().isEmpty()) {
+            toastShort("请输入密码");
+            return ;
+        }
         usernameString  = editTextUsername.getText().toString();
         passwordString = editTextPassword.getText().toString();
-        responseString  = webService.login(usernameString, passwordString);
-        UserManager.getInstance().setUserName(usernameString);
-        UserManager.getInstance().setPasswd(passwordString);
-        if(responseString.length() > 2) toastShort(responseString);
+        try {
+            responseString  = webService.login(usernameString, passwordString);
+            if(responseString.equals("404") || responseString.length() > ) {
+                toastShort("登陆失败，请检查用户名和密码");
+            }
+            else {
+                userManager.setUserName(usernameString);
+                userManager.setPasswd(passwordString);
+                userManager.setToken(responseString);
+                userManager.setIsLogin(1);
+                if(checkbox.isChecked()) {
+                    userManager.autoLogin(1);
+                }
+                else {
+                    userManager.autoLogin(0);
+                }
+                toastShort("登陆成功");
+            }
+        } catch (Exception e) {
+            toastShort("网络错误");
+            Log.d("LoginActivity", "login: " + e.toString());
+        }
     }
 
     @Background
     void register() {
+        setCheckBoxVisible();
+        if(editTextUsername.getText() == null || editTextUsername.getText().toString().isEmpty()) {
+            toastShort("请输入用户名");
+            return ;
+        }
+        if(editTextPassword.getText() == null || editTextPassword.getText().toString().isEmpty()) {
+            toastShort("请输入密码");
+            return ;
+        }
+        if(editTextToken.getText() == null || editTextToken.getText().toString().isEmpty()) {
+            toastShort("请输入Token");
+            return ;
+        }
         usernameString  = editTextUsername.getText().toString();
         passwordString = editTextPassword.getText().toString();
-        responseString  = webService.register(usernameString, passwordString);
-        if(responseString.length() > 2) toastShort(responseString);
+        tokenString = editTextToken.getText().toString();
+        try {
+            responseString  = webService.register(usernameString, passwordString, tokenString);
+            if(responseString.equals("404")) {
+                toastShort("注册失败，用户名或token可能已被使用");
+            }
+            else {
+                toastShort("注册成功");
+                login();
+            }
+        } catch (Exception e) {
+            toastShort("网络错误");
+            Log.d("LoginActivity", "register: " + e.toString());
+        }
     }
 
     @UiThread
-    void setAnimation(Button button) {
-        FadingCircle fadingCircle = new FadingCircle();
+    public void setCheckBoxVisible() {
+        editTextToken.setVisibility(View.VISIBLE);
     }
 
     @UiThread
@@ -143,6 +205,7 @@ public class LoginActivity extends AppCompatActivity {
 
     @AfterViews
     void init() {
+        userManager = UserManager.getInstance(LoginActivity.this);
         /*
         toastLong("正在检查网络");
         checkNetwork();
