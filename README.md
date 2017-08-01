@@ -17,7 +17,8 @@
 doc		存放分类文档  
 pic		存放部分软件截图  
 project 存放android studio项目  
-server 	存放刷题宝服务器的项目
+server 	存放刷题宝服务器的项目  
+recommandation	存放推荐算法的相关代码与数据  
 
 #开发进度
 ---

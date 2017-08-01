@@ -1,0 +1,45 @@
+# depslib dependency file v1.0
+1489497429 source:f:\c++\recommandation\main.cpp
+	<cstdio>
+	<cstring>
+	<cmath>
+	<iostream>
+	<algorithm>
+	<queue>
+	<map>
+	<string>
+	<time.h>
+
+1489546161 source:c:\users\administrator\desktop\ÍÆ¼öËã·¨\recommandation\main.cpp
+	<cstdio>
+	<cstring>
+	<cmath>
+	<iostream>
+	<algorithm>
+	<queue>
+	<map>
+	<string>
+	<time.h>
+
+1489548586 source:c:\users\administrator\desktop\recommandation\recommandation\main.cpp
+	<cstdio>
+	<cstring>
+	<cmath>
+	<iostream>
+	<algorithm>
+	<queue>
+	<map>
+	<string>
+	<time.h>
+
+1492538020 source:c:\users\administrator\desktop\recommandation\recommandation_real\main.cpp
+	<cstdio>
+	<cstring>
+	<cmath>
+	<iostream>
+	<algorithm>
+	<queue>
+	<map>
+	<string>
+	<time.h>
+

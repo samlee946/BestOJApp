@@ -1,0 +1,24 @@
+# depslib dependency file v1.0
+1489400761 source:f:\c++\random\main.cpp
+	<cstdio>
+	<cstring>
+	<cmath>
+	<iostream>
+	<algorithm>
+	<queue>
+	<map>
+	<time.h>
+	<string>
+
+1489500160 source:c:\users\administrator\desktop\ÍÆ¼öËã·¨\random\main.cpp
+	<cstdio>
+	<cstring>
+	<cmath>
+	<iostream>
+	<algorithm>
+	<queue>
+	<map>
+	<time.h>
+	<string>
+	<windows.h>
+
