@@ -105,7 +105,7 @@ public class ProblemActivity extends AppCompatActivity {
         }
     }
 
-    public static void actionStart(Context context, String problemId) {
+    public static void actionStart(Context context, Long problemId) {
         Intent intent = new Intent(context, ProblemActivity_.class);
         intent.putExtra("problemId", problemId);
         context.startActivity(intent);

@@ -109,8 +109,8 @@ public class AppUserAction extends BaseAction
     private String bookId;
     
     /** OJ的基础地址 */
-//    private String url = "http://172.26.14.60:8000/uoj/";
-    private String url = "http://acm.scau.edu.cn:8000/uoj/";
+    private String url = "http://172.26.14.60:8000/uoj/";
+//    private String url = "http://acm.scau.edu.cn:8000/uoj/";
 
     /**
      * Grab the entity from the database before populating with request

@@ -63,7 +63,7 @@ public class RecommendationActivity extends AppCompatActivity {
 
     @Click(R.id.textView_problem_recommendation)
     void buttonOnClick(View view) {
-        if(view.getId() == R.id.textView_problem_recommendation) ProblemActivity.actionStart(RecommendationActivity.this, problemID);
+        if(view.getId() == R.id.textView_problem_recommendation) ProblemActivity.actionStart(RecommendationActivity.this, Long.parseLong(problemID));
     }
 
     @UiThread

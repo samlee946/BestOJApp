@@ -65,7 +65,7 @@ public class TreeNodeActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
                 else if(treeNode2.getType() == 100) {
-                    ProblemActivity.actionStart(TreeNodeActivity.this, treeNode2.getProblemIdLinked().toString());
+                    ProblemActivity.actionStart(TreeNodeActivity.this, treeNode2.getProblemIdLinked());
                 }
             }
         });

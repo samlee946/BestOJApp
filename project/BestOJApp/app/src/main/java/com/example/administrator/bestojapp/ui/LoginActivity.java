@@ -117,7 +117,7 @@ public class LoginActivity extends AppCompatActivity {
         passwordString = editTextPassword.getText().toString();
         try {
             responseString  = webService.login(usernameString, passwordString);
-            if(responseString.equals("404") || responseString.length() > ) {
+            if(responseString.equals("404")) {
                 toastShort("登陆失败，请检查用户名和密码");
             }
             else {
